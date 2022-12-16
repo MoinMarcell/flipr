@@ -1,5 +1,5 @@
 import FliprGallery from "./FliprGallery";
-import useFliprs from "../api/useFliprs";
+import useFliprs from "../hooks/useFliprs";
 
 export default function FliprApp(){
 
