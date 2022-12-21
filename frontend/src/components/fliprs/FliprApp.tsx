@@ -8,7 +8,7 @@ export default function FliprApp() {
     const {fliprs, saveFlipr} = useFliprs()
 
     return (
-        <Container sx={{mt: 1}}>
+        <Container sx={{mt: 3}}>
             <NewFlipr content={saveFlipr}/>
             <FliprGallery fliprs={fliprs}/>
         </Container>
