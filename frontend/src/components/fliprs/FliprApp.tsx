@@ -1,13 +1,16 @@
 import FliprGallery from "./FliprGallery";
 import useFliprs from "../hooks/useFliprs";
+import NewFlipr from "./NewFlipr/NewFlipr";
+import {Container} from "@mui/material";
 
 export default function FliprApp() {
 
-    const {fliprs} = useFliprs()
+    const {fliprs, saveFlipr} = useFliprs()
 
     return (
-        <div>
+        <Container sx={{mt: 1}}>
+            <NewFlipr content={saveFlipr}/>
             <FliprGallery fliprs={fliprs}/>
-        </div>
+        </Container>
     )
 }
