@@ -13,7 +13,8 @@ import static org.mockito.Mockito.*;
 class FliprServiceTest {
 
     FliprRepository fliprRepository = mock(FliprRepository.class);
-    FliprService fliprService = new FliprService(fliprRepository);
+    IdService idService = mock(IdService.class);
+    FliprService fliprService = new FliprService(fliprRepository, idService);
 
     @Test
     void getAllFliprs() {
