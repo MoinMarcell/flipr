@@ -19,7 +19,7 @@ class FliprServiceTest {
     FliprService fliprService = new FliprService(fliprRepository, idService);
 
     @Test
-    void getAllFliprs() {
+    void whenDatabaseIsEmpty_thenReturnEmptyList() {
         List<Flipr> expected = Collections.emptyList();
 
         when(fliprRepository.findAll()).thenReturn(expected);
@@ -30,7 +30,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void saveFlipr() {
+    void whenNewFliprPosted_thenSaveFliprToDatabaseAndReturnSavedFlipr() {
         FliprDTO fliprDTO = new FliprDTO("content", new Author("username"));
         Flipr expected = new Flipr("1", "content", new Author("username"));
 
