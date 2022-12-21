@@ -31,14 +31,14 @@ class FliprControllerTest {
     ObjectMapper objectMapper;
 
     @Test
-    void getAllFliprs() throws Exception{
+    void onApiCall_returnEmptyListJsonFormat() throws Exception{
         mockMvc.perform(get("/api/fliprs"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
 
     @Test
-    void saveFlipr() throws Exception {
+    void whenApiCalledToSaveOneFlipr_thenReturnSavedFlipr() throws Exception {
         MvcResult result = mockMvc.perform(post("/api/fliprs")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
