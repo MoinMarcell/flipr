@@ -1,12 +1,13 @@
 import React from 'react';
 import FliprApp from "./components/fliprs/FliprApp";
-import Container from '@mui/material/Container';
+import Navbar from "./components/fliprs/Navbar/Navbar";
 
 function App() {
   return (
-      <Container maxWidth="xl">
+      <div>
+          <Navbar />
           <FliprApp />
-      </Container>
+      </div>
   );
 }
 
