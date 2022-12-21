@@ -17,5 +17,16 @@ export default function useFliprs(){
             .catch(e => console.error(e))
     }
 
-    return {fliprs}
+    function saveFlipr(content: string){
+        axios.post("/api/fliprs", {
+            "content": content,
+            "author": {
+                "username": "MoinMarcell"
+            }
+        })
+            .then(getFliprs)
+            .catch(e => console.error(e))
+    }
+
+    return {fliprs, saveFlipr}
 }
