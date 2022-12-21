@@ -3,7 +3,7 @@ import useFliprs from "../hooks/useFliprs";
 import NewFlipr from "./NewFlipr/NewFlipr";
 import {Container} from "@mui/material";
 
-export default function FliprApp() {
+const FliprApp = () => {
 
     const {fliprs, saveFlipr} = useFliprs()
 
@@ -14,3 +14,5 @@ export default function FliprApp() {
         </Container>
     )
 }
+
+export default FliprApp;

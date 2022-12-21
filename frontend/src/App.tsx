@@ -2,7 +2,7 @@ import React from 'react';
 import FliprApp from "./components/fliprs/FliprApp";
 import Navbar from "./components/fliprs/Navbar/Navbar";
 
-function App() {
+const App = () => {
   return (
       <div>
           <Navbar />

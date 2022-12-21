@@ -7,7 +7,7 @@ type FliprGalleryProps = {
     fliprs: Flipr[]
 }
 
-export default function FliprGallery(props: FliprGalleryProps){
+const FliprGallery = (props: FliprGalleryProps) => {
     const fliprCards = props.fliprs.map((flipr) => {
         return(
             <FliprCard flipr={flipr} key={flipr.id} />
@@ -18,5 +18,7 @@ export default function FliprGallery(props: FliprGalleryProps){
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {fliprCards}
             </List>
-    )
+    );
 }
+
+export default FliprGallery;

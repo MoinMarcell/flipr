@@ -12,7 +12,7 @@ type FliprCardProps = {
     flipr: Flipr
 }
 
-export default function FliprCard(props: FliprCardProps){
+const FliprCard = (props: FliprCardProps) => {
     return (
         <span>
             <ListItem alignItems="flex-start">
@@ -38,5 +38,7 @@ export default function FliprCard(props: FliprCardProps){
             </ListItem>
             <Divider variant="inset" component="li" />
         </span>
-    )
+    );
 }
+
+export default FliprCard;
