@@ -31,7 +31,7 @@ const NewFlipr = (props: NewFliprProps) => {
                     fullWidth
                     onChange={handleContentChange}
                 />
-                <Button type={"submit"} variant="contained" sx={{mt: 1}}>Contained</Button>
+                <Button type={"submit"} variant="contained" sx={{mt: 1}}>flipr it now!</Button>
             </form>
         </div>
     );
