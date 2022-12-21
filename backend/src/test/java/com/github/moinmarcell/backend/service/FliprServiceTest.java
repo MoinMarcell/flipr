@@ -1,6 +1,8 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.model.Author;
 import com.github.moinmarcell.backend.model.Flipr;
+import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import org.junit.jupiter.api.Test;
 
@@ -25,5 +27,19 @@ class FliprServiceTest {
 
         assertEquals(expected, actual);
         verify(fliprRepository).findAll();
+    }
+
+    @Test
+    void saveFlipr() {
+        FliprDTO fliprDTO = new FliprDTO("content", new Author("username"));
+        Flipr expected = new Flipr("1", "content", new Author("username"));
+
+        when(fliprRepository.save(any())).thenReturn(expected);
+        when(idService.generateId()).thenReturn("1");
+
+        Flipr actual = fliprService.saveFlipr(fliprDTO);
+
+        assertEquals(actual, expected);
+        verify(fliprRepository).save(expected);
     }
 }
