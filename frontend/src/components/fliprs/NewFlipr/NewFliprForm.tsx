@@ -1,5 +1,5 @@
-import {Button, TextField} from "@mui/material";
-import {ChangeEvent, FormEvent, useState} from "react";
+import {Alert, Button, Snackbar, TextField} from "@mui/material";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 
 type NewFliprFormProps = {
     onSaveFlipr: (content: string) => void
@@ -21,62 +21,49 @@ const NewFliprForm = (props: NewFliprFormProps) => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        handleClickOpenSnackbar();
         props.onSaveFlipr(content);
         setContent('');
         setCharacters(0);
     }
-    if (content === '' || content.length < 2) {
-        return (
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Your flipr"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    value={content}
-                    onChange={changeContentHandler}
-                />
-                <Button type={"submit"} variant="contained" sx={{mt: 1}} disabled>flipr it now!</Button>
+
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+    const handleClickOpenSnackbar = () => {
+        setOpenSnackbar(true);
+    };
+
+    const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
+    return (
+        <form onSubmit={handleSubmit}>
+            <TextField
+                id="outlined-multiline-static"
+                label="Your flipr"
+                multiline
+                rows={4}
+                fullWidth
+                value={content}
+                onChange={changeContentHandler}
+            />
+            <div>
+                {content.length > 250 || content === '' || content.length < 2 ?
+                    <Button type={"submit"} variant="contained" sx={{mt: 1}} disabled>flipr it now!</Button>
+                    : <Button type={"submit"} variant="contained" sx={{mt: 1}}>flipr it now!</Button>}
                 <p>{characters} / 250</p>
-            </form>
-        );
-    } else if (content.length > 250) {
-        return (
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    error
-                    id="outlined-error"
-                    label="Your flipr"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    value={content}
-                    onChange={changeContentHandler}
-                />
-                <Button type={"submit"} variant="contained" sx={{mt: 1}} disabled>flipr it now!</Button>
-                <p>{characters} / 250</p>
-            </form>
-        );
-    } else {
-        return (
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Your flipr"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    value={content}
-                    onChange={changeContentHandler}
-                />
-                <div>
-                    <Button type={"submit"} variant="contained" sx={{mt: 1}}>flipr it now!</Button>
-                    <p>{characters} / 250</p>
-                </div>
-            </form>
-        );
-    }
+            </div>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{width: '100%'}}>
+                    You flipr'd it!
+                </Alert>
+            </Snackbar>
+        </form>
+    );
 }
 
 export default NewFliprForm;
