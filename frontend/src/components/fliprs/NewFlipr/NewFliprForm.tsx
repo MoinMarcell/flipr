@@ -23,6 +23,7 @@ const NewFliprForm = (props: NewFliprFormProps) => {
         event.preventDefault();
         props.onSaveFlipr(content);
         setContent('');
+        setCharacters(0);
     }
     if (content === '' || content.length < 2) {
         return (
