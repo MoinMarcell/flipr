@@ -8,7 +8,7 @@ type FliprGalleryProps = {
 }
 
 const FliprGallery = (props: FliprGalleryProps) => {
-    const fliprCards = props.fliprs.map((flipr) => {
+    const fliprCards = props.fliprs.slice(0, 10).map((flipr) => {
         return(
             <FliprCard flipr={flipr} key={flipr.id} />
         )

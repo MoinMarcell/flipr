@@ -1,9 +1,17 @@
-import {Alert, Button, Snackbar, TextField} from "@mui/material";
+import {Button, Snackbar, TextField} from "@mui/material";
 import React, {ChangeEvent, FormEvent, useState} from "react";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 type NewFliprFormProps = {
     onSaveFlipr: (content: string) => void
 }
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const NewFliprForm = (props: NewFliprFormProps) => {
 

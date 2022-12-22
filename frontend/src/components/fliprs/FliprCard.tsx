@@ -3,10 +3,8 @@ import {Flipr} from "../models/Flipr";
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Divider from "@mui/material/Divider";
-import avatar from "./img/avatars/dolphin.png"
 
 type FliprCardProps = {
     flipr: Flipr
@@ -17,7 +15,7 @@ const FliprCard = (props: FliprCardProps) => {
         <span>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src={avatar} />
+                    <i className="fa-solid fa-terminal fa-xl"></i>
                 </ListItemAvatar>
                 <ListItemText
                     primary={props.flipr.content}
