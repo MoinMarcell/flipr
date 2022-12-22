@@ -15,8 +15,8 @@ const NewFliprForm = (props: NewFliprFormProps) => {
         changeCharactersHandler(event.target.value.length);
     }
 
-    const changeCharactersHandler = (getCharactersFromValue: number) => {
-        setCharacters(getCharactersFromValue);
+    const changeCharactersHandler = (getCharacterLengthFromValue: number) => {
+        setCharacters(getCharacterLengthFromValue);
     }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
