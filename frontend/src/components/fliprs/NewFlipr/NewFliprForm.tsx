@@ -15,7 +15,7 @@ const NewFliprForm = (props: NewFliprFormProps) => {
         changeCharactersHandler(event.target.value.length);
     }
 
-    const changeCharactersHandler = (getCharactersFromValue: number) =>{
+    const changeCharactersHandler = (getCharactersFromValue: number) => {
         setCharacters(getCharactersFromValue);
     }
 
@@ -58,7 +58,7 @@ const NewFliprForm = (props: NewFliprFormProps) => {
             </form>
         );
     } else {
-        return(
+        return (
             <form onSubmit={handleSubmit}>
                 <TextField
                     id="outlined-multiline-static"
@@ -69,8 +69,10 @@ const NewFliprForm = (props: NewFliprFormProps) => {
                     value={content}
                     onChange={changeContentHandler}
                 />
-                <Button type={"submit"} variant="contained" sx={{mt: 1}}>flipr it now!</Button>
-                <p>{characters} / 250</p>
+                <div>
+                    <Button type={"submit"} variant="contained" sx={{mt: 1}}>flipr it now!</Button>
+                    <p>{characters} / 250</p>
+                </div>
             </form>
         );
     }
