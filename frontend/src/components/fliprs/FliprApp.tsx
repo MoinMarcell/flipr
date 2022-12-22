@@ -8,7 +8,7 @@ const FliprApp = () => {
     const {fliprs, saveFlipr} = useFliprs()
 
     return (
-        <Container sx={{mt: 3}}>
+        <Container sx={{mt: 10}}>
             <NewFlipr onSaveFlipr={saveFlipr}/>
             <FliprGallery fliprs={fliprs}/>
         </Container>
