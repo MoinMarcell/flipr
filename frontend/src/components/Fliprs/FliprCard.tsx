@@ -1,4 +1,5 @@
 import {Flipr} from "../Models/Flipr";
+import "./FliprCard.css";
 
 type FliprProps = {
     flipr: Flipr
@@ -34,7 +35,7 @@ const FliprCard = (props: FliprProps) => {
                     </div>
                     <div className={"col"}>
                         <div>
-                            <button className={"btn text-white"}><i className="fa-regular fa-heart"></i></button>
+                            <button className={"btn text-white"}><i className="fa-solid fa-heart"></i></button>
                         </div>
                     </div>
                 </div>
