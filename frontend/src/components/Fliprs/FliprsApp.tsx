@@ -21,7 +21,8 @@ const FliprsApp = () => {
 
     return (
         <div>
-            <div className="input-group mb-3 mt-3">
+            <h2 className={"text-white text-center"}><i className="fa-solid fa-terminal"></i> FLIPR</h2>
+            <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1"><i className="fa-solid fa-magnifying-glass"></i></span>
                 <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
             </div>
