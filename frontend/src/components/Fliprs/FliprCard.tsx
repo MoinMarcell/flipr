@@ -6,8 +6,8 @@ type FliprProps = {
 
 const FliprCard = (props: FliprProps) => {
     return (
-        <div className="card mb-2">
-            <div className={"card-header"}>
+        <div className="card mb-2 text-bg-dark border-light">
+            <div className={"card-header border-light"}>
                 <div className={"row"}>
                     <div className={"col-1 p-0 text-end"}>
                         <i className="fa-solid fa-circle-user fa-2xl"></i>
@@ -20,21 +20,21 @@ const FliprCard = (props: FliprProps) => {
             <div className="card-body">
                 <p className="card-text">{props.flipr.content}</p>
             </div>
-            <div className={"card-footer"}>
+            <div className={"card-footer border-light"}>
                 <div className={"row text-center"}>
                     <div className={"col"}>
                         <div>
-                            <button className={"btn"}><i className="fa-solid fa-share"></i></button>
+                            <button className={"btn text-white"}><i className="fa-solid fa-share"></i></button>
                         </div>
                     </div>
                     <div className={"col"}>
                         <div>
-                            <button className={"btn"}><i className="fa-solid fa-comments"></i></button>
+                            <button className={"btn text-white"}><i className="fa-solid fa-comments"></i></button>
                         </div>
                     </div>
                     <div className={"col"}>
                         <div>
-                            <button className={"btn"}><i className="fa-regular fa-heart"></i></button>
+                            <button className={"btn text-white"}><i className="fa-regular fa-heart"></i></button>
                         </div>
                     </div>
                 </div>
