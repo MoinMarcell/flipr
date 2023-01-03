@@ -1,6 +1,11 @@
 import {Link} from "react-router-dom";
 
-const Navigation = () => {
+type NavigationProps = {
+    logout: () => Promise<string>
+}
+
+const Navigation = (props: NavigationProps) => {
+
     return(
         <nav className={"sticky-top"}>
 
@@ -19,6 +24,15 @@ const Navigation = () => {
                 </div>
                 <div className={"col text-start d-none d-md-block"}>
                     <Link to={"/login"} className={"text-white text-decoration-none"}>Login</Link>
+                </div>
+            </div>
+
+            <div className={"row"}>
+                <div className={"col text-white text-end"}>
+                    <button className={"btn text-white text-decoration-none"} onClick={props.logout}><i className="fa-solid fa-user"></i></button>
+                </div>
+                <div className={"col text-start d-none d-md-block"}>
+                    <button className={"btn text-white text-decoration-none"} onClick={props.logout}>Logout</button>
                 </div>
             </div>
 
