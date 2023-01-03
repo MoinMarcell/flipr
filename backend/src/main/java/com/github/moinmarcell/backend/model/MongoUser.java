@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Document("users")
-public record User(
+public record MongoUser(
         @Id
         String id,
         String username,
