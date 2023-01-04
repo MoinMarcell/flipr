@@ -1,6 +1,6 @@
 package com.github.moinmarcell.backend.security;
 
-import com.github.moinmarcell.backend.model.MongoUser;
+import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.service.IdService;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ public class MongoUserService {
         this.idService = idService;
     }
 
-    public MongoUser saveMongoUser(MongoUser user){
-        MongoUser userToSave = new MongoUser(idService.generateId(), user.username(), argon2PasswordEncoder.encode(user.password()), user.email(), user.fliprList());
+    public FliprUser saveMongoUser(FliprUser user){
+        FliprUser userToSave = new FliprUser(idService.generateId(), user.username(), argon2PasswordEncoder.encode(user.password()), user.email(), user.fliprList());
         mongoUserRepo.save(userToSave);
         return userToSave;
     }

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Document("users")
-public record MongoUser(
+public record FliprUser(
         @Id
         String id,
         String username,
