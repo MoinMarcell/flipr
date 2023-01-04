@@ -1,7 +1,6 @@
 package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.Flipr;
-import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +21,11 @@ public class FliprService {
         return fliprRepository.findAll();
     }
 
-    public Flipr saveFlipr(FliprDTO fliprDTO) {
+    public Flipr saveFlipr(Flipr flipr) {
         Flipr fliprToSave = new Flipr(
                 idService.generateId(),
-                fliprDTO.content(),
-                fliprDTO.author()
+                flipr.content(),
+                flipr.author()
         );
         fliprRepository.save(fliprToSave);
         return fliprToSave;
