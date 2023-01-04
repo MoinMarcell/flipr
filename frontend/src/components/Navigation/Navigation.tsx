@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 
 type NavigationProps = {
     logout: () => Promise<string>
+    username: string
 }
 
 const Navigation = (props: NavigationProps) => {
@@ -20,19 +21,10 @@ const Navigation = (props: NavigationProps) => {
 
             <div className={"row"}>
                 <div className={"col text-white text-end"}>
-                    <Link to={"/login"} className={"text-white text-decoration-none"}><i className="fa-solid fa-user"></i></Link>
+                    {props.username === 'anonymousUser' ? <Link to={"/login"} className={"text-white text-decoration-none"}><i className="fa-solid fa-user"></i></Link> : <span className={"text-white text-decoration-none"} onClick={props.logout}><i className="fa-solid fa-user"></i></span>}
                 </div>
                 <div className={"col text-start d-none d-md-block"}>
-                    <Link to={"/login"} className={"text-white text-decoration-none"}>Login</Link>
-                </div>
-            </div>
-
-            <div className={"row"}>
-                <div className={"col text-white text-end"}>
-                    <button className={"btn text-white text-decoration-none"} onClick={props.logout}><i className="fa-solid fa-user"></i></button>
-                </div>
-                <div className={"col text-start d-none d-md-block"}>
-                    <button className={"btn text-white text-decoration-none"} onClick={props.logout}>Logout</button>
+                    {props.username === 'anonymousUser' ? <Link to={"/login"} className={"text-white text-decoration-none"}>Login</Link> : <span className={"text-white text-decoration-none curso"} onClick={props.logout}>{props.username}</span>}
                 </div>
             </div>
 
