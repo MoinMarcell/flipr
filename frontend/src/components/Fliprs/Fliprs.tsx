@@ -8,7 +8,7 @@ type FliprsProps = {
 const Fliprs = (props: FliprsProps) => {
     const flipr = props.fliprs.map(flipr => {
         return(
-            <FliprCard flipr={flipr} key={flipr.author.username} />
+            <FliprCard flipr={flipr} key={flipr.id} />
         );
     });
 
