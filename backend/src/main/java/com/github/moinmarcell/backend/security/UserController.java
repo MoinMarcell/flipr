@@ -1,10 +1,8 @@
 package com.github.moinmarcell.backend.security;
 
+import com.github.moinmarcell.backend.model.MongoUser;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -12,6 +10,12 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    MongoUserService mongoUserService;
+
+    public UserController(MongoUserService mongoUserService) {
+        this.mongoUserService = mongoUserService;
+    }
 
     @GetMapping("/me")
     public String helloMe(Principal principal){
@@ -31,5 +35,10 @@ public class UserController {
         httpSession.invalidate();
         SecurityContextHolder.clearContext();
         return "anonymousUser";
+    }
+
+    @PostMapping("/register")
+    public MongoUser saveUser(@RequestBody MongoUser mongoUser){
+        return mongoUserService.saveMongoUser(mongoUser);
     }
 }
