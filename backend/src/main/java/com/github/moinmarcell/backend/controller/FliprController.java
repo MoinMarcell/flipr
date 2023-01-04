@@ -1,7 +1,6 @@
 package com.github.moinmarcell.backend.controller;
 
 import com.github.moinmarcell.backend.model.Flipr;
-import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.service.FliprService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public class FliprController {
     }
 
     @PostMapping
-    public Flipr saveFlipr(@RequestBody FliprDTO fliprDTO){
-        return fliprService.saveFlipr(fliprDTO);
+    public Flipr saveFlipr(@RequestBody Flipr flipr){
+        return fliprService.saveFlipr(flipr);
     }
 }
