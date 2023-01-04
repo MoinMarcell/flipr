@@ -1,6 +1,5 @@
 package com.github.moinmarcell.backend.security;
 
-import com.github.moinmarcell.backend.model.FliprUser;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,8 +18,8 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        FliprUser fliprUser = mongoUserRepo.findByUsername(username)
+        return mongoUserRepo.findByUsername(username)
+                .map(foundUser -> new User(foundUser.username(), foundUser.password(), List.of()))
                 .orElseThrow(() -> new UsernameNotFoundException(username + " not found!"));
-        return new User(fliprUser.username(), fliprUser.password(), List.of());
     }
 }
