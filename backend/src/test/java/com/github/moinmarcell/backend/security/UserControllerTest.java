@@ -26,6 +26,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser("anonymousUser")
     void helloMe_expectAnonymousUser() throws Exception {
         mockMvc.perform(get("/api/users/me"))
                 .andExpect(status().isOk())
