@@ -1,6 +1,7 @@
 package com.github.moinmarcell.backend.security;
 
 import com.github.moinmarcell.backend.model.FliprUser;
+import com.github.moinmarcell.backend.model.MongoUserDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class MongoUserController {
     }
 
     @PostMapping("/register")
-    public FliprUser saveUser(@RequestBody FliprUser fliprUser){
+    public FliprUser saveUser(@RequestBody MongoUserDTO fliprUser){
         return mongoUserService.saveMongoUser(fliprUser);
     }
 }

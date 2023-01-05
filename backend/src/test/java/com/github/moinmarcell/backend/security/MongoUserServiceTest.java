@@ -1,6 +1,7 @@
 package com.github.moinmarcell.backend.security;
 
 import com.github.moinmarcell.backend.model.FliprUser;
+import com.github.moinmarcell.backend.model.MongoUserDTO;
 import com.github.moinmarcell.backend.service.Argon2Service;
 import com.github.moinmarcell.backend.service.IdService;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,13 @@ class MongoUserServiceTest {
 
     @Test
     void saveMongoUser() {
-        FliprUser expected = new FliprUser("1", "username", "123", "hello@flipr.com", Collections.emptyList());
-
+        MongoUserDTO toSave = new MongoUserDTO("username", "123", "hello@flipr.com", Collections.emptyList());
+        FliprUser expected = new FliprUser("1", toSave.username(), toSave.password(), toSave.email(), toSave.fliprList());
         when(mongoUserRepo.save(any())).thenReturn(expected);
         when(idService.generateId()).thenReturn("1");
         when(argon2Service.encode("123")).thenReturn("123");
 
-        FliprUser actual = mongoUserService.saveMongoUser(expected);
+        FliprUser actual = mongoUserService.saveMongoUser(toSave);
 
         assertEquals(actual, expected);
         verify(mongoUserRepo).save(expected);
