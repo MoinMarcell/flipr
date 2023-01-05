@@ -7,6 +7,8 @@ type NavigationProps = {
 
 const Navigation = (props: NavigationProps) => {
 
+    const isAuthenticated = props.username !== 'anonymousUser' && props.username !== undefined && props.username !== null;
+
     return(
         <nav className={"sticky-top"}>
 
@@ -21,10 +23,19 @@ const Navigation = (props: NavigationProps) => {
 
             <div className={"row"}>
                 <div className={"col text-white text-end"}>
-                    {props.username === 'anonymousUser' ? <Link to={"/login"} className={"text-white text-decoration-none"}><i className="fa-solid fa-user"></i></Link> : <span className={"text-white text-decoration-none"} onClick={props.logout}><i className="fa-solid fa-user"></i></span>}
+                    {isAuthenticated ? <Link to={"/my-profile"} className={"text-white text-decoration-none"}><i className="fa-solid fa-user"></i></Link> : <Link to={"/login"} className={"text-white text-decoration-none"}><i className="fa-solid fa-user"></i></Link>}
                 </div>
                 <div className={"col text-start d-none d-md-block"}>
-                    {props.username === 'anonymousUser' ? <Link to={"/login"} className={"text-white text-decoration-none"}>Login</Link> : <span className={"text-white text-decoration-none curso"} onClick={props.logout}>{props.username}</span>}
+                    {isAuthenticated ? <Link to={"/my-profile"} className={"text-white text-decoration-none curso"}>Profile</Link> : <Link to={"/login"} className={"text-white text-decoration-none"}>Login</Link>}
+                </div>
+            </div>
+
+            <div className={"row"}>
+                <div className={"col text-white text-end"}>
+                    {isAuthenticated ? <Link to={"/"} className={"text-white text-decoration-none"} onClick={props.logout}><i className="fa-solid fa-right-from-bracket"></i></Link> : ''}
+                </div>
+                <div className={"col text-start d-none d-md-block"}>
+                    {isAuthenticated ? <Link to={"/"} className={"text-white text-decoration-none curso"} onClick={props.logout}>Logout</Link> : ''}
                 </div>
             </div>
 
