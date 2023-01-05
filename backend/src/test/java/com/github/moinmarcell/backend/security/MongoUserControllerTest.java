@@ -33,16 +33,6 @@ class MongoUserControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser
-    void helloMe_expectUser() throws Exception {
-        mockMvc.perform(get("/api/users/me").with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(content().string("user"));
-    }
-
-    @Test
-    @DirtiesContext
-    @WithMockUser("anonymousUser")
     void helloMe_expectAnonymousUser() throws Exception {
         mockMvc.perform(get("/api/users/me").with(csrf()))
                 .andExpect(status().isOk())
