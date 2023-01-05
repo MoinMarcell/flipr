@@ -24,9 +24,7 @@ public class SecurityConfig {
                 .and()
                 .httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/my-profile").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().build();
     }
-
 }
