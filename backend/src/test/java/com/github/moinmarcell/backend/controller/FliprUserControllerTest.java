@@ -46,4 +46,14 @@ class FliprUserControllerTest {
         mockMvc.perform(get("/api/fliprusers/user?username=" + fliprUser.username()).with(csrf()))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser("test")
+    void getFliprUserById() throws Exception {
+        FliprUser fliprUser = new FliprUser("1", "test", "123", "hello@flipr.com", Collections.emptyList());
+        mongoUserRepo.save(fliprUser);
+        mockMvc.perform(get("/api/fliprusers/user?fliprID=" + fliprUser.fliprID()).with(csrf()))
+                .andExpect(status().isOk());
+    }
 }
