@@ -1,9 +1,9 @@
 package com.github.moinmarcell.backend.security;
 
 import com.github.moinmarcell.backend.model.FliprUser;
+import com.github.moinmarcell.backend.service.Argon2Service;
 import com.github.moinmarcell.backend.service.IdService;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import java.util.Collections;
 
@@ -15,9 +15,9 @@ class MongoUserServiceTest {
 
     MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
     IdService idService = mock(IdService.class);
-    Argon2PasswordEncoder argon2PasswordEncoder = mock(Argon2PasswordEncoder.class);
+    Argon2Service argon2Service = mock(Argon2Service.class);
 
-    MongoUserService mongoUserService = new MongoUserService(mongoUserRepo, idService, argon2PasswordEncoder);
+    MongoUserService mongoUserService = new MongoUserService(mongoUserRepo, idService, argon2Service);
 
     @Test
     void saveMongoUser() {
@@ -25,7 +25,7 @@ class MongoUserServiceTest {
 
         when(mongoUserRepo.save(any())).thenReturn(expected);
         when(idService.generateId()).thenReturn("1");
-        when(argon2PasswordEncoder.encode("123")).thenReturn("123");
+        when(argon2Service.encode("123")).thenReturn("123");
 
         FliprUser actual = mongoUserService.saveMongoUser(expected);
 
