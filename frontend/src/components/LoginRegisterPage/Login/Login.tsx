@@ -24,7 +24,7 @@ const Login = (props: LoginProps) => {
         event.preventDefault();
         props.login(username, password)
             .then(user => {
-                navigate("/");
+                navigate("/my-profile");
             });
     }
 
