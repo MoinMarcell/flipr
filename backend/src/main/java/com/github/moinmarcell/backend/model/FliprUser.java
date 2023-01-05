@@ -7,10 +7,10 @@ import java.util.List;
 
 @Document("users")
 public record FliprUser(
-        @Id
-        String id,
+        String fliprID,
         String username,
         String password,
+        @Id
         String email,
         List<Flipr> fliprList
 ){
