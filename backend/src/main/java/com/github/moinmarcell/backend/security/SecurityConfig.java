@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .and()
                 .httpBasic().and()
                 .authorizeRequests()
+                .antMatchers("/api/fliprusers").authenticated()
+                .antMatchers("/api/fliprusers/**").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().build();
     }
