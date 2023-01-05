@@ -19,9 +19,4 @@ public class MongoUserService {
         mongoUserRepo.save(userToSave);
         return userToSave;
     }
-
-    public FliprUser updateMongoUser(FliprUser user){
-        mongoUserRepo.save(user);
-        return user;
-    }
 }
