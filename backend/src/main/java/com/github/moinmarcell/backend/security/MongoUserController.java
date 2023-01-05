@@ -9,12 +9,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class MongoUserController {
 
-    UserService userService;
+    MongoUserService mongoUserService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public MongoUserController(MongoUserService mongoUserService) {
+        this.mongoUserService = mongoUserService;
     }
 
     @GetMapping("/me")
@@ -39,6 +39,6 @@ public class UserController {
 
     @PostMapping("/register")
     public FliprUser saveUser(@RequestBody FliprUser fliprUser){
-        return userService.saveMongoUser(fliprUser);
+        return mongoUserService.saveMongoUser(fliprUser);
     }
 }

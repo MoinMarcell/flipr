@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
-    private final UserRepo userRepo;
+public class MongoUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+    private final MongoUserRepo mongoUserRepo;
 
-    public UserDetailsService(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public MongoUserDetailsService(MongoUserRepo mongoUserRepo) {
+        this.mongoUserRepo = mongoUserRepo;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username)
+        return mongoUserRepo.findByUsername(username)
                 .map(foundUser -> new User(foundUser.username(), foundUser.password(), List.of()))
                 .orElseThrow(() -> new UsernameNotFoundException(username + " not found!"));
     }

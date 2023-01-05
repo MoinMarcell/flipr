@@ -8,20 +8,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class MongoUserService {
 
-    private final UserRepo userRepo;
+    private final MongoUserRepo mongoUserRepo;
     private final IdService idService;
     private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder();
 
     public FliprUser saveMongoUser(FliprUser user){
         FliprUser userToSave = new FliprUser(idService.generateId(), user.username(), argon2PasswordEncoder.encode(user.password()), user.email(), user.fliprList());
-        userRepo.save(userToSave);
+        mongoUserRepo.save(userToSave);
         return userToSave;
     }
 
     public FliprUser updateMongoUser(FliprUser user){
-        userRepo.save(user);
+        mongoUserRepo.save(user);
         return user;
     }
 }
