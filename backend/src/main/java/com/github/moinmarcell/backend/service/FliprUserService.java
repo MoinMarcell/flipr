@@ -4,6 +4,7 @@ import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.security.MongoUserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +21,19 @@ public class FliprUserService {
         return allFliprUsers.stream().map(fliprUser -> new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList())).toList();
     }
 
-    public Optional<FliprUserDTO> getFliprUserByUsername(String username){
+    public FliprUserDTO getFliprUserByUsername(String username) throws ChangeSetPersister.NotFoundException {
         Optional<FliprUser> user = mongoUserRepo.findByUsername(username);
-        return user.map(fliprUser -> new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList()));
+        if (user.isEmpty()) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        return new FliprUserDTO(user.get().fliprID(), user.get().username(), user.get().email(), user.get().fliprList());
     }
 
-    public Optional<FliprUserDTO> getFliprUserByFliprID(String fliprID){
+    public FliprUserDTO getFliprUserByFliprID(String fliprID) throws ChangeSetPersister.NotFoundException {
         Optional<FliprUser> user = mongoUserRepo.findFliprUserByFliprID(fliprID);
-        return user.map(fliprUser -> new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList()));
+        if (user.isEmpty()) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        return new FliprUserDTO(user.get().fliprID(), user.get().username(), user.get().email(), user.get().fliprList());
     }
 }

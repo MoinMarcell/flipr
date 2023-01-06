@@ -4,6 +4,7 @@ import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.security.MongoUserRepo;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,24 +31,24 @@ class FliprUserServiceTest {
     }
 
     @Test
-    void getFliprUserByUsername() {
+    void getFliprUserByUsername() throws ChangeSetPersister.NotFoundException {
         FliprUser fliprUser = new FliprUser("1", "username", "123", "mail@mail.com", Collections.emptyList());
-        Optional<FliprUserDTO> expected = Optional.of(new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList()));
+        FliprUserDTO expected = new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList());
 
         when(mongoUserRepo.findByUsername("username")).thenReturn(Optional.of(fliprUser));
-        Optional<FliprUserDTO> actual = fliprUserService.getFliprUserByUsername("username");
+        FliprUserDTO actual = fliprUserService.getFliprUserByUsername("username");
 
         assertEquals(actual, expected);
         verify(mongoUserRepo).findByUsername("username");
     }
 
     @Test
-    void getFliprUserByFliprID() {
+    void getFliprUserByFliprID() throws ChangeSetPersister.NotFoundException {
         FliprUser fliprUser = new FliprUser("1", "username", "123", "mail@mail.com", Collections.emptyList());
-        Optional<FliprUserDTO> expected = Optional.of(new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList()));
+        FliprUserDTO expected = new FliprUserDTO(fliprUser.fliprID(), fliprUser.username(), fliprUser.email(), fliprUser.fliprList());
 
         when(mongoUserRepo.findFliprUserByFliprID("1")).thenReturn(Optional.of(fliprUser));
-        Optional<FliprUserDTO> actual = fliprUserService.getFliprUserByFliprID("1");
+        FliprUserDTO actual = fliprUserService.getFliprUserByFliprID("1");
 
         assertEquals(actual, expected);
         verify(mongoUserRepo).findFliprUserByFliprID("1");
