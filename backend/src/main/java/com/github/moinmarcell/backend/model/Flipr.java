@@ -8,6 +8,6 @@ public record Flipr(
         @Id
         String id,
         String content,
-        Author author
+        String author
 ){
 }
