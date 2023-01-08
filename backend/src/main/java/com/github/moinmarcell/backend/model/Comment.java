@@ -8,6 +8,6 @@ public record Comment(
         @Id
         String id,
         String content,
-        FliprUser author
+        String author //Username of FliprUser
 ) {
 }

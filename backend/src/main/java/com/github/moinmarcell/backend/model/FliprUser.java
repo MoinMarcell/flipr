@@ -14,7 +14,7 @@ public record FliprUser(
         String username,
         String password,
         String avatar,
-        List<Flipr> fliprs,
-        List<Flipr> favFliprs
+        List<String> fliprs, //Id of fliprs
+        List<String> favFliprs //Id of fliprs
 ) {
 }

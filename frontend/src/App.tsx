@@ -1,38 +1,54 @@
-import "./app.css";
-import Navigation from "./components/Navigation/Navigation";
-import FliprsApp from "./components/Fliprs/FliprsApp";
+import NavigationBar from "./components/AppBar/NavigationBar";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import LoginRegisterPage from "./components/LoginRegisterPage/LoginRegisterPage";
-import useUser from "./components/Hooks/useUser";
-import ProtectedRoutes from "./components/ProtectedRoutes";
-import MyProfile from "./components/Profile/MyProfile";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import Container from "@mui/material/Container";
+import Register from "./components/Register";
 
 const App = () => {
 
-    const {username, login, logout, register, fliprUser} = useUser();
+    const [username, setUsername] = useState<string>("");
+
+    useEffect(() => {
+        axios.get("/api/users/me")
+            .then(r => r.data)
+            .then(setUsername)
+    }, [])
+
+    function login(username: string, password: string) {
+        return axios.post("/api/users/login", undefined, {
+            auth: {
+                "username": username,
+                "password": password
+            }
+        })
+            .then((r) => r.data)
+            .then(data => {
+                setUsername(data)
+                return data
+            });
+    }
+
+    function logout(){
+        return axios.post("/api/users/logout")
+            .then((r) => r.data)
+            .then((data) => {
+                setUsername(data)
+                return data
+            })
+    }
 
     return (
         <BrowserRouter>
-            <div className={"container-xxl"}>
-                <div className={"row"}>
-                    <div className={"col-4 text-end border-end border-light mt-2"}>
-                        <Navigation logout={logout} username={username}/>
-                    </div>
-                    <div className={"col-8 mt-2"}>
-                        <h2 className={"text-white text-center"}><i className="fa-solid fa-terminal"></i> FLIPR</h2>
-                        <Routes>
-                            <Route path={"/"} element={<FliprsApp username={username} />} />
-                            <Route path={"/login"} element={<LoginRegisterPage login={login} register={register} />} />
-
-                            <Route element={<ProtectedRoutes username={username} />}>
-                                <Route path={"/my-profile"} element={<MyProfile fliprUser={fliprUser} />} />
-                            </Route>
-                        </Routes>
-                    </div>
-                </div>
-            </div>
+            <NavigationBar handleLogout={logout} handleLogin={login} username={username}/>
+            <Container sx={{mt: 10}}>
+                <Routes>
+                    <Route path={"/register"} element={<Register />} />
+                </Routes>
+            </Container>
         </BrowserRouter>
     );
+
 }
 
 export default App;

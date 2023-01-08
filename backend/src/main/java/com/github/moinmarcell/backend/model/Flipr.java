@@ -10,8 +10,8 @@ public record Flipr(
         @Id
         String id,
         String content,
-        FliprUserDTO author,
-        List<Comment> comments,
+        String author, //Username of FliprUser
+        List<String> comments, //Ids of comments
         int likes
 ) {
 }

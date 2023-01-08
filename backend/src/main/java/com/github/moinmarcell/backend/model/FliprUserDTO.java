@@ -6,7 +6,7 @@ public record FliprUserDTO(
         String id,
         String username,
         String avatar,
-        List<Flipr> fliprs,
-        List<Flipr> favFliprs
+        List<String> fliprs, //Ids of fliprs
+        List<String> favFliprs //Ids of fliprs
 ) {
 }
