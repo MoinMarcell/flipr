@@ -6,15 +6,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document("users")
+@Document("FliprUser")
 public record FliprUser(
         @Id
-        String fliprID,
+        String id,
         @Indexed(unique = true)
         String username,
         String password,
-        @Indexed(unique = true)
-        String email,
-        List<Flipr> fliprList
-){
+        String avatar,
+        List<Flipr> fliprs,
+        List<Flipr> favFliprs
+) {
 }

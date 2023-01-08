@@ -1,7 +1,7 @@
 package com.github.moinmarcell.backend.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.moinmarcell.backend.model.FliprUser;
+import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,7 +12,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class MongoUserControllerTest {
+class FliprUserControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -29,7 +28,7 @@ class MongoUserControllerTest {
     ObjectMapper objectMapper;
 
     @Autowired
-    MongoUserRepo mongoUserRepo;
+    FliprUserRepo fliprUserRepo;
 
     @Test
     @DirtiesContext

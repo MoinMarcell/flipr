@@ -1,23 +1,49 @@
 package com.github.moinmarcell.backend.controller;
 
 import com.github.moinmarcell.backend.model.FliprUserDTO;
+import com.github.moinmarcell.backend.model.FliprUserRegistrationDTO;
 import com.github.moinmarcell.backend.service.FliprUserService;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/fliprusers")
+@RequestMapping("/api/users")
 public class FliprUserController {
 
-    private final FliprUserService fliprUserService;
+    FliprUserService fliprUserService;
 
     public FliprUserController(FliprUserService fliprUserService) {
         this.fliprUserService = fliprUserService;
+    }
+
+    @GetMapping("/me")
+    public String helloMe(Principal principal){
+        if(principal != null){
+            return principal.getName();
+        }
+        return "anonymousUser";
+    }
+
+    @PostMapping("/login")
+    public Object login(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession httpSession){
+        httpSession.invalidate();
+        SecurityContextHolder.clearContext();
+        return "anonymousUser";
+    }
+
+    @PostMapping("/register")
+    public FliprUserDTO saveUser(@RequestBody FliprUserRegistrationDTO fliprUser){
+        return fliprUserService.saveFliprUser(fliprUser);
     }
 
     @GetMapping
@@ -25,11 +51,8 @@ public class FliprUserController {
         return fliprUserService.getAllFliprUsers();
     }
 
-    @GetMapping("/user")
-    public FliprUserDTO getFliprUserByUsername(@RequestParam(required = false) String username, @RequestParam(required = false) String fliprID) throws ChangeSetPersister.NotFoundException {
-        if(username != null){
-            return fliprUserService.getFliprUserByUsername(username);
-        }
-        return fliprUserService.getFliprUserByFliprID(fliprID);
+    @GetMapping("/{username}")
+    public FliprUserDTO getFliprUserById(@PathVariable String username) throws ChangeSetPersister.NotFoundException {
+        return fliprUserService.getFliprUserByUsername(username);
     }
 }

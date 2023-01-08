@@ -1,7 +1,6 @@
 package com.github.moinmarcell.backend.controller;
 
-import com.github.moinmarcell.backend.model.FliprUser;
-import com.github.moinmarcell.backend.security.MongoUserRepo;
+import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,7 +25,7 @@ class FliprUserControllerTest {
     MockMvc mockMvc;
 
     @Autowired
-    MongoUserRepo mongoUserRepo;
+    FliprUserRepo fliprUserRepo;
 
     @Test
     @DirtiesContext
@@ -42,7 +41,7 @@ class FliprUserControllerTest {
     @WithMockUser("test")
     void getFliprUserByUsername() throws Exception {
         FliprUser fliprUser = new FliprUser("1", "test", "123", "hello@flipr.com", Collections.emptyList());
-        mongoUserRepo.save(fliprUser);
+        fliprUserRepo.save(fliprUser);
         mockMvc.perform(get("/api/fliprusers/user?username=" + fliprUser.username()).with(csrf()))
                 .andExpect(status().isOk());
     }
@@ -52,7 +51,7 @@ class FliprUserControllerTest {
     @WithMockUser("test")
     void getFliprUserById() throws Exception {
         FliprUser fliprUser = new FliprUser("1", "test", "123", "hello@flipr.com", Collections.emptyList());
-        mongoUserRepo.save(fliprUser);
+        fliprUserRepo.save(fliprUser);
         mockMvc.perform(get("/api/fliprusers/user?fliprID=" + fliprUser.fliprID()).with(csrf()))
                 .andExpect(status().isOk());
     }

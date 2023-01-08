@@ -1,7 +1,6 @@
 package com.github.moinmarcell.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

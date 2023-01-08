@@ -1,10 +1,12 @@
 package com.github.moinmarcell.backend.model;
 
 import java.util.List;
+
 public record FliprUserDTO(
-        String fliprID,
+        String id,
         String username,
-        String email,
-        List<Flipr> fliprList
-){
+        String avatar,
+        List<Flipr> fliprs,
+        List<Flipr> favFliprs
+) {
 }

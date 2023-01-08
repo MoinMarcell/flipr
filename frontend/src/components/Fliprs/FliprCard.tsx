@@ -14,7 +14,7 @@ const FliprCard = (props: FliprProps) => {
                         <i className="fa-solid fa-circle-user fa-2xl"></i>
                     </div>
                     <div className={"col text-start p-0 px-1"}>
-                        <h6>postet 2h ago by {props.flipr.author.username}</h6>
+                        <h6>postet 2h ago by {props.flipr.author}</h6>
                     </div>
                 </div>
             </div>

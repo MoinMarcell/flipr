@@ -9,7 +9,7 @@ import MyProfile from "./components/Profile/MyProfile";
 
 const App = () => {
 
-    const {username, login, logout, register} = useUser();
+    const {username, login, logout, register, fliprUser} = useUser();
 
     return (
         <BrowserRouter>
@@ -21,11 +21,11 @@ const App = () => {
                     <div className={"col-8 mt-2"}>
                         <h2 className={"text-white text-center"}><i className="fa-solid fa-terminal"></i> FLIPR</h2>
                         <Routes>
-                            <Route path={"/"} element={<FliprsApp />} />
+                            <Route path={"/"} element={<FliprsApp username={username} />} />
                             <Route path={"/login"} element={<LoginRegisterPage login={login} register={register} />} />
 
                             <Route element={<ProtectedRoutes username={username} />}>
-                                <Route path={"/my-profile"} element={<MyProfile username={username} />} />
+                                <Route path={"/my-profile"} element={<MyProfile fliprUser={fliprUser} />} />
                             </Route>
                         </Routes>
                     </div>
