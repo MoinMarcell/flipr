@@ -7,8 +7,9 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import Button from "@mui/material/Button";
 
 type LoginFormProps = {
-    handleClose: () => void
-    handleLogin: (username: string, password: string) => void
+    handleClose: () => void,
+    handleLogin: (username: string, password: string) => void,
+    username: string,
 }
 
 export default function LoginForm(props: LoginFormProps) {
@@ -28,14 +29,13 @@ export default function LoginForm(props: LoginFormProps) {
         event.preventDefault();
         props.handleLogin(username, password);
         props.handleClose();
-        setUsername("");
-        setPassword("");
     }
 
     return (
         <DialogContent>
             <DialogContentText>
-                You want to become a flipr? Click <Link to={"/register"} onClick={props.handleClose}>here</Link> to register!
+                You want to become a flipr? Click <Link to={"/register"} onClick={props.handleClose}>here</Link> to
+                register!
             </DialogContentText>
             <form onSubmit={handleSubmit}>
                 <TextField
