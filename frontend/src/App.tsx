@@ -8,6 +8,7 @@ import FliprApp from "./components/Flipr/FliprApp";
 import useFliprs from "./components/Hooks/useFliprs";
 import useUser from "./components/Hooks/useUser";
 import AddFlipr from "./components/Flipr/AddFlipr";
+import FliprDetails from "./components/Flipr/FliprDetails";
 
 const App = () => {
 
@@ -24,6 +25,7 @@ const App = () => {
                     <Routes>
                         <Route path={"/"} element={<FliprApp fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
                         <Route path={"/register"} element={<Register/>}/>
+                        <Route path={"/flipr/:id"} element={<FliprDetails username={username} handleDelete={deleteFlipr} />} />
                     </Routes>
                 </Box>
             </BrowserRouter>

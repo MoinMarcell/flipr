@@ -8,6 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useNavigate} from "react-router-dom";
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -17,8 +18,11 @@ type FliprCardProps = {
 
 export default function FliprCard(props: FliprCardProps) {
 
+    const navigate = useNavigate();
+
     function handleDelete(){
         props.handleDelte(props.flipr.id)
+        navigate("/")
     }
 
     return (
@@ -39,7 +43,7 @@ export default function FliprCard(props: FliprCardProps) {
             </CardContent>
             <CardActions>
                 <Tooltip title="Share" placement="top">
-                    <Button size="small"><ShareIcon/></Button>
+                    <Button size="small" onClick={() => navigate("/flipr/" + props.flipr.id)}><ShareIcon/></Button>
                 </Tooltip>
                 <Tooltip title="Comment" placement="top">
                     <Button size="small"><CommentIcon/></Button>

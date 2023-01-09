@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE_DIR_FLIPR_USER: string = "/api/users"
+const BASE_DIR_FLIPR_USER: string = "/api/users/"
 const BASE_DIR_SINGLE_FLIPR_USER: string = BASE_DIR_FLIPR_USER + "/user"
 
-const BASE_DIR_FLIPRS: string = "/api/fliprs"
+const BASE_DIR_FLIPRS: string = "/api/fliprs/"
 
 export function getAllFliprUsers(){
     return axios.get(BASE_DIR_FLIPR_USER)
@@ -25,7 +25,12 @@ export function getAllFliprs(){
         .then((response) => response.data);
 }
 
+export function getFliprById(id: string){
+    return axios.get(BASE_DIR_FLIPRS + id)
+        .then((response) => response.data);
+}
+
 export function deleteFliprById(id: string | undefined){
     return axios.delete("/api/fliprs/" + id)
-        .then((response) => response.data)
+        .then((response) => response.data);
 }
