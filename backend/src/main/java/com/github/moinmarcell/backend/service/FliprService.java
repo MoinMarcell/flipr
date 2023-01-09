@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +21,11 @@ public class FliprService {
         Flipr fliprToSave = new Flipr(
                 idService.generateId(),
                 fliprDTO.content(),
-                fliprDTO.author(),
-                new ArrayList<>(),
-                0
-                );
+                fliprDTO.author()
+        );
+
         fliprRepository.save(fliprToSave);
+
         return fliprToSave;
     }
 
@@ -39,7 +38,16 @@ public class FliprService {
         if(flipr.isEmpty()){
             throw new ChangeSetPersister.NotFoundException();
         }
-        return new Flipr(flipr.get().id(), flipr.get().content(), flipr.get().author(), flipr.get().comments(), flipr.get().likes());
+        return flipr.get();
+    }
+
+    public String deleteFliprById(String id) throws ChangeSetPersister.NotFoundException {
+        Optional<Flipr> flipr = fliprRepository.findById(id);
+        if(flipr.isEmpty()){
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        fliprRepository.deleteById(id);
+        return "Flipr deleted!";
     }
 
 }

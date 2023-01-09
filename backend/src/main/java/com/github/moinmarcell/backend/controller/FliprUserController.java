@@ -1,7 +1,7 @@
 package com.github.moinmarcell.backend.controller;
 
+import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
-import com.github.moinmarcell.backend.model.FliprUserRegistrationDTO;
 import com.github.moinmarcell.backend.service.FliprUserService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,17 +42,31 @@ public class FliprUserController {
     }
 
     @PostMapping("/register")
-    public FliprUserDTO saveUser(@RequestBody FliprUserRegistrationDTO fliprUser){
-        return fliprUserService.saveFliprUser(fliprUser);
+    public FliprUser saveFliprUser(@RequestBody FliprUserDTO fliprUserDTO){
+        return fliprUserService.saveFliprUser(fliprUserDTO);
     }
 
     @GetMapping
-    public List<FliprUserDTO> getAllFliprUsers(){
+    public List<FliprUser> getAllFliprUsers(){
         return fliprUserService.getAllFliprUsers();
     }
 
-    @GetMapping("/{username}")
-    public FliprUserDTO getFliprUserById(@PathVariable String username) throws ChangeSetPersister.NotFoundException {
-        return fliprUserService.getFliprUserByUsername(username);
+    @GetMapping("/user")
+    public FliprUser getFliprUser(@RequestParam(required = false) String username, @RequestParam(required = false) String id) throws ChangeSetPersister.NotFoundException {
+        if(!username.equals("")){
+            return fliprUserService.getFliprUserByUsername(username);
+        }
+        return fliprUserService.getFliprUserById(id);
     }
+
+    @PutMapping("/{id}")
+    public FliprUser updateFliprUser(@PathVariable String id, @RequestBody FliprUserDTO fliprUserDTO){
+        return fliprUserService.updateFliprUser(id, fliprUserDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteFliprUserById(@PathVariable String id) throws ChangeSetPersister.NotFoundException {
+        return fliprUserService.deleteFliprUserById(id);
+    }
+
 }

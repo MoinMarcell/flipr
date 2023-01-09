@@ -5,8 +5,7 @@ import java.util.List;
 public record FliprUserDTO(
         String id,
         String username,
-        String avatar,
-        List<String> fliprs, //Ids of fliprs
-        List<String> favFliprs //Ids of fliprs
+        String password,
+        List<String> fliprs //Ids of fliprs
 ) {
 }

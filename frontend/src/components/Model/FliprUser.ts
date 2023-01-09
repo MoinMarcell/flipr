@@ -1,5 +1,5 @@
 export type FliprUser = {
-    id: string,
+    id?: string,
     username: string,
     avatar: string,
 }
