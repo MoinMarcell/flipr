@@ -1,35 +1,31 @@
-import NavigationBar from "./components/AppBar/NavigationBar";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import {DrawerHeader} from "./components/Navigation/NavigationGlobalSettings";
+import NavigationApp from "./components/Navigation/NavigationApp";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Container from "@mui/material/Container";
 import Register from "./components/Register/Register";
 import FliprApp from "./components/Flipr/FliprApp";
-import AddFlipr from "./components/Flipr/AddFlipr";
-import Profile from "./components/Profile/Profile";
-import useUser from "./components/Hooks/useUser";
 import useFliprs from "./components/Hooks/useFliprs";
-import ProtectedRoutes from "./components/ProtectedRoutes";
+import useUser from "./components/Hooks/useUser";
 
 const App = () => {
 
-    const {username, login, logout} = useUser();
-    const {fliprs, saveFlipr, deleteFlipr} = useFliprs();
+    const {fliprs, deleteFlipr} = useFliprs();
+    const {username} = useUser();
 
     return (
-        <BrowserRouter>
-            <NavigationBar handleLogout={logout} handleLogin={login} username={username}/>
-            <Container sx={{mt: 10}}>
-                <AddFlipr handleSubmit={saveFlipr} username={username}/>
-                <Routes>
-                    <Route path={"/"}
-                           element={<FliprApp fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
-                    <Route path={"/register"} element={<Register/>}/>
-                    <Route element={<ProtectedRoutes username={username} />}>
-                        <Route path={"/profile"}
-                               element={<Profile username={username} fliprs={fliprs} handleDelete={deleteFlipr}/>}/>
-                    </Route>
-                </Routes>
-            </Container>
-        </BrowserRouter>
+        <Box sx={{display: 'flex'}}>
+            <BrowserRouter>
+                <NavigationApp/>
+                <Box component="main" sx={{flexGrow: 1, p: 3}}>
+                    <DrawerHeader/>
+                    <Routes>
+                        <Route path={"/"} element={<FliprApp fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
+                        <Route path={"/register"} element={<Register/>}/>
+                    </Routes>
+                </Box>
+            </BrowserRouter>
+        </Box>
     );
 
 }
