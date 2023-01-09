@@ -70,6 +70,7 @@ export default function LoginDialog(props: LoginDialogProps) {
                         value={password}
                         onChange={onChangePassword}
                     />
+                    <Button type={"submit"} sx={{display: 'none'}}></Button>
                 </form>
             </DialogContent>
             <DialogActions>
