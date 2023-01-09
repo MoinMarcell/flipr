@@ -33,8 +33,9 @@ export default function NavigationAppBar(props: NavigationAppBarProps) {
                     component="div"
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                 >
-                    FLIPR<BubbleChartIcon />
+                    FLIPR
                 </Typography>
+                <BubbleChartIcon fontSize={'medium'} sx={{mr: 5}} />
                 <NavigationSearchInput />
             </Toolbar>
         </AppBar>
