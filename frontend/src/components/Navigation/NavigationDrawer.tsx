@@ -12,6 +12,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import {Drawer, DrawerHeader} from "./NavigationGlobalSettings";
 import MenuLoggedOut from "./MenuLoggedOut";
 import Tooltip from "@mui/material/Tooltip";
+import {useNavigate} from "react-router-dom";
 
 type NavigationDrawerProps = {
     open: boolean,
@@ -20,6 +21,9 @@ type NavigationDrawerProps = {
 }
 
 export default function NavigationDrawer(props: NavigationDrawerProps) {
+
+    const navigate = useNavigate();
+
     return (
         <Drawer variant="permanent" open={props.open}>
             <DrawerHeader>
@@ -36,6 +40,7 @@ export default function NavigationDrawer(props: NavigationDrawerProps) {
                             justifyContent: props.open ? 'initial' : 'center',
                             px: 2.5,
                         }}
+                        onClick={() => navigate("/")}
                     >
                         <ListItemIcon
                             sx={{

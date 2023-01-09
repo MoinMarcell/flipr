@@ -7,12 +7,16 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
+import {useNavigate} from "react-router-dom";
 
 type MenuLoggedOutProps = {
     open: boolean,
 }
 
 export default function MenuLoggedOut(props: MenuLoggedOutProps) {
+
+    const navigate = useNavigate();
+
     return (
         <List>
             <ListItem key={"Login"} disablePadding sx={{display: 'block'}}>
@@ -45,6 +49,7 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
                         justifyContent: props.open ? 'initial' : 'center',
                         px: 2.5,
                     }}
+                    onClick={() => navigate("/register")}
                 >
                     <ListItemIcon
                         sx={{
