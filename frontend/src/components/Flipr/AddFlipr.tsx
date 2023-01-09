@@ -1,7 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {ChangeEvent, FormEvent, useState} from "react";
-import Box from "@mui/material/Box";
 
 type AddFliprProps = {
     handleSubmit: (content: string, username: string) => void,
@@ -26,23 +25,24 @@ export default function AddFlipr(props: AddFliprProps) {
 
 
     return (
-        <Box>
-            {
-                isAuthenticated ?
-                    <form onSubmit={onSubmit}>
-                        <TextField
-                            id="outlined-multiline-static"
-                            label="Multiline"
-                            multiline
-                            rows={4}
-                            value={content}
-                            onChange={onChangeContent}
-                        />
-                        <Button type={"submit"}>flipr IT!</Button>
-                    </form> :
-                    ''
-            }
-        </Box>
+        <div>
+        {
+            isAuthenticated ?
+                <form onSubmit={onSubmit}>
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="YOUR FLIPR"
+                        multiline
+                        rows={4}
+                        value={content}
+                        onChange={onChangeContent}
+                        fullWidth
+                    />
+                    <Button type={"submit"}>flipr IT!</Button>
+                </form> :
+                ''
+        }
+        </div>
     );
 
 }

@@ -8,12 +8,24 @@ import List from "@mui/material/List";
 import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
 import {useNavigate} from "react-router-dom";
+import LoginDialog from "../Login/LoginDialog";
 
 type MenuLoggedOutProps = {
     open: boolean,
+    handleLogin: (username: string, password: string) => void,
 }
 
 export default function MenuLoggedOut(props: MenuLoggedOutProps) {
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const navigate = useNavigate();
 
@@ -26,6 +38,7 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
                         justifyContent: props.open ? 'initial' : 'center',
                         px: 2.5,
                     }}
+                    onClick={handleClickOpen}
                 >
                     <ListItemIcon
                         sx={{
@@ -40,6 +53,7 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
                     </ListItemIcon>
                     <ListItemText primary={"Login"} sx={{opacity: props.open ? 1 : 0}}/>
                 </ListItemButton>
+                <LoginDialog open={open} handleClose={handleClose} handleLogin={props.handleLogin} />
             </ListItem>
 
             <ListItem key={"Register"} disablePadding sx={{display: 'block'}}>

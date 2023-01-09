@@ -4,7 +4,7 @@ import {Flipr} from "../Model/Flipr";
 type FliprAppProps = {
     fliprs: Flipr[],
     username: string,
-    handleDelete: (id: string | undefined) => void
+    handleDelete: (id: string | undefined) => void,
 }
 
 export default function FliprApp(props: FliprAppProps){

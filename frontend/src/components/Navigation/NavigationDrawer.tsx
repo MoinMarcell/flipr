@@ -13,11 +13,15 @@ import {Drawer, DrawerHeader} from "./NavigationGlobalSettings";
 import MenuLoggedOut from "./MenuLoggedOut";
 import Tooltip from "@mui/material/Tooltip";
 import {useNavigate} from "react-router-dom";
+import MenuLoggedIn from "./MenuLoggedIn";
 
 type NavigationDrawerProps = {
     open: boolean,
     handleDrawerClose: () => void,
     theme: { direction: string; },
+    username: string,
+    handleLogin: (username: string, password: string) => void,
+    handleLogout: () => void
 }
 
 export default function NavigationDrawer(props: NavigationDrawerProps) {
@@ -58,7 +62,11 @@ export default function NavigationDrawer(props: NavigationDrawerProps) {
                 </ListItem>
             </List>
             <Divider/>
-            <MenuLoggedOut open={props.open}/>
+            {
+                props.username && props.username !== 'anonymousUser' ?
+                    <MenuLoggedIn open={props.open} handleLogout={props.handleLogout} /> :
+                    <MenuLoggedOut open={props.open} handleLogin={props.handleLogin}/>
+            }
         </Drawer>
     )
 }

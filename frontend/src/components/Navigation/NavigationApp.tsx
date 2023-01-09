@@ -5,7 +5,13 @@ import * as React from "react";
 import {useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 
-export default function NavigationApp() {
+type NavigationAppProps = {
+    username: string,
+    handleLogin: (username: string, password: string) => void,
+    handleLogout: () => void,
+}
+
+export default function NavigationApp(props: NavigationAppProps) {
 
     const theme = useTheme();
     const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -22,7 +28,7 @@ export default function NavigationApp() {
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
             <NavigationAppBar open={openDrawer} handleDrawerOpen={handleDrawerOpen}/>
-            <NavigationDrawer open={openDrawer} handleDrawerClose={handleDrawerClose} theme={theme}/>
+            <NavigationDrawer handleLogout={props.handleLogout} handleLogin={props.handleLogin} open={openDrawer} handleDrawerClose={handleDrawerClose} theme={theme} username={props.username}/>
         </Box>
     );
 }
