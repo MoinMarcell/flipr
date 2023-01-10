@@ -41,13 +41,8 @@ public class FliprService {
         return flipr.get();
     }
 
-    public String deleteFliprById(String id) throws ChangeSetPersister.NotFoundException {
-        Optional<Flipr> flipr = fliprRepository.findById(id);
-        if(flipr.isEmpty()){
-            throw new ChangeSetPersister.NotFoundException();
-        }
+    public void deleteFliprById(String id) {
         fliprRepository.deleteById(id);
-        return "Flipr deleted!";
     }
 
 }

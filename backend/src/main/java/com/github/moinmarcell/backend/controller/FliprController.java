@@ -34,8 +34,8 @@ public class FliprController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteFliprById(@PathVariable String id) throws ChangeSetPersister.NotFoundException {
-        return fliprService.deleteFliprById(id);
+    public void deleteFliprById(@PathVariable String id) {
+        fliprService.deleteFliprById(id);
     }
 
 }
