@@ -33,5 +33,12 @@ export default function useUser(){
             })
     }
 
-    return {username, login, logout}
+    function register(username: string, password: string){
+        axios.post("/api/users/register", {
+            "username": username,
+            "password": password,
+        }).then(r => r.data).catch(e => console.log(e));
+    }
+
+    return {username, login, logout, register}
 }

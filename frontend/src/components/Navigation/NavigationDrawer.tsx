@@ -21,7 +21,8 @@ type NavigationDrawerProps = {
     theme: { direction: string; },
     username: string,
     handleLogin: (username: string, password: string) => void,
-    handleLogout: () => void
+    handleLogout: () => void,
+    handleRegister: (username: string, password: string) => void,
 }
 
 export default function NavigationDrawer(props: NavigationDrawerProps) {
@@ -65,7 +66,7 @@ export default function NavigationDrawer(props: NavigationDrawerProps) {
             {
                 props.username && props.username !== 'anonymousUser' ?
                     <MenuLoggedIn open={props.open} handleLogout={props.handleLogout} /> :
-                    <MenuLoggedOut open={props.open} handleLogin={props.handleLogin}/>
+                    <MenuLoggedOut handleRegister={props.handleRegister} open={props.open} handleLogin={props.handleLogin}/>
             }
         </Drawer>
     )

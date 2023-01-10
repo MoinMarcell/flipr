@@ -12,11 +12,11 @@ import {ChangeEvent, FormEvent, useState} from "react";
 type LoginDialogProps = {
     open: boolean,
     handleClose: () => void,
-    handleOpenRegisterCloseLogin: () => void
-    handleLogin: (username: string, password: string) => void,
+    handleRegister: (username: string, password: string) => void,
+    handleOpenLoginCloseRegister: () => void,
 }
 
-export default function LoginDialog(props: LoginDialogProps) {
+export default function RegisterDialog(props: LoginDialogProps) {
 
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -31,21 +31,21 @@ export default function LoginDialog(props: LoginDialogProps) {
 
     function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        props.handleLogin(username, password);
+        props.handleRegister(username, password);
         props.handleClose();
     }
 
     function onClickLogin(){
-        props.handleLogin(username, password);
+        props.handleRegister(username, password);
         props.handleClose();
     }
 
     return (
         <Dialog open={props.open} onClose={props.handleClose}>
-            <DialogTitle>FLIPR<BubbleChartIcon/> LOGIN</DialogTitle>
+            <DialogTitle>FLIPR<BubbleChartIcon/> Register</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    You are new to FLIPR<BubbleChartIcon/>? Click <Button onClick={props.handleOpenRegisterCloseLogin}>here</Button> to register!
+                    Already a FLIPR<BubbleChartIcon/>? Click <Button onClick={props.handleOpenLoginCloseRegister}>here</Button> to Login!
                 </DialogContentText>
                 <form onSubmit={onSubmit}>
                     <TextField
@@ -75,7 +75,7 @@ export default function LoginDialog(props: LoginDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.handleClose}>Cancel</Button>
-                <Button onClick={onClickLogin}>Login</Button>
+                <Button onClick={onClickLogin}>Register</Button>
             </DialogActions>
         </Dialog>
     );

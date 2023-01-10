@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 type NavigationAppProps = {
     username: string,
     handleLogin: (username: string, password: string) => void,
+    handleRegister: (username: string, password: string) => void,
     handleLogout: () => void,
 }
 
@@ -28,7 +29,7 @@ export default function NavigationApp(props: NavigationAppProps) {
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
             <NavigationAppBar open={openDrawer} handleDrawerOpen={handleDrawerOpen}/>
-            <NavigationDrawer handleLogout={props.handleLogout} handleLogin={props.handleLogin} open={openDrawer} handleDrawerClose={handleDrawerClose} theme={theme} username={props.username}/>
+            <NavigationDrawer handleRegister={props.handleRegister} handleLogout={props.handleLogout} handleLogin={props.handleLogin} open={openDrawer} handleDrawerClose={handleDrawerClose} theme={theme} username={props.username}/>
         </Box>
     );
 }
