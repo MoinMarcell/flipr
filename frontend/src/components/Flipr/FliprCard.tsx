@@ -1,17 +1,16 @@
 import {Flipr} from "../Model/Flipr";
-import {Avatar, Card, CardActions, CardContent, CardMedia} from "@mui/material";
+import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import image from "../../img/contemplative-reptile.jpg";
 import Button from "@mui/material/Button";
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useNavigate} from "react-router-dom";
-import PersonIcon from '@mui/icons-material/Person';
-import Box from "@mui/material/Box";
 import React from "react";
+import {red} from "@mui/material/colors";
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -31,19 +30,22 @@ export default function FliprCard(props: FliprCardProps) {
     return (
 
         <Card sx={{mt: 2}}>
-            <CardMedia
-                sx={{height: 280}}
-                image={image}
-                title="green iguana"
+            <CardHeader
+                sx={{bgcolor: '#2196f3'}}
+                avatar={
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                        R
+                    </Avatar>
+                }
+                action={
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                    </IconButton>
+                }
+                title={props.flipr.author}
+                subheader="September 14, 2016"
             />
             <CardContent>
-                <Box sx={{display: 'flex', mb: 3, alignItems: 'center'}} alignContent={'middle'}>
-                    <Avatar alt="Remy Sharp" sx={{mr: 2}}><PersonIcon/></Avatar>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {props.flipr.author}
-                        <Typography sx={{fontSize: 'small'}}>fliprd 2h ago</Typography>
-                    </Typography>
-                </Box>
                 <Typography variant="body2" color="text.secondary">
                     {props.flipr.content}
                 </Typography>
