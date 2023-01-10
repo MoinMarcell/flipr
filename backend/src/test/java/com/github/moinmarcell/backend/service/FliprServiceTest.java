@@ -65,4 +65,11 @@ class FliprServiceTest {
         assertEquals(actual, expected);
         verify(fliprRepository).findById(id);
     }
+
+    @Test
+    void getFliprById_WhenOptionalIsEmptyThrowException() throws ChangeSetPersister.NotFoundException {
+        Optional<Flipr> flipr = Optional.empty();
+        when(Optional.of(fliprRepository.findById(flipr.get().id()))).thenThrow(ChangeSetPersister.NotFoundException.class);
+        verify(fliprRepository).findById(flipr.get().id());
+    }
 }
