@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 
 type AddFliprProps = {
     handleSubmit: (content: string, username: string) => void,
@@ -35,7 +35,7 @@ export default function AddFlipr(props: AddFliprProps) {
                         multiline
                         rows={4}
                         value={content}
-                        onChange={() => onChangeContent}
+                        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => onChangeContent(event)}
                         fullWidth
                     />
                     <Button type={"submit"}>flipr IT!</Button>
