@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useCallback, useState} from "react";
 
 type LoginDialogProps = {
     open: boolean,
@@ -21,13 +21,13 @@ export default function RegisterDialog(props: LoginDialogProps) {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
-    function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
+    const onChangeUsername = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
-    }
+    }, [setUsername]);
 
-    function onChangePassword(event: ChangeEvent<HTMLInputElement>) {
+    const onChangePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    }
+    }, [setPassword]);
 
     function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -35,10 +35,10 @@ export default function RegisterDialog(props: LoginDialogProps) {
         props.handleClose();
     }
 
-    function onClickLogin(){
+    const onClickLogin = useCallback(() => {
         props.handleRegister(username, password);
         props.handleClose();
-    }
+    }, [props, username, password])
 
     return (
         <Dialog open={props.open} onClose={props.handleClose}>
