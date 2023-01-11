@@ -4,11 +4,9 @@ import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +31,10 @@ public class FliprService {
         return fliprRepository.findAll();
     }
 
-    public Flipr getFliprById(String id) throws ChangeSetPersister.NotFoundException {
-        Optional<Flipr> flipr = fliprRepository.findById(id);
-        if(flipr.isEmpty()){
-            throw new ChangeSetPersister.NotFoundException();
-        }
-        return flipr.get();
+    public Flipr getFliprById(String id) {
+        return fliprRepository
+                .findById(id)
+                .orElseThrow();
     }
 
     public void deleteFliprById(String id) {

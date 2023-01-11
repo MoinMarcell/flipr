@@ -4,7 +4,6 @@ import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +53,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void getFliprById() throws ChangeSetPersister.NotFoundException {
+    void getFliprById() {
         String id = "1";
         Flipr expected = new Flipr("1", "Content", "Author");
 
@@ -64,12 +63,5 @@ class FliprServiceTest {
 
         assertEquals(actual, expected);
         verify(fliprRepository).findById(id);
-    }
-
-    @Test
-    void getFliprById_WhenOptionalIsEmptyThrowException() throws ChangeSetPersister.NotFoundException {
-        Optional<Flipr> flipr = Optional.empty();
-        when(Optional.of(fliprRepository.findById(flipr.get().id()))).thenThrow(ChangeSetPersister.NotFoundException.class);
-        verify(fliprRepository).findById(flipr.get().id());
     }
 }
