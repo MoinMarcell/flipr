@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,15 +35,46 @@ class FliprUserControllerTest {
     ObjectMapper objectMapper;
 
     @Test
-    void helloMe() {
+    @DirtiesContext
+    @WithMockUser("marcell")
+    void helloMe_whenLoggedIn_ExpectUsername() throws Exception {
+        mockMvc.perform(get("/api/users/me")
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("marcell"));
     }
 
     @Test
-    void login() {
+    @DirtiesContext
+    void helloMe_whenLoggedOu_ExpectAnonymousUser() throws Exception {
+        mockMvc.perform(get("/api/users/me")
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("anonymousUser"));
+    }
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void login() throws Exception {
+        mockMvc.perform(post("/api/users/login").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username": "user",
+                                    "password": "123"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().string("user"));
     }
 
     @Test
-    void logout() {
+    @DirtiesContext
+    @WithMockUser("marcell")
+    void logout() throws Exception {
+        mockMvc.perform(post("/api/users/logout").with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("anonymousUser"));
     }
 
     @Test
