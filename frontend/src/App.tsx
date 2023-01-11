@@ -8,23 +8,28 @@ import useFliprs from "./components/Hooks/useFliprs";
 import useUser from "./components/Hooks/useUser";
 import AddFlipr from "./components/Flipr/AddFlipr";
 import FliprDetails from "./components/Flipr/FliprDetails";
+import {useState} from "react";
 
 const App = () => {
 
     const {fliprs, deleteFlipr, saveFlipr} = useFliprs();
     const {username, login, logout, register} = useUser();
+    const [searchText, setSearchText] = useState<string>("")
+    const handleSearchText = (searchTextToHandle: string) => {
+        setSearchText(searchTextToHandle);
+    }
 
     return (
         <Box sx={{display: 'flex'}}>
             <BrowserRouter>
-                <NavigationApp username={username} handleLogin={login} handleLogout={logout} handleRegister={register}/>
+                <NavigationApp handleSearchText={handleSearchText} username={username} handleLogin={login} handleLogout={logout} handleRegister={register}/>
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <DrawerHeader/>
                     <AddFlipr handleSubmit={saveFlipr} username={username} />
                     <Routes>
-                        <Route path={"/"} element={<FliprApp fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
+                        <Route path={"/"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
                         <Route path={"/flipr/:id"} element={<FliprDetails username={username} handleDelete={deleteFlipr} />} />
-                        <Route path={"/user/:username"} element={<FliprApp fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        <Route path={"/user/:username"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
                     </Routes>
                 </Box>
             </BrowserRouter>
