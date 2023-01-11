@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -45,6 +46,7 @@ class FliprUserControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void saveFliprUser() throws Exception {
         MvcResult result = mockMvc.perform(post("/api/users/register")
                 .with(csrf())
@@ -63,6 +65,7 @@ class FliprUserControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void updateFliprUser() throws Exception {
         mockMvc.perform(
                 put("/api/users/update")
@@ -89,6 +92,7 @@ class FliprUserControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void deleteFliprUserById() throws Exception {
         FliprUser fliprUserToDelete = new FliprUser(
                 "1",
