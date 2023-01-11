@@ -64,4 +64,11 @@ class FliprServiceTest {
         assertEquals(actual, expected);
         verify(fliprRepository).findById(id);
     }
+
+    @Test
+    void deleteFliprById(){
+        Flipr fliprToDelete = new Flipr("1", "Content", "Author");
+        fliprService.deleteFliprById(fliprToDelete.id());
+        verify(fliprRepository).deleteById(fliprToDelete.id());
+    }
 }
