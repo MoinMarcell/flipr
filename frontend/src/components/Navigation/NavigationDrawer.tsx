@@ -14,6 +14,7 @@ import MenuLoggedOut from "./MenuLoggedOut";
 import Tooltip from "@mui/material/Tooltip";
 import {useNavigate} from "react-router-dom";
 import MenuLoggedIn from "./MenuLoggedIn";
+import {useCallback} from "react";
 
 type NavigationDrawerProps = {
     open: boolean,
@@ -28,6 +29,10 @@ type NavigationDrawerProps = {
 export default function NavigationDrawer(props: NavigationDrawerProps) {
 
     const navigate = useNavigate();
+
+    const onClickHome = useCallback(() => {
+        navigate("/");
+    }, [navigate]);
 
     return (
         <Drawer variant="permanent" open={props.open}>
@@ -45,7 +50,7 @@ export default function NavigationDrawer(props: NavigationDrawerProps) {
                             justifyContent: props.open ? 'initial' : 'center',
                             px: 2.5,
                         }}
-                        onClick={() => navigate("/")}
+                        onClick={onClickHome}
                     >
                         <ListItemIcon
                             sx={{
