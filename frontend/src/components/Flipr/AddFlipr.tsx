@@ -7,7 +7,7 @@ type AddFliprProps = {
     username: string,
 }
 
-export default function AddFlipr(props: AddFliprProps) {
+export default function AddFlipr(this: any, props: AddFliprProps) {
 
     const [content, setContent] = useState<string>("");
 
@@ -35,7 +35,7 @@ export default function AddFlipr(props: AddFliprProps) {
                         multiline
                         rows={4}
                         value={content}
-                        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => onChangeContent(event)}
+                        onChange={onChangeContent}
                         fullWidth
                     />
                     <Button type={"submit"}>flipr IT!</Button>
