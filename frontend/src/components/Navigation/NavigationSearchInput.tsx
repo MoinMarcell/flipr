@@ -2,7 +2,7 @@ import * as React from 'react';
 import {styled, alpha} from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import {ChangeEvent, useCallback, useState} from "react";
+import {ChangeEvent, useCallback} from "react";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -50,12 +50,9 @@ type NavigationSearchInputProps = {
 
 export default function NavigationSearchInput(props: NavigationSearchInputProps) {
 
-    const [searchText, setSearchText] = useState<string>("");
-
     const onChangeSearchText = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(event.target.value);
-        props.handleSearchText(searchText);
-    }, [setSearchText, props, searchText]);
+        props.handleSearchText(event.target.value);
+    }, [props]);
 
     return (
         <Search>
@@ -65,7 +62,6 @@ export default function NavigationSearchInput(props: NavigationSearchInputProps)
             <StyledInputBase
                 placeholder="Search…"
                 inputProps={{'aria-label': 'search'}}
-                value={searchText}
                 onChange={onChangeSearchText}
             />
         </Search>
