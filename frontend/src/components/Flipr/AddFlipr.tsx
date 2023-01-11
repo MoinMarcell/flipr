@@ -35,7 +35,7 @@ export default function AddFlipr(props: AddFliprProps) {
                         multiline
                         rows={4}
                         value={content}
-                        onChange={onChangeContent}
+                        onChange={() => onChangeContent}
                         fullWidth
                     />
                     <Button type={"submit"}>flipr IT!</Button>
