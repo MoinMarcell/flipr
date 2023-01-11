@@ -9,7 +9,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useNavigate} from "react-router-dom";
-import React from "react";
+import React, {useCallback} from "react";
 import {red} from "@mui/material/colors";
 
 type FliprCardProps = {
@@ -22,10 +22,13 @@ export default function FliprCard(props: FliprCardProps) {
 
     const navigate = useNavigate();
 
-    function handleDelete() {
-        props.handleDelte(props.flipr.id)
-        navigate("/")
-    }
+    const onClickComment = useCallback(() => {
+        navigate("/flipr/" + props.flipr.id)
+    }, [navigate, props.flipr.id]);
+
+    const onClickDelete = useCallback(() => {
+        props.handleDelte(props.flipr.id);
+    }, [props]);
 
     return (
 
@@ -55,7 +58,7 @@ export default function FliprCard(props: FliprCardProps) {
                     <Button size="small"><ShareIcon/></Button>
                 </Tooltip>
                 <Tooltip title="Comment" placement="top">
-                    <Button size="small" onClick={() => navigate("/flipr/" + props.flipr.id)}><CommentIcon/></Button>
+                    <Button size="small" onClick={onClickComment}><CommentIcon/></Button>
                 </Tooltip>
                 <Tooltip title="Like" placement="top">
                     <Button size="small"><FavoriteIcon/></Button>
@@ -63,7 +66,7 @@ export default function FliprCard(props: FliprCardProps) {
                 {
                     props.username && props.username !== 'anonymousUser' && props.username === props.flipr.author ?
                         <Tooltip title="Delete" placement="top">
-                            <Button size="small" onClick={handleDelete}><DeleteIcon/></Button>
+                            <Button size="small" onClick={onClickDelete}><DeleteIcon/></Button>
                         </Tooltip> :
                         ''
                 }
