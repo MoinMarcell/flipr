@@ -15,7 +15,7 @@ public class FliprService {
     private final FliprRepository fliprRepository;
     private final IdService idService;
 
-    public Flipr saveFlipr(FliprDTO fliprDTO){
+    public Flipr saveFlipr(FliprDTO fliprDTO) {
         Flipr fliprToSave = new Flipr(
                 idService.generateId(),
                 fliprDTO.content(),
@@ -27,7 +27,7 @@ public class FliprService {
         return fliprToSave;
     }
 
-    public List<Flipr> getAllFliprs(){
+    public List<Flipr> getAllFliprs() {
         return fliprRepository.findAll();
     }
 

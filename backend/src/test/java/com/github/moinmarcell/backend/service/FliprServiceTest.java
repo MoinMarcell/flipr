@@ -66,7 +66,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void deleteFliprById(){
+    void deleteFliprById() {
         Flipr fliprToDelete = new Flipr("1", "Content", "Author");
         fliprService.deleteFliprById(fliprToDelete.id());
         verify(fliprRepository).deleteById(fliprToDelete.id());

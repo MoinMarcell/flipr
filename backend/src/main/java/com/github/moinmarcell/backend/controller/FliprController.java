@@ -3,7 +3,6 @@ package com.github.moinmarcell.backend.controller;
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.service.FliprService;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +18,17 @@ public class FliprController {
     }
 
     @GetMapping
-    public List<Flipr> getAllFliprs(){
+    public List<Flipr> getAllFliprs() {
         return fliprService.getAllFliprs();
     }
 
     @GetMapping("/{id}")
-    public Flipr getFliprById(@PathVariable String id) throws ChangeSetPersister.NotFoundException {
+    public Flipr getFliprById(@PathVariable String id) {
         return fliprService.getFliprById(id);
     }
 
     @PostMapping
-    public Flipr saveFlipr(@RequestBody FliprDTO fliprDTO){
+    public Flipr saveFlipr(@RequestBody FliprDTO fliprDTO) {
         return fliprService.saveFlipr(fliprDTO);
     }
 
