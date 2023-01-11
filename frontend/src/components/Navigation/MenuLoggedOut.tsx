@@ -7,9 +7,8 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
-import LoginDialog from "../Login/LoginDialog";
-import RegisterDialog from "../Register/RegisterDialog";
 import {useCallback} from "react";
+import LoginRegisterDialog from "./LoginRegisterDialog";
 
 type MenuLoggedOutProps = {
     open: boolean,
@@ -28,25 +27,12 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
 
     const handleClose = useCallback(() => {
         setOpenLogin(false);
-    }, [setOpenLogin]);
+        setOpenRegister(false);
+    }, [setOpenLogin, setOpenRegister]);
 
     const handleClickOpenRegister = useCallback(() => {
         setOpenRegister(true);
     }, [setOpenRegister]);
-
-    const handleCloseRegister = useCallback(() => {
-        setOpenRegister(false);
-    }, [setOpenRegister]);
-
-    const handleOpenRegisterCloseLogin = useCallback(() => {
-        handleClose();
-        handleClickOpenRegister();
-    }, [handleClose, handleClickOpenRegister]);
-
-    const handleOpenLoginCloseRegister = useCallback(() => {
-        handleCloseRegister();
-        handleClickOpen();
-    }, [handleClickOpen, handleCloseRegister]);
 
     return (
         <List>
@@ -72,7 +58,7 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
                     </ListItemIcon>
                     <ListItemText primary={"Login"} sx={{opacity: props.open ? 1 : 0}}/>
                 </ListItemButton>
-                <LoginDialog handleOpenRegisterCloseLogin={handleOpenRegisterCloseLogin} open={openLogin} handleClose={handleClose} handleLogin={props.handleLogin} />
+                <LoginRegisterDialog openLogin={openLogin} openRegister={openRegister} handleClose={handleClose} handleLogin={props.handleLogin} handleRegister={props.handleRegister} />
             </ListItem>
 
             <ListItem key={"Register"} disablePadding sx={{display: 'block'}}>
@@ -97,7 +83,7 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
                     </ListItemIcon>
                     <ListItemText primary={"Register"} sx={{opacity: props.open ? 1 : 0}}/>
                 </ListItemButton>
-                <RegisterDialog handleOpenLoginCloseRegister={handleOpenLoginCloseRegister} open={openRegister} handleClose={handleCloseRegister} handleRegister={props.handleRegister} />
+                <LoginRegisterDialog openLogin={openLogin} openRegister={openRegister} handleClose={handleClose} handleLogin={props.handleLogin} handleRegister={props.handleRegister} />
             </ListItem>
         </List>
     );

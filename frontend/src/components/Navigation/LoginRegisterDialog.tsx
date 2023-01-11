@@ -9,14 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import {ChangeEvent, FormEvent, useCallback, useState} from "react";
 
-type LoginDialogProps = {
-    open: boolean,
+type LoginRegisterDialogProps = {
+    openLogin: boolean,
+    openRegister: boolean,
     handleClose: () => void,
-    handleOpenRegisterCloseLogin: () => void
     handleLogin: (username: string, password: string) => void,
+    handleRegister: (username: string, password: string) => void,
 }
 
-export default function LoginDialog(props: LoginDialogProps) {
+export default function LoginRegisterDialog(props: LoginRegisterDialogProps) {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -31,7 +32,10 @@ export default function LoginDialog(props: LoginDialogProps) {
 
     function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        props.handleLogin(username, password);
+        if(props.openLogin){
+            props.handleLogin(username, password);
+        }
+        props.handleRegister(username, password);
         props.handleClose();
     }
 
@@ -40,12 +44,19 @@ export default function LoginDialog(props: LoginDialogProps) {
         props.handleClose();
     }, [props, password, username]);
 
+    const onClickRegister = useCallback(() => {
+        props.handleRegister(username, password);
+        props.handleClose();
+    }, [props, password, username]);
+
     return (
-        <Dialog open={props.open} onClose={props.handleClose}>
-            <DialogTitle>FLIPR<BubbleChartIcon/> LOGIN</DialogTitle>
+        <Dialog open={
+            props.openLogin ? props.openLogin : props.openRegister
+        } onClose={props.handleClose}>
+            <DialogTitle>FLIPR<BubbleChartIcon/> {props.openLogin ? 'LOGIN' : 'REGISTER'}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    You are new to FLIPR<BubbleChartIcon/>? Click <Button onClick={props.handleOpenRegisterCloseLogin}>here</Button> to register!
+                    You are new to FLIPR<BubbleChartIcon/>? Click <Button>here</Button> to register!
                 </DialogContentText>
                 <form onSubmit={onSubmit}>
                     <TextField
@@ -75,7 +86,11 @@ export default function LoginDialog(props: LoginDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.handleClose}>Cancel</Button>
-                <Button onClick={onClickLogin}>Login</Button>
+                {
+                    props.openLogin ?
+                        <Button onClick={onClickLogin}>Login</Button>:
+                        <Button onClick={onClickRegister}>Register</Button>
+                }
             </DialogActions>
         </Dialog>
     );
