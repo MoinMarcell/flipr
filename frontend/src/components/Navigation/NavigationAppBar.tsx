@@ -9,6 +9,7 @@ import NavigationSearchInput from "./NavigationSearchInput";
 type NavigationAppBarProps = {
     open: boolean,
     handleDrawerOpen: () => void,
+    handleSearchText: (searchText: string) => void,
 }
 
 export default function NavigationAppBar(props: NavigationAppBarProps) {
@@ -36,7 +37,7 @@ export default function NavigationAppBar(props: NavigationAppBarProps) {
                     FLIPR
                 </Typography>
                 <BubbleChartIcon fontSize={'medium'} sx={{mr: 5}} />
-                <NavigationSearchInput />
+                <NavigationSearchInput handleSearchText={props.handleSearchText} />
             </Toolbar>
         </AppBar>
     );

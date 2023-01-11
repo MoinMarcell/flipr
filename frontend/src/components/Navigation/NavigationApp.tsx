@@ -11,6 +11,7 @@ type NavigationAppProps = {
     handleLogin: (username: string, password: string) => void,
     handleRegister: (username: string, password: string) => void,
     handleLogout: () => void,
+    handleSearchText: (searchText: string) => void,
 }
 
 export default function NavigationApp(props: NavigationAppProps) {
@@ -29,7 +30,7 @@ export default function NavigationApp(props: NavigationAppProps) {
     return (
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
-            <NavigationAppBar open={openDrawer} handleDrawerOpen={handleDrawerOpen}/>
+            <NavigationAppBar handleSearchText={props.handleSearchText} open={openDrawer} handleDrawerOpen={handleDrawerOpen}/>
             <NavigationDrawer handleRegister={props.handleRegister} handleLogout={props.handleLogout} handleLogin={props.handleLogin} open={openDrawer} handleDrawerClose={handleDrawerClose} theme={theme} username={props.username}/>
         </Box>
     );
