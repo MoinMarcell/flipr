@@ -4,12 +4,9 @@ import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,14 +34,13 @@ public class FliprUserService {
         );
     }
 
-    public FliprUser updateFliprUser(String id, FliprUserDTO fliprUserDTO){
+    public FliprUser updateFliprUser(FliprUserDTO fliprUserDTO){
         FliprUser fliprUserToUpdate = new FliprUser(
-                id,
+                fliprUserDTO.id(),
                 fliprUserDTO.username(),
-                argon2Service.encode(fliprUserDTO.password()),
+                fliprUserDTO.password(),
                 fliprUserDTO.fliprs()
         );
-
         fliprUserRepo.save(fliprUserToUpdate);
 
         return new FliprUser(
@@ -55,44 +51,8 @@ public class FliprUserService {
         );
     }
 
-    public List<FliprUser> getAllFliprUsers() {
-        return fliprUserRepo.findAll().stream().map(user -> new FliprUser(user.id(), user.username(), "***", user.fliprs()))
-                .toList();
-    }
-
-    public FliprUser getFliprUserByUsername(String username) throws ChangeSetPersister.NotFoundException {
-        Optional<FliprUser> fliprUser = fliprUserRepo.findByUsername(username);
-        if (fliprUser.isEmpty()) {
-            throw new ChangeSetPersister.NotFoundException();
-        }
-        return new FliprUser(
-                fliprUser.get().id(),
-                fliprUser.get().username(),
-                "***",
-                fliprUser.get().fliprs()
-        );
-    }
-
-    public FliprUser getFliprUserById(String id) throws ChangeSetPersister.NotFoundException {
-        Optional<FliprUser> fliprUser = fliprUserRepo.findById(id);
-        if (fliprUser.isEmpty()) {
-            throw new ChangeSetPersister.NotFoundException();
-        }
-        return new FliprUser(
-                fliprUser.get().id(),
-                fliprUser.get().username(),
-                "***",
-                fliprUser.get().fliprs()
-        );
-    }
-
-    public String deleteFliprUserById(String id) throws ChangeSetPersister.NotFoundException {
-        Optional<FliprUser> fliprUserToDelete = fliprUserRepo.findById(id);
-        if(fliprUserToDelete.isEmpty()){
-            throw new ChangeSetPersister.NotFoundException();
-        }
+    public void deleteFliprUserById(String id) {
         fliprUserRepo.deleteById(id);
-        return fliprUserToDelete.get().username() + " deleted!";
     }
 
 }
