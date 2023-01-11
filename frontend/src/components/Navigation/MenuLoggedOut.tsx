@@ -9,6 +9,7 @@ import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
 import LoginDialog from "../Login/LoginDialog";
 import RegisterDialog from "../Register/RegisterDialog";
+import {useCallback} from "react";
 
 type MenuLoggedOutProps = {
     open: boolean,
@@ -21,31 +22,31 @@ export default function MenuLoggedOut(props: MenuLoggedOutProps) {
     const [openLogin, setOpenLogin] = React.useState(false);
     const [openRegister, setOpenRegister] = React.useState(false);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = useCallback(() => {
         setOpenLogin(true);
-    };
+    }, [setOpenLogin]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpenLogin(false);
-    };
+    }, [setOpenLogin]);
 
-    const handleClickOpenRegister = () => {
+    const handleClickOpenRegister = useCallback(() => {
         setOpenRegister(true);
-    };
+    }, [setOpenRegister]);
 
-    const handleCloseRegister = () => {
+    const handleCloseRegister = useCallback(() => {
         setOpenRegister(false);
-    };
+    }, [setOpenRegister]);
 
-    const handleOpenRegisterCloseLogin = () => {
+    const handleOpenRegisterCloseLogin = useCallback(() => {
         handleClose();
         handleClickOpenRegister();
-    }
+    }, [handleClose, handleClickOpenRegister]);
 
-    const handleOpenLoginCloseRegister = () => {
+    const handleOpenLoginCloseRegister = useCallback(() => {
         handleCloseRegister();
         handleClickOpen();
-    }
+    }, [handleClickOpen, handleCloseRegister]);
 
     return (
         <List>
