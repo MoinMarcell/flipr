@@ -4,6 +4,7 @@ import NavigationDrawer from "./NavigationDrawer";
 import * as React from "react";
 import {useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import {useCallback} from "react";
 
 type NavigationAppProps = {
     username: string,
@@ -17,13 +18,13 @@ export default function NavigationApp(props: NavigationAppProps) {
     const theme = useTheme();
     const [openDrawer, setOpenDrawer] = React.useState(false);
 
-    const handleDrawerOpen = () => {
+    const handleDrawerOpen = useCallback(() => {
         setOpenDrawer(true);
-    };
+    }, [setOpenDrawer]);
 
-    const handleDrawerClose = () => {
+    const handleDrawerClose = useCallback(() => {
         setOpenDrawer(false);
-    };
+    }, [setOpenDrawer]);
 
     return (
         <Box sx={{display: 'flex'}}>
