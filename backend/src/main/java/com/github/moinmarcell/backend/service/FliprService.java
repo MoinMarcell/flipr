@@ -49,7 +49,7 @@ public class FliprService {
         user.likedFliprs().remove(fliprToDelete);
         fliprUserRepo.save(user);
 
-        fliprRepository.deleteById(id);
+        fliprRepository.delete(fliprToDelete);
     }
 
 }
