@@ -6,13 +6,14 @@ type FliprAppProps = {
     username: string,
     handleDelete: (id: string | undefined) => void,
     searchText: string,
+    handleLike: (username: string, flipr: Flipr) => void,
 }
 
 export default function FliprApp(props: FliprAppProps){
 
     return(
         <main>
-            <FliprGallery searchText={props.searchText} fliprs={props.fliprs} username={props.username} handleDelte={props.handleDelete} />
+            <FliprGallery handleLike={props.handleLike} searchText={props.searchText} fliprs={props.fliprs} username={props.username} handleDelte={props.handleDelete} />
         </main>
     );
 
