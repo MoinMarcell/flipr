@@ -8,14 +8,15 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import React, {useCallback} from "react";
 import {red} from "@mui/material/colors";
 
 type FliprCardProps = {
     flipr: Flipr,
     username: string,
-    handleDelte: (id: string | undefined) => void
+    handleDelte: (id: string | undefined) => void,
+    handleLike: (username: string, flipr: Flipr) => void,
 }
 
 export default function FliprCard(props: FliprCardProps) {
@@ -29,6 +30,12 @@ export default function FliprCard(props: FliprCardProps) {
     const onClickDelete = useCallback(() => {
         props.handleDelte(props.flipr.id);
     }, [props]);
+
+    const onClickHeart = useCallback(() => {
+        props.handleLike(props.username, props.flipr)
+    }, [props])
+
+    const isAuthenticated: boolean = props.username !== 'anonymousUser' && props.username !== null && props.username !== undefined;
 
     const dateTime = new Date(props.flipr.dateTime);
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -65,7 +72,7 @@ export default function FliprCard(props: FliprCardProps) {
                     <Button size="small" onClick={onClickComment}><CommentIcon/></Button>
                 </Tooltip>
                 <Tooltip title="Like" placement="top">
-                    <Button size="small"><FavoriteIcon/></Button>
+                    <Button size="small" onClick={isAuthenticated ? onClickHeart : () => <Navigate to={"/"} />}><FavoriteIcon/></Button>
                 </Tooltip>
                 {
                     props.username && props.username !== 'anonymousUser' && props.username === props.flipr.author ?
