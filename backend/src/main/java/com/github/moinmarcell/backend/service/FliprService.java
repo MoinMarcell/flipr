@@ -6,6 +6,7 @@ import com.github.moinmarcell.backend.repo.FliprRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,7 +20,8 @@ public class FliprService {
         Flipr fliprToSave = new Flipr(
                 idService.generateId(),
                 fliprDTO.content(),
-                fliprDTO.author()
+                fliprDTO.author(),
+                LocalDateTime.now()
         );
 
         fliprRepository.save(fliprToSave);
