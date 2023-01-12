@@ -54,4 +54,9 @@ public class FliprUserController {
         fliprUserService.deleteFliprUserById(id);
     }
 
+    @PutMapping("/{username}")
+    public FliprUser saveLikedFliprToUser(@PathVariable String username, @RequestParam String fliprId){
+        return fliprUserService.saveLikedFliprToUser(fliprId, username);
+    }
+
 }
