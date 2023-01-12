@@ -4,13 +4,14 @@ import {Flipr} from "../Model/Flipr";
 type ProfileProps = {
     username: string,
     fliprs: Flipr[],
-    handleDelete: (id: string | undefined) => void
+    handleDelete: (id: string | undefined) => void,
+    handleLike: (username: string, flipr: Flipr) => void,
 }
 
 export default function Profile(props: ProfileProps) {
 
     const fliprCard = props.fliprs.filter((flipr) => flipr.author === props.username).map((flipr) => {
-        return <FliprCard flipr={flipr} key={flipr.id} username={props.username} handleDelte={props.handleDelete} />
+        return <FliprCard handleLike={props.handleLike} flipr={flipr} key={flipr.id} username={props.username} handleDelte={props.handleDelete} />
     });
 
     return (
