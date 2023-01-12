@@ -2,7 +2,9 @@ package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
+import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.repo.FliprRepository;
+import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class FliprService {
     private final FliprRepository fliprRepository;
     private final IdService idService;
     private final LocalDateService localDateService;
+    private final FliprUserRepo fliprUserRepo;
 
     public Flipr saveFlipr(FliprDTO fliprDTO) {
         Flipr fliprToSave = new Flipr(
@@ -40,6 +43,12 @@ public class FliprService {
     }
 
     public void deleteFliprById(String id) {
+        Flipr fliprToDelete = fliprRepository.findById(id).orElseThrow();
+        FliprUser user = fliprUserRepo.findByUsername(fliprToDelete.author()).orElseThrow();
+
+        user.likedFliprs().remove(fliprToDelete);
+        fliprUserRepo.save(user);
+
         fliprRepository.deleteById(id);
     }
 
