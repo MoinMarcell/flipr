@@ -96,7 +96,6 @@ class FliprUserServiceTest {
         expectedUser.likedFliprs().add(fliprToSave);
 
         when(fliprUserRepo.findByUsername(fliprToSave.author())).thenReturn(Optional.of(expectedUser));
-        when(fliprRepository.findById(fliprToSave.id())).thenReturn(Optional.of(fliprToSave));
 
         FliprUser actual = fliprUserService.saveLikedFliprToUser(fliprToSave.id(), fliprToSave.author());
 
