@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {Flipr} from "../Model/Flipr";
 
 export default function useUser(){
     const [username, setUsername] = useState<string>("");
@@ -40,5 +41,9 @@ export default function useUser(){
         }).then(r => r.data).catch(e => console.log(e));
     }
 
-    return {username, login, logout, register}
+    function saveFliprToUser(username: string, flipr: Flipr){
+        axios.put("/api/users/" + username + "?fliprId=" + flipr.id).catch(e => console.error(e));
+    }
+
+    return {username, login, logout, register, saveFliprToUser}
 }
