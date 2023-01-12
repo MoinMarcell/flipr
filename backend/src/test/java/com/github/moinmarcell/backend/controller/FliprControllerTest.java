@@ -12,6 +12,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -42,7 +44,7 @@ class FliprControllerTest {
     @Test
     @DirtiesContext
     void getFliprById() throws Exception {
-        Flipr flipr = new Flipr("1", "Content", "author");
+        Flipr flipr = new Flipr("1", "Content", "author", LocalDateTime.now());
         fliprRepository.save(flipr);
 
         mockMvc.perform(get("/api/fliprs/" + flipr.id()).with(csrf()))
@@ -77,7 +79,7 @@ class FliprControllerTest {
     @Test
     @DirtiesContext
     void deleteFliprById() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author");
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now());
         mockMvc.perform(delete("/api/fliprs/" + flipr.id()).with(csrf()))
                 .andExpect(status().isOk());
     }
