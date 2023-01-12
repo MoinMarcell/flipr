@@ -60,12 +60,14 @@ public class FliprUserService {
 
     public FliprUser saveLikedFliprToUser(String fliprId, String username){
         FliprUser user = fliprUserRepo.findByUsername(username).orElseThrow();
+        for(int i = 0; i < user.likedFliprs().size(); i++){
+            if(user.likedFliprs().get(i).id().equals(fliprId)){
+                return user;
+            }
+        }
         Flipr fliprToSave = fliprRepository.findById(fliprId).orElseThrow();
-
         user.likedFliprs().add(fliprToSave);
-
         fliprUserRepo.save(user);
-
         return user;
     }
 
