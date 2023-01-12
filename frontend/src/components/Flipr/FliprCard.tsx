@@ -8,7 +8,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import React, {useCallback} from "react";
 import {red} from "@mui/material/colors";
 
@@ -34,6 +34,10 @@ export default function FliprCard(props: FliprCardProps) {
     const onClickHeart = useCallback(() => {
         props.handleLike(props.username, props.flipr)
     }, [props])
+
+    const onClickHeartNotLoggedIn = useCallback(() => {
+        navigate("/");
+    }, [navigate]);
 
     const isAuthenticated: boolean = props.username !== 'anonymousUser' && props.username !== null && props.username !== undefined;
 
@@ -72,7 +76,7 @@ export default function FliprCard(props: FliprCardProps) {
                     <Button size="small" onClick={onClickComment}><CommentIcon/></Button>
                 </Tooltip>
                 <Tooltip title="Like" placement="top">
-                    <Button size="small" onClick={isAuthenticated ? onClickHeart : () => <Navigate to={"/"} />}><FavoriteIcon/></Button>
+                    <Button size="small" onClick={isAuthenticated ? onClickHeart : onClickHeartNotLoggedIn}><FavoriteIcon/></Button>
                 </Tooltip>
                 {
                     props.username && props.username !== 'anonymousUser' && props.username === props.flipr.author ?
