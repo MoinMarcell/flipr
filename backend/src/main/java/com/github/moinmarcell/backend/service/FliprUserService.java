@@ -68,7 +68,7 @@ public class FliprUserService {
         Flipr fliprToSave = fliprRepository.findById(fliprId).orElseThrow();
         user.likedFliprs().add(fliprToSave);
         fliprUserRepo.save(user);
-        return user;
+        return fliprUserRepo.findByUsername(username).orElseThrow();
     }
 
 }

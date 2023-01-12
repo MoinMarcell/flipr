@@ -91,15 +91,16 @@ class FliprUserServiceTest {
 
     @Test
     void saveLikedFliprToUser(){
-        FliprUser user = new FliprUser("1", "Username", "123", new ArrayList<>());
-        Flipr flipr = new Flipr("1", "Content", "Username", LocalDateTime.now());
-        user.likedFliprs().add(flipr);
+        Flipr fliprToSave = new Flipr("1", "Content", "Author", LocalDateTime.now());
+        FliprUser expectedUser = new FliprUser("1", fliprToSave.author(), "123", new ArrayList<>());
+        expectedUser.likedFliprs().add(fliprToSave);
 
-        when(fliprUserRepo.findByUsername(flipr.author())).thenReturn(Optional.of(user));
-        when(fliprRepository.findById(flipr.id())).thenReturn(Optional.of(flipr));
+        when(fliprUserRepo.findByUsername(fliprToSave.author())).thenReturn(Optional.of(expectedUser));
+        when(fliprRepository.findById(fliprToSave.id())).thenReturn(Optional.of(fliprToSave));
 
-        FliprUser actual = fliprUserService.saveLikedFliprToUser(flipr.id(), flipr.author());
+        FliprUser actual = fliprUserService.saveLikedFliprToUser(fliprToSave.id(), fliprToSave.author());
 
-        assertEquals(actual, user);
+        assertEquals(actual, expectedUser);
+        verify(fliprUserRepo).findByUsername(fliprToSave.author());
     }
 }
