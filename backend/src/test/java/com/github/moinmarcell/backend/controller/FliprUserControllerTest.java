@@ -1,6 +1,7 @@
 package com.github.moinmarcell.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +42,7 @@ class FliprUserControllerTest {
     @WithMockUser("marcell")
     void helloMe_whenLoggedIn_ExpectUsername() throws Exception {
         mockMvc.perform(get("/api/users/me")
-                .with(csrf()))
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().string("marcell"));
     }
@@ -52,6 +55,7 @@ class FliprUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("anonymousUser"));
     }
+
     @Test
     @DirtiesContext
     @WithMockUser
@@ -81,14 +85,14 @@ class FliprUserControllerTest {
     @DirtiesContext
     void saveFliprUser() throws Exception {
         MvcResult result = mockMvc.perform(post("/api/users/register")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "username": "user",
-                            "password": "123"
-                        }
-                        """))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username": "user",
+                                    "password": "123"
+                                }
+                                """))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -100,18 +104,18 @@ class FliprUserControllerTest {
     @DirtiesContext
     void updateFliprUser() throws Exception {
         mockMvc.perform(
-                put("/api/users/update")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                    "id": "1",
-                                    "username": "user",
-                                    "password": "123",
-                                    "likedFliprs": []
-                                }
-                                """)
-        )
+                        put("/api/users/update")
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "id": "1",
+                                            "username": "user",
+                                            "password": "123",
+                                            "likedFliprs": []
+                                        }
+                                        """)
+                )
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -134,7 +138,34 @@ class FliprUserControllerTest {
         );
 
         mockMvc.perform(delete("/api/users/" + fliprUserToDelete.id())
-                .with(csrf()))
+                        .with(csrf()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DirtiesContext
+    void saveLikedFliprToUser() throws Exception {
+        Flipr fliprToSave = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1, 1));
+        FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>());
+        fliprUser.likedFliprs().add(fliprToSave);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(put("/api/users/" + fliprToSave.author() + "?fliprId=" + fliprToSave.id()).with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": "1",
+                            "username": "author",
+                            "password": "123",
+                            "likedFliprs": [
+                                {
+                                    "id": "1",
+                                    "content": "content",
+                                    "author": "author",
+                                    "dateTime": "0001-01-01T01:01:01"
+                                }
+                            ]
+                        }
+                        """));
     }
 }
