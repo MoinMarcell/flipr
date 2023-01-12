@@ -9,6 +9,7 @@ import useUser from "./components/Hooks/useUser";
 import AddFlipr from "./components/Flipr/AddFlipr";
 import FliprDetails from "./components/Flipr/FliprDetails";
 import {useCallback, useState} from "react";
+import Profile from "./components/Profile/Profile";
 
 const App = () => {
 
@@ -30,6 +31,7 @@ const App = () => {
                         <Route path={"/"} element={<FliprApp handleLike={saveFliprToUser} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
                         <Route path={"/flipr/:id"} element={<FliprDetails handleLike={saveFliprToUser} username={username} handleDelete={deleteFlipr} />} />
                         <Route path={"/user/:username"} element={<FliprApp handleLike={saveFliprToUser} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        <Route path={"/profile"} element={<Profile username={username} fliprs={fliprs} handleDelete={deleteFlipr} handleLike={saveFliprToUser} />} />
                     </Routes>
                 </Box>
             </BrowserRouter>
