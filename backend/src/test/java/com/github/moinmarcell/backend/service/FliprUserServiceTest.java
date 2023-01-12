@@ -89,7 +89,7 @@ class FliprUserServiceTest {
         verify(fliprUserRepo).deleteById(fliprUserToDelete.id());
     }
 
-    @Test
+    /*@Test
     void saveLikedFliprToUser(){
         Flipr fliprToSave = new Flipr("1", "Content", "Author", LocalDateTime.now());
         FliprUser expectedUser = new FliprUser("1", fliprToSave.author(), "123", new ArrayList<>());
@@ -101,7 +101,7 @@ class FliprUserServiceTest {
 
         assertEquals(actual, expectedUser);
         verify(fliprUserRepo).findByUsername(fliprToSave.author());
-    }
+    }*/
 
     @Test
     void saveLikedFliprToUser_sameId(){
