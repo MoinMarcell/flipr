@@ -6,6 +6,6 @@ public record FliprUserDTO(
         String id,
         String username,
         String password,
-        List<String> fliprs //Ids of fliprs
+        List<String> fliprs
 ) {
 }
