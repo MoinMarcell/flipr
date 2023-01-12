@@ -108,7 +108,7 @@ class FliprUserControllerTest {
                                     "id": "1",
                                     "username": "user",
                                     "password": "123",
-                                    "fliprs": []
+                                    "likedFliprs": []
                                 }
                                 """)
         )
@@ -118,7 +118,7 @@ class FliprUserControllerTest {
                             "id": "1",
                             "username": "user",
                             "password": "***",
-                            "fliprs": []
+                            "likedFliprs": []
                         }
                         """));
     }
