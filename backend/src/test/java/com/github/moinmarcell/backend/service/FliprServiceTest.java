@@ -2,11 +2,13 @@ package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
+import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +76,13 @@ class FliprServiceTest {
     @Test
     void deleteFliprById() {
         Flipr fliprToDelete = new Flipr("1", "Content", "Author", LocalDateTime.now());
+        FliprUser user = new FliprUser("1", "Author", "123", new ArrayList<>());
+        user.likedFliprs().add(fliprToDelete);
+
+        when(fliprRepository.findById(fliprToDelete.id())).thenReturn(Optional.of(fliprToDelete));
+        when(fliprUserRepo.findByUsername(fliprToDelete.author())).thenReturn(Optional.of(user));
+
         fliprService.deleteFliprById(fliprToDelete.id());
-        verify(fliprRepository).deleteById(fliprToDelete.id());
+        verify(fliprRepository).delete(fliprToDelete);
     }
 }

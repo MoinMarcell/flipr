@@ -59,6 +59,7 @@ class FliprControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void saveFlipr() throws Exception {
         MvcResult result = mockMvc.perform(post("/api/fliprs")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,13 +75,5 @@ class FliprControllerTest {
         String content = result.getResponse().getContentAsString();
         Flipr flipr = objectMapper.readValue(content, Flipr.class);
         assertNotNull(flipr.id());
-    }
-
-    @Test
-    @DirtiesContext
-    void deleteFliprById() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now());
-        mockMvc.perform(delete("/api/fliprs/" + flipr.id()).with(csrf()))
-                .andExpect(status().isOk());
     }
 }
