@@ -8,16 +8,16 @@ import useFliprs from "./components/Hooks/useFliprs";
 import useUser from "./components/Hooks/useUser";
 import AddFlipr from "./components/Flipr/AddFlipr";
 import FliprDetails from "./components/Flipr/FliprDetails";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
 const App = () => {
 
     const {fliprs, deleteFlipr, saveFlipr} = useFliprs();
     const {username, login, logout, register} = useUser();
     const [searchText, setSearchText] = useState<string>("")
-    const handleSearchText = (searchTextToHandle: string) => {
+    const handleSearchText = useCallback((searchTextToHandle: string) => {
         setSearchText(searchTextToHandle);
-    }
+    }, [setSearchText]);
 
     return (
         <Box sx={{display: 'flex'}}>
