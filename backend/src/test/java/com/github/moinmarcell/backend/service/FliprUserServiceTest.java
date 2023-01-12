@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,22 +89,8 @@ class FliprUserServiceTest {
         verify(fliprUserRepo).deleteById(fliprUserToDelete.id());
     }
 
-    /*@Test
-    void saveLikedFliprToUser(){
-        Flipr fliprToSave = new Flipr("1", "Content", "Author", LocalDateTime.now());
-        FliprUser expectedUser = new FliprUser("1", fliprToSave.author(), "123", new ArrayList<>());
-        expectedUser.likedFliprs().add(fliprToSave);
-
-        when(fliprUserRepo.findByUsername(fliprToSave.author())).thenReturn(Optional.of(expectedUser));
-
-        FliprUser actual = fliprUserService.saveLikedFliprToUser(fliprToSave.id(), fliprToSave.author());
-
-        assertEquals(actual, expectedUser);
-        verify(fliprUserRepo).findByUsername(fliprToSave.author());
-    }*/
-
     @Test
-    void saveLikedFliprToUser_sameId() {
+    void saveLikedFliprToUser() {
         Flipr fliprToSave = new Flipr("1", "Content", "Author", LocalDateTime.now());
         FliprUser user = new FliprUser("1", fliprToSave.author(), "123", new ArrayList<>());
         FliprUser expectedUser = new FliprUser("1", fliprToSave.author(), "123", new ArrayList<>());
@@ -118,18 +103,5 @@ class FliprUserServiceTest {
 
         assertEquals(actual, expectedUser);
         verify(fliprUserRepo).save(expectedUser);
-    }
-
-    @Test
-    void saveLikedFliprToUser() {
-        Flipr fliprToSave = new Flipr("1", "content", "author", LocalDateTime.now());
-        FliprUser user = new FliprUser("1", "author", "123", List.of(fliprToSave));
-
-        when(fliprUserRepo.findByUsername(fliprToSave.author())).thenReturn(Optional.of(user));
-
-        FliprUser actual = fliprUserService.saveLikedFliprToUser(fliprToSave.id(), fliprToSave.author());
-
-        assertEquals(actual, user);
-        verify(fliprUserRepo).findByUsername(fliprToSave.author());
     }
 }
