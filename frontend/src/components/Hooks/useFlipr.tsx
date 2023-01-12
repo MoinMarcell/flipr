@@ -7,6 +7,7 @@ export default function useFlipr(id: string | undefined){
     const emptyFlipr = {
         "content": "",
         "author": "",
+        "dateTime": new Date()
     }
 
     const [flipr, setFlipr] = useState<Flipr>(emptyFlipr)
