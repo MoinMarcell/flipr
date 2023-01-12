@@ -1,12 +1,16 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -83,5 +87,19 @@ class FliprUserServiceTest {
         );
         fliprUserService.deleteFliprUserById(fliprUserToDelete.id());
         verify(fliprUserRepo).deleteById(fliprUserToDelete.id());
+    }
+
+    @Test
+    void saveLikedFliprToUser(){
+        FliprUser user = new FliprUser("1", "Username", "123", new ArrayList<>());
+        Flipr flipr = new Flipr("1", "Content", "Username", LocalDateTime.now());
+        user.likedFliprs().add(flipr);
+
+        when(fliprUserRepo.findByUsername(flipr.author())).thenReturn(Optional.of(user));
+        when(fliprRepository.findById(flipr.id())).thenReturn(Optional.of(flipr));
+
+        FliprUser actual = fliprUserService.saveLikedFliprToUser(flipr.id(), flipr.author());
+
+        assertEquals(actual, user);
     }
 }
