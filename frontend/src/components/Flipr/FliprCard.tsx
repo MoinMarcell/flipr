@@ -30,6 +30,10 @@ export default function FliprCard(props: FliprCardProps) {
         props.handleDelte(props.flipr.id);
     }, [props]);
 
+    const dateTime = new Date(props.flipr.dateTime);
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const month = months[dateTime.getMonth()];
+
     return (
 
         <Card sx={{mt: 2}}>
@@ -46,7 +50,7 @@ export default function FliprCard(props: FliprCardProps) {
                     </IconButton>
                 }
                 title={props.flipr.author}
-                subheader="September 14, 2016"
+                subheader={month + " " + dateTime.getDate() + ", " + dateTime.getFullYear() + "@" + dateTime.getHours() + ":" + dateTime.getMinutes()}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
