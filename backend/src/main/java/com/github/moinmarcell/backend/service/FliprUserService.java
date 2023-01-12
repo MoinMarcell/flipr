@@ -1,7 +1,9 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
+import com.github.moinmarcell.backend.repo.FliprRepository;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class FliprUserService {
     private final FliprUserRepo fliprUserRepo;
     private final IdService idService;
     private final Argon2Service argon2Service;
+    private final FliprRepository fliprRepository;
 
     public FliprUser saveFliprUser(FliprUserDTO fliprUserDTO) {
         FliprUser fliprUserToSave = new FliprUser(
@@ -30,7 +33,7 @@ public class FliprUserService {
                 fliprUserToSave.id(),
                 fliprUserToSave.username(),
                 "***",
-                fliprUserToSave.fliprs()
+                fliprUserToSave.likedFliprs()
         );
     }
 
@@ -39,7 +42,7 @@ public class FliprUserService {
                 fliprUserDTO.id(),
                 fliprUserDTO.username(),
                 fliprUserDTO.password(),
-                fliprUserDTO.fliprs()
+                fliprUserDTO.likedFliprs()
         );
         fliprUserRepo.save(fliprUserToUpdate);
 
@@ -47,12 +50,23 @@ public class FliprUserService {
                 fliprUserToUpdate.id(),
                 fliprUserToUpdate.username(),
                 "***",
-                fliprUserToUpdate.fliprs()
+                fliprUserToUpdate.likedFliprs()
         );
     }
 
     public void deleteFliprUserById(String id) {
         fliprUserRepo.deleteById(id);
+    }
+
+    public FliprUser saveLikedFliprToUser(String fliprId, String username){
+        FliprUser user = fliprUserRepo.findByUsername(username).orElseThrow();
+        Flipr fliprToSave = fliprRepository.findById(fliprId).orElseThrow();
+
+        user.likedFliprs().add(fliprToSave);
+
+        fliprUserRepo.save(user);
+
+        return user;
     }
 
 }
