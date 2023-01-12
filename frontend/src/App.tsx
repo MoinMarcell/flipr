@@ -13,7 +13,7 @@ import {useCallback, useState} from "react";
 const App = () => {
 
     const {fliprs, deleteFlipr, saveFlipr} = useFliprs();
-    const {username, login, logout, register} = useUser();
+    const {username, login, logout, register, saveFliprToUser} = useUser();
     const [searchText, setSearchText] = useState<string>("")
     const handleSearchText = useCallback((searchTextToHandle: string) => {
         setSearchText(searchTextToHandle);
@@ -27,9 +27,9 @@ const App = () => {
                     <DrawerHeader/>
                     <AddFlipr handleSubmit={saveFlipr} username={username} />
                     <Routes>
-                        <Route path={"/"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
-                        <Route path={"/flipr/:id"} element={<FliprDetails username={username} handleDelete={deleteFlipr} />} />
-                        <Route path={"/user/:username"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        <Route path={"/"} element={<FliprApp handleLike={saveFliprToUser} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
+                        <Route path={"/flipr/:id"} element={<FliprDetails handleLike={saveFliprToUser} username={username} handleDelete={deleteFlipr} />} />
+                        <Route path={"/user/:username"} element={<FliprApp handleLike={saveFliprToUser} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
                     </Routes>
                 </Box>
             </BrowserRouter>
