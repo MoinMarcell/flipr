@@ -5,6 +5,7 @@ import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,14 +17,16 @@ class FliprServiceTest {
 
     IdService idService = mock(IdService.class);
     FliprRepository fliprRepository = mock(FliprRepository.class);
-    FliprService fliprService = new FliprService(fliprRepository, idService);
+    LocalDateService localDateService = mock(LocalDateService.class);
+    FliprService fliprService = new FliprService(fliprRepository, idService, localDateService);
 
     @Test
     void saveFlipr() {
         Flipr expected = new Flipr(
                 "1",
                 "Hallo",
-                "Author"
+                "Author",
+                LocalDateTime.of(1, 1, 1, 1, 1)
         );
 
         FliprDTO fliprToSave = new FliprDTO(
@@ -33,6 +36,7 @@ class FliprServiceTest {
 
         when(fliprRepository.save(expected)).thenReturn(expected);
         when(idService.generateId()).thenReturn("1");
+        when(localDateService.getDate()).thenReturn(LocalDateTime.of(1, 1, 1, 1, 1));
 
         Flipr actual = fliprService.saveFlipr(fliprToSave);
 
@@ -55,7 +59,7 @@ class FliprServiceTest {
     @Test
     void getFliprById() {
         String id = "1";
-        Flipr expected = new Flipr("1", "Content", "Author");
+        Flipr expected = new Flipr("1", "Content", "Author", LocalDateTime.now());
 
         when(fliprRepository.findById(id)).thenReturn(Optional.of(expected));
 
@@ -67,7 +71,7 @@ class FliprServiceTest {
 
     @Test
     void deleteFliprById() {
-        Flipr fliprToDelete = new Flipr("1", "Content", "Author");
+        Flipr fliprToDelete = new Flipr("1", "Content", "Author", LocalDateTime.now());
         fliprService.deleteFliprById(fliprToDelete.id());
         verify(fliprRepository).deleteById(fliprToDelete.id());
     }
