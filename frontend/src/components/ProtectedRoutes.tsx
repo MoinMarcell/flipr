@@ -9,7 +9,7 @@ const ProtectedRoutes = (props: ProtectedRoutesProps) => {
     const isAuthenticated = props.username !== 'anonymousUser' && props.username !== undefined && props.username !== null;
 
     return (
-        isAuthenticated ? <Outlet /> : <Navigate to={"/register"} />
+        isAuthenticated ? <Outlet /> : <Navigate to={"/"} />
     );
 }
 
