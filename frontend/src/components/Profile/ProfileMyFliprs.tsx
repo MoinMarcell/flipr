@@ -2,6 +2,7 @@ import AddFlipr from "../Flipr/AddFlipr";
 import * as React from "react";
 import {Flipr} from "../Model/Flipr";
 import FliprCard from "../Flipr/FliprCard";
+import FliprSkeleton from "../Skeleton/FliprSkeleton";
 
 type ProfileMyFliprsProps = {
     username: string,
@@ -19,7 +20,11 @@ export default function ProfileMyFliprs(props: ProfileMyFliprsProps) {
     return (
         <div>
             <AddFlipr handleSubmit={props.saveFlipr} username={props.username}/>
-            {fliprCard}
+            {
+                props.username && props.username !== 'anonymousUser' ?
+                    fliprCard :
+                    <FliprSkeleton />
+            }
         </div>
     );
 }
