@@ -14,7 +14,7 @@ type ProfileMyFliprsProps = {
 export default function ProfileMyFliprs(props: ProfileMyFliprsProps) {
 
     const fliprCard = props.fliprs.filter((flipr) => flipr.author === props.username).map((flipr) => {
-        return <FliprCard flipr={flipr} username={props.username} handleDelte={props.handleDelete} />
+        return <FliprCard flipr={flipr} username={props.username} handleDelte={props.handleDelete} key={flipr.id} />
     }).reverse()
 
     return (
