@@ -6,9 +6,10 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import FliprApp from "./components/Flipr/FliprApp";
 import useFliprs from "./components/Hooks/useFliprs";
 import useUser from "./components/Hooks/useUser";
-import AddFlipr from "./components/Flipr/AddFlipr";
 import FliprDetails from "./components/Flipr/FliprDetails";
 import {useCallback, useState} from "react";
+import Profile from "./components/Profile/ProfileApp";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 const App = () => {
 
@@ -25,11 +26,13 @@ const App = () => {
                 <NavigationApp handleSearchText={handleSearchText} username={username} handleLogin={login} handleLogout={logout} handleRegister={register}/>
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     <DrawerHeader/>
-                    <AddFlipr handleSubmit={saveFlipr} username={username} />
                     <Routes>
-                        <Route path={"/"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
+                        <Route path={"/"} element={<FliprApp saveFlipr={saveFlipr} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr}/>}/>
                         <Route path={"/flipr/:id"} element={<FliprDetails username={username} handleDelete={deleteFlipr} />} />
-                        <Route path={"/user/:username"} element={<FliprApp searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        <Route path={"/user/:username"} element={<FliprApp saveFlipr={saveFlipr} searchText={searchText} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        <Route element={<ProtectedRoutes username={username} />}>
+                            <Route path={"/profile"} element={<Profile saveFlipr={saveFlipr} fliprs={fliprs} username={username} handleDelete={deleteFlipr} />} />
+                        </Route>
                     </Routes>
                 </Box>
             </BrowserRouter>
