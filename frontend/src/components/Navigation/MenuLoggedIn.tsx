@@ -6,6 +6,9 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import * as React from "react";
 import Tooltip from "@mui/material/Tooltip";
+import PersonIcon from '@mui/icons-material/Person';
+import {useCallback} from "react";
+import {useNavigate} from "react-router-dom";
 
 type MenuLoggedOutProps = {
     open: boolean,
@@ -14,9 +17,37 @@ type MenuLoggedOutProps = {
 
 export default function MenuLoggedIn(props: MenuLoggedOutProps) {
 
+    const navigate = useNavigate();
+
+    const onClickMyProfile = useCallback(() => {
+        navigate("/profile")
+    }, [navigate]);
+
     return (
         <List>
-            <ListItem key={"Logout"} disablePadding sx={{display: 'block'}}>
+            <ListItem key={"My Profile"} disablePadding sx={{display: 'block'}}>
+                <ListItemButton
+                    sx={{
+                        minHeight: 48,
+                        justifyContent: props.open ? 'initial' : 'center',
+                        px: 2.5,
+                    }}
+                    onClick={onClickMyProfile}
+                >
+                    <ListItemIcon
+                        sx={{
+                            minWidth: 0,
+                            mr: props.open ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Tooltip title="My Profile" placement="right">
+                            <PersonIcon/>
+                        </Tooltip>
+                    </ListItemIcon>
+                    <ListItemText primary={"My Profile"} sx={{opacity: props.open ? 1 : 0}}/>
+                </ListItemButton>
+
                 <ListItemButton
                     sx={{
                         minHeight: 48,
