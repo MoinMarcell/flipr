@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {Flipr} from "../Model/Flipr";
 import ProfileMyFliprs from "./ProfileMyFliprs";
+import {useCallback} from "react";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,9 +50,9 @@ function a11yProps(index: number) {
 export default function ProfileApp(props: ProfileAppProps) {
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
-    };
+    }, [setValue]);
 
     return (
         <Box sx={{ width: '100%' }}>
