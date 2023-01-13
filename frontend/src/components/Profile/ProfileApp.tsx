@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {Flipr} from "../Model/Flipr";
-import ProfileMyFliprs from "./ProfileMyFliprs";
+import MyFliprs from "./MyFliprs";
 import {useCallback} from "react";
 
 interface TabPanelProps {
@@ -65,7 +65,7 @@ export default function ProfileApp(props: ProfileAppProps) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <ProfileMyFliprs username={props.username} saveFlipr={props.saveFlipr} fliprs={props.fliprs} handleDelete={props.handleDelete} />
+                <MyFliprs username={props.username} saveFlipr={props.saveFlipr} fliprs={props.fliprs} handleDelete={props.handleDelete} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <h1>Comming soon</h1>

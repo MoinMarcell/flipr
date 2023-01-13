@@ -4,14 +4,14 @@ import {Flipr} from "../Model/Flipr";
 import FliprCard from "../Flipr/FliprCard";
 import FliprSkeleton from "../Skeleton/FliprSkeleton";
 
-type ProfileMyFliprsProps = {
+type MyFliprsProps = {
     username: string,
     saveFlipr: (content: string, author: string) => void,
     fliprs: Flipr[],
     handleDelete: (id: string | undefined) => void,
 }
 
-export default function ProfileMyFliprs(props: ProfileMyFliprsProps) {
+export default function MyFliprs(props: MyFliprsProps) {
 
     const fliprCard = props.fliprs.filter((flipr) => flipr.author === props.username).map((flipr) => {
         return <FliprCard flipr={flipr} username={props.username} handleDelte={props.handleDelete} key={flipr.id} />
