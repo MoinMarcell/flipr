@@ -59,7 +59,7 @@ export default function ProfileApp(props: ProfileAppProps) {
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <h2>Welcome back @{props.username}</h2>
+                <Typography variant={"h5"}>Welcome back @{props.username}</Typography>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="My Fliprs" {...tabProps(0)} />
                     <Tab label="My liked Fliprs" {...tabProps(1)} />

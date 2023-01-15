@@ -3,6 +3,7 @@ import * as React from "react";
 import {Flipr} from "../Model/Flipr";
 import FliprCard from "../Flipr/FliprCard";
 import FliprSkeleton from "../Skeleton/FliprSkeleton";
+import Box from "@mui/material/Box";
 
 type MyFliprsProps = {
     username: string,
@@ -18,13 +19,13 @@ export default function MyFliprs(props: MyFliprsProps) {
     }).reverse()
 
     return (
-        <div>
+        <Box component={'div'}>
             <AddFlipr handleSubmit={props.saveFlipr} username={props.username}/>
             {
                 props.username && props.username !== 'anonymousUser' ?
                     fliprCard :
                     <FliprSkeleton />
             }
-        </div>
+        </Box>
     );
 }

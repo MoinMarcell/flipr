@@ -1,6 +1,7 @@
 import {ChangeEvent, FormEvent, useCallback, useState} from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 type EditMyProfileProps = {
     username: string,
@@ -26,11 +27,11 @@ export default function EditMyProfile(props: EditMyProfileProps){
     }, [password, props, username])
 
     return(
-        <form onSubmit={onSubmit}>
+        <Box component={'form'} onSubmit={onSubmit}>
             <TextField type={"text"} value={username} onChange={onChangeUsername} id="outlined-basic" label="Username" variant="outlined" />
             <TextField type={"password"} value={password} onChange={onChangePassword} id="outlined-basic" label="Password" variant="outlined" />
             <Button type={"submit"}>Update NOW!</Button>
-        </form>
+        </Box>
     );
 
 }
