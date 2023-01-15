@@ -1,28 +1,28 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Flipr} from "../Model/Flipr";
-import {getFliprById} from "../../api-calls";
+import axios from "axios";
 
-export default function useFlipr(id: string | undefined){
+const BASE_DIR: string = "/api/fliprs/";
 
-    const emptyFlipr = {
-        "content": "",
-        "author": "",
-        "dateTime": new Date()
-    }
+export default function useFlipr(id: string) {
 
-    const [flipr, setFlipr] = useState<Flipr>(emptyFlipr)
+    const [flipr, setFlipr] = useState<Flipr>();
+
+    const getFlipr = useCallback((id: string) => {
+        axios.get((BASE_DIR + id))
+            .then((response) => response.data)
+            .then((data) => {
+                setFlipr(data);
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
     useEffect(() => {
-        if(id){
-            getFlipr(id)
+        if (id) {
+            getFlipr(id);
         }
-    }, [id])
+    }, [getFlipr, id]);
 
-    function getFlipr(id: string){
-        getFliprById(id)
-            .then(data => setFlipr(data))
-            .catch(e => console.error(e))
-    }
+    return {flipr};
 
-    return{flipr}
 }

@@ -1,34 +1,48 @@
-import {useEffect, useState} from "react";
 import {Flipr} from "../Model/Flipr";
 import axios from "axios";
-import {deleteFliprById} from "../../api-calls";
+import {useCallback, useEffect, useState} from "react";
 
-export default function useFliprs(){
+const BASE_DIR: string = "/api/fliprs/";
+
+export default function useFliprs() {
     const [fliprs, setFliprs] = useState<Flipr[]>([]);
 
-    useEffect(() => {
-        getAllFliprs()
-    }, [])
+    const getAllFliprs = useCallback(() => {
+        axios.get(BASE_DIR)
+            .then((response) => response.data)
+            .then((data) => {
+                setFliprs(data);
+                return data;
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
-    function saveFlipr(content: string, username: string){
-        return axios.post("/api/fliprs", {
+    const saveFlipr = useCallback((content: string, author: string) => {
+        axios.post(BASE_DIR, {
             "content": content,
-            "author": username
+            "author": author,
         })
-            .then(getAllFliprs)
-    }
+            .then((response) => response.data)
+            .then((data) => {
+                getAllFliprs();
+                return data;
+            })
+            .catch((error) => console.error(error));
+    }, [getAllFliprs]);
 
-    function getAllFliprs(){
-        axios.get("/api/fliprs")
-            .then(r => r.data)
-            .then(setFliprs)
-            .catch(e => console.error(e));
-    }
+    const deleteFlipr = useCallback((id: string) => {
+        axios.delete((BASE_DIR + id))
+            .then((response) => response.data)
+            .then((data) => {
+                getAllFliprs();
+                return data;
+            });
+    }, [getAllFliprs]);
 
-    function deleteFlipr(id: string | undefined){
-        deleteFliprById(id)
-            .then(getAllFliprs)
-    }
+    useEffect(() => {
+        getAllFliprs();
+    }, [getAllFliprs]);
 
-    return {fliprs, saveFlipr, getAllFliprs, deleteFlipr}
+    return {fliprs, saveFlipr, deleteFlipr};
+
 }

@@ -1,44 +1,29 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import {FliprUser} from "../Model/FliprUser";
 import axios from "axios";
 
-export default function useUser(){
-    const [username, setUsername] = useState<string>("");
+const BASE_DIR: string = "/api/users/";
+
+export default function useUser(username: string) {
+
+    const [user, setUser] = useState<FliprUser>();
+
+    const getFliprUser = useCallback((username: string) => {
+        axios.get((BASE_DIR + username))
+            .then((response) => response.data)
+            .then((data) => {
+                setUser(data);
+                return data;
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
     useEffect(() => {
-        axios.get("/api/users/me")
-            .then(r => r.data)
-            .then(setUsername);
-    }, [])
+        if (username) {
+            getFliprUser(username);
+        }
+    }, [getFliprUser, username]);
 
-    function login(username: string, password: string) {
-        return axios.post("/api/users/login", undefined, {
-            auth: {
-                "username": username,
-                "password": password
-            }
-        })
-            .then((r) => r.data)
-            .then(data => {
-                setUsername(data)
-                return data
-            })
-    }
+    return {user}
 
-    function logout(){
-        return axios.post("/api/users/logout")
-            .then((r) => r.data)
-            .then((data) => {
-                setUsername(data)
-                return data
-            })
-    }
-
-    function register(username: string, password: string){
-        axios.post("/api/users/register", {
-            "username": username,
-            "password": password,
-        }).then(r => r.data).catch(e => console.log(e));
-    }
-
-    return {username, login, logout, register}
 }
