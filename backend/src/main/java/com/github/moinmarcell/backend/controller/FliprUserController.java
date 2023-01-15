@@ -1,13 +1,14 @@
 package com.github.moinmarcell.backend.controller;
 
-import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
+import com.github.moinmarcell.backend.model.FliprUserResponse;
 import com.github.moinmarcell.backend.service.FliprUserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,19 +40,24 @@ public class FliprUserController {
         return "anonymousUser";
     }
 
-    @PostMapping("/register")
-    public FliprUser saveFliprUser(@RequestBody FliprUserDTO fliprUserDTO){
+    @GetMapping
+    public List<FliprUserResponse> allFliprUsers(){
+        return fliprUserService.allFliprUsers();
+    }
+
+    @GetMapping("/{username}")
+    public FliprUserResponse getFliprUser(@PathVariable String username){
+        return fliprUserService.getFliprUser(username);
+    }
+
+    @PostMapping
+    public FliprUserResponse saveFliprUser(@RequestBody FliprUserDTO fliprUserDTO){
         return fliprUserService.saveFliprUser(fliprUserDTO);
     }
 
-    @PutMapping("/update")
-    public FliprUser updateFliprUser(@RequestBody FliprUserDTO fliprUserDTO){
-        return fliprUserService.updateFliprUser(fliprUserDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteFliprUserById(@PathVariable String id) {
-        fliprUserService.deleteFliprUserById(id);
+    @DeleteMapping("/{username}")
+    public String deleteFliprUser(@PathVariable String username){
+        return fliprUserService.deleteFliprUser(username);
     }
 
 }
