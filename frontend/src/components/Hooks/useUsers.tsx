@@ -68,9 +68,14 @@ export default function useUsers(){
             "password": password,
         })
             .then((response) => response.data)
-            .then(getAllUsers)
+            .then((data) => {
+                getAllUsers();
+                logout();
+                login(username, password);
+                return data;
+            })
             .catch((error) => console.error(error));
-    }, [getAllUsers]);
+    }, [getAllUsers, login, logout]);
     
     const deleteUser = useCallback((username: string) => {
         axios.delete((BASE_DIR + username))

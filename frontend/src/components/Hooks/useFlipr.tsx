@@ -4,7 +4,7 @@ import axios from "axios";
 
 const BASE_DIR: string = "/api/fliprs/";
 
-export default function useFlipr(id: string) {
+export default function useFlipr(id: string | undefined) {
 
     const [flipr, setFlipr] = useState<Flipr>();
 

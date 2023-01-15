@@ -6,7 +6,7 @@ import * as React from "react";
 type FliprAppProps = {
     fliprs: Flipr[],
     username: string,
-    handleDelete: (id: string | undefined) => void,
+    handleDelete: (id: string) => void,
     searchText: string,
     saveFlipr: (content: string, username: string) => void,
 }

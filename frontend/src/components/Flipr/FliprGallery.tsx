@@ -4,7 +4,7 @@ import FliprCard from "./FliprCard";
 type FliprGalleryProps = {
     fliprs: Flipr[],
     username: string,
-    handleDelte: (id: string | undefined) => void,
+    handleDelte: (id: string) => void,
     searchText: string,
 }
 

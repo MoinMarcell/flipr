@@ -67,6 +67,22 @@ public class FliprUserService {
                 .findByUsername(username)
                 .orElseThrow();
 
+        List<Flipr> allFliprs = fliprRepository.findAll();
+        List<String> allUserFliprs = fliprUser.fliprIds();
+
+        for(int i = 0; i< allFliprs.size(); i++){
+            if(allFliprs.get(i).id().equals(allUserFliprs.get(i))){
+                Flipr flipr = fliprRepository.findById(allUserFliprs.get(i)).orElseThrow();
+                Flipr fliprToUpdate = new Flipr(
+                        flipr.id(),
+                        flipr.content(),
+                        fliprUserDTO.username(),
+                        flipr.dateTime()
+                );
+                fliprRepository.save(fliprToUpdate);
+            }
+        }
+
         FliprUser fliprUserToUpdate = new FliprUser(
                 fliprUser.id(),
                 fliprUserDTO.username(),

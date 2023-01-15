@@ -8,7 +8,7 @@ type MyFliprsProps = {
     username: string,
     saveFlipr: (content: string, author: string) => void,
     fliprs: Flipr[],
-    handleDelete: (id: string | undefined) => void,
+    handleDelete: (id: string) => void,
 }
 
 export default function MyFliprs(props: MyFliprsProps) {

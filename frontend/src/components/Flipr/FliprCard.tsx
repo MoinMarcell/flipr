@@ -15,7 +15,7 @@ import {red} from "@mui/material/colors";
 type FliprCardProps = {
     flipr: Flipr,
     username: string,
-    handleDelte: (id: string | undefined) => void
+    handleDelte: (id: string) => void
 }
 
 export default function FliprCard(props: FliprCardProps) {
