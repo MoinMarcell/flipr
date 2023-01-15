@@ -55,6 +55,11 @@ public class FliprUserController {
         return fliprUserService.saveFliprUser(fliprUserDTO);
     }
 
+    @PutMapping("/{username}")
+    public FliprUserResponse updateFliprUser(@PathVariable String username, @RequestBody FliprUserDTO fliprUserDTO){
+        return fliprUserService.updateFliprUser(username, fliprUserDTO);
+    }
+
     @DeleteMapping("/{username}")
     public String deleteFliprUser(@PathVariable String username){
         return fliprUserService.deleteFliprUser(username);

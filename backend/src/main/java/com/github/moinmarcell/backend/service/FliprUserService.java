@@ -62,6 +62,27 @@ public class FliprUserService {
         );
     }
 
+    public FliprUserResponse updateFliprUser(String username, FliprUserDTO fliprUserDTO){
+        FliprUser fliprUser = fliprUserRepo
+                .findByUsername(username)
+                .orElseThrow();
+
+        FliprUser fliprUserToUpdate = new FliprUser(
+                fliprUser.id(),
+                fliprUserDTO.username(),
+                argon2Service.encode(fliprUserDTO.password()),
+                fliprUser.fliprIds()
+        );
+
+        fliprUserRepo.save(fliprUserToUpdate);
+
+        return new FliprUserResponse(
+                fliprUserToUpdate.id(),
+                fliprUserToUpdate.username(),
+                fliprUserToUpdate.fliprIds()
+        );
+    }
+
     public String deleteFliprUser(String username){
         FliprUser fliprUser = fliprUserRepo
                 .findByUsername(username)
