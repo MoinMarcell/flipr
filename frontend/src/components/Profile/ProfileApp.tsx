@@ -1,10 +1,18 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import {Flipr} from "../Model/Flipr";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
+import MyFliprs from "./MyFliprs";
+import {useCallback} from "react";
+import EditMyProfile from "./EditMyProfile";
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
 
 type ProfileAppProps = {
     username: string,
@@ -12,12 +20,6 @@ type ProfileAppProps = {
     handleDelete: (id: string) => void,
     saveFlipr: (content: string, username: string) => void,
     updateUser: (actualUser: string, username: string, password: string) => void,
-}
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -40,24 +42,38 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
+function tabProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 export default function ProfileApp(props: ProfileAppProps) {
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
-    };
+    }, [setValue]);
 
     return (
-        <Box>
-            <Typography variant={"h5"} align={"center"}>Welcome back @{props.username}</Typography>
-            <Divider sx={{mt: 1}} variant={'fullWidth'} />
-            <Tabs value={value} onChange={handleChange} centered>
-                <Tab label="Item One" />
-                <Tab label="Item Two" />
-                <Tab label="Item Three" />
-            </Tabs>
+        <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <h2>Welcome back @{props.username}</h2>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="My Fliprs" {...tabProps(0)} />
+                    <Tab label="My liked Fliprs" {...tabProps(1)} />
+                    <Tab label="Edit my Profile" {...tabProps(2)} />
+                </Tabs>
+            </Box>
             <TabPanel value={value} index={0}>
-                Item One
+                <MyFliprs username={props.username} saveFlipr={props.saveFlipr} fliprs={props.fliprs} handleDelete={props.handleDelete} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                Comming soon
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <EditMyProfile username={props.username} updateUser={props.updateUser} />
             </TabPanel>
         </Box>
     );
