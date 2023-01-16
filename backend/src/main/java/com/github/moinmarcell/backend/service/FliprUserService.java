@@ -2,6 +2,7 @@ package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
+import com.github.moinmarcell.backend.model.FliprUserResponse;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,43 +17,20 @@ public class FliprUserService {
     private final IdService idService;
     private final Argon2Service argon2Service;
 
-    public FliprUser saveFliprUser(FliprUserDTO fliprUserDTO) {
-        FliprUser fliprUserToSave = new FliprUser(
+    public FliprUserResponse saveFliprUser(FliprUserDTO userToSave){
+        FliprUser fliprUser = new FliprUser(
                 idService.generateId(),
-                fliprUserDTO.username(),
-                argon2Service.encode(fliprUserDTO.password()),
+                userToSave.username(),
+                argon2Service.encode(userToSave.password()),
                 new ArrayList<>()
         );
+        fliprUserRepo.save(fliprUser);
 
-        fliprUserRepo.save(fliprUserToSave);
-
-        return new FliprUser(
-                fliprUserToSave.id(),
-                fliprUserToSave.username(),
-                "***",
-                fliprUserToSave.fliprs()
+        return new FliprUserResponse(
+                fliprUser.id(),
+                fliprUser.username(),
+                fliprUser.fliprs()
         );
-    }
-
-    public FliprUser updateFliprUser(FliprUserDTO fliprUserDTO){
-        FliprUser fliprUserToUpdate = new FliprUser(
-                fliprUserDTO.id(),
-                fliprUserDTO.username(),
-                fliprUserDTO.password(),
-                fliprUserDTO.fliprs()
-        );
-        fliprUserRepo.save(fliprUserToUpdate);
-
-        return new FliprUser(
-                fliprUserToUpdate.id(),
-                fliprUserToUpdate.username(),
-                "***",
-                fliprUserToUpdate.fliprs()
-        );
-    }
-
-    public void deleteFliprUserById(String id) {
-        fliprUserRepo.deleteById(id);
     }
 
 }

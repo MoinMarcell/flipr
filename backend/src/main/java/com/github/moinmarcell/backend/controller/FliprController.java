@@ -18,23 +18,21 @@ public class FliprController {
     }
 
     @GetMapping
-    public List<Flipr> getAllFliprs() {
+    public List<Flipr> allFliprs(){
         return fliprService.getAllFliprs();
     }
 
-    @GetMapping("/{id}")
-    public Flipr getFliprById(@PathVariable String id) {
-        return fliprService.getFliprById(id);
+    @GetMapping("/flipr")
+    public Flipr getFliprByIdOrAuthor(@RequestParam(required = false) String id, @RequestParam(required = false) String author){
+        if(!(id.equals(""))){
+            return fliprService.getFliprById(id);
+        }
+        return fliprService.getFliprByAuthor(author);
     }
 
     @PostMapping
-    public Flipr saveFlipr(@RequestBody FliprDTO fliprDTO) {
-        return fliprService.saveFlipr(fliprDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteFliprById(@PathVariable String id) {
-        fliprService.deleteFliprById(id);
+    public Flipr saveFlipr(@RequestBody FliprDTO flipr){
+        return fliprService.saveFlipr(flipr);
     }
 
 }

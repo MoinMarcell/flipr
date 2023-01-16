@@ -13,6 +13,6 @@ public record FliprUser(
         @Indexed(unique = true)
         String username,
         String password,
-        List<String> fliprs //Id of fliprs
+        List<Flipr> fliprs
 ) {
 }

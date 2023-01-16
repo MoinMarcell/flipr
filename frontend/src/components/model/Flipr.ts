@@ -1,7 +1,6 @@
-
 export type Flipr = {
-    id?: string,
+    id: string,
     content: string,
     author: string,
-    dateTime: Date
+    dateTime: Date,
 }
