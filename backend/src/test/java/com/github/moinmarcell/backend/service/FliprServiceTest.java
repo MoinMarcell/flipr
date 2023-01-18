@@ -2,11 +2,13 @@ package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
+import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +24,52 @@ class FliprServiceTest {
     FliprUserRepo fliprUserRepo = mock(FliprUserRepo.class);
     FliprService fliprService = new FliprService(fliprRepository, idService, localDateService, fliprUserRepo);
 
+
+    @Test
+    void getAllFliprs_whenFliprListExist_thenReturnEmptyList() {
+        List<Flipr> expected = Collections.emptyList();
+        when(fliprRepository.findAll()).thenReturn(expected);
+        List<Flipr> actual = fliprService.getAllFliprs();
+
+        assertEquals(actual, expected);
+        verify(fliprRepository).findAll();
+    }
+
+    @Test
+    void getFliprById_whenFliprExist_thenReturnFliprById() {
+        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate());
+        when(fliprRepository.findById(expected.id())).thenReturn(Optional.of(expected));
+        Flipr actual = fliprService.getFliprById("1");
+
+        assertEquals(actual, expected);
+        verify(fliprRepository).findById("1");
+    }
+
+    @Test
+    void getFliprByAuthor_whenFliprExist_thenReturnFliprByAuthor() {
+        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate());
+        when(fliprRepository.findFliprByAuthor(expected.author())).thenReturn(Optional.of(expected));
+        Flipr actual = fliprService.getFliprByAuthor("author");
+
+        assertEquals(actual, expected);
+        verify(fliprRepository).findFliprByAuthor("author");
+    }
+
+    @Test
+    void saveFlipr() {
+        Flipr expected = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
+        FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>());
+        fliprUser.fliprs().add(expected);
+        FliprDTO fliprDTO = new FliprDTO("content", "author");
+
+        when(fliprRepository.save(expected)).thenReturn(expected);
+        when(idService.generateId()).thenReturn("1");
+        when(localDateService.getDate()).thenReturn(LocalDateTime.of(1, 1, 1, 1, 1));
+        when(fliprUserRepo.findByUsername(fliprDTO.author())).thenReturn(Optional.of(fliprUser));
+
+        Flipr actual =fliprService.saveFlipr(fliprDTO);
+
+        assertEquals(actual, expected);
+        verify(fliprRepository).save(expected);
+    }
 }
