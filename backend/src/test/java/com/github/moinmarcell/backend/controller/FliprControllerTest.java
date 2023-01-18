@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,7 +51,7 @@ class FliprControllerTest {
     @Test
     @DirtiesContext
     void getFliprById_whenIdExist_thenReturnFlipr() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList());
         fliprRepository.save(flipr);
         mockMvc.perform(get(BASE_DIR + "/flipr?id=" + flipr.id()).with(csrf()))
                 .andExpect(status().isOk())
@@ -68,7 +69,7 @@ class FliprControllerTest {
     @Test
     @DirtiesContext
     void getFliprByAuthor_whenAuthorExist_thenReturnFlipr() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList());
         FliprUser author = new FliprUser("1", "author", "123", new ArrayList<>());
         author.fliprs().add(flipr);
         fliprRepository.save(flipr);
@@ -89,7 +90,7 @@ class FliprControllerTest {
     @Test
     @DirtiesContext
     void saveFlipr() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList());
         FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>());
         fliprUser.fliprs().add(flipr);
         fliprUserRepo.save(fliprUser);

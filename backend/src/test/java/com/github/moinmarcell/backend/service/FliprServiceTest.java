@@ -37,7 +37,7 @@ class FliprServiceTest {
 
     @Test
     void getFliprById_whenFliprExist_thenReturnFliprById() {
-        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate());
+        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate(), Collections.emptyList());
         when(fliprRepository.findById(expected.id())).thenReturn(Optional.of(expected));
         Flipr actual = fliprService.getFliprById("1");
 
@@ -47,7 +47,7 @@ class FliprServiceTest {
 
     @Test
     void getFliprByAuthor_whenFliprExist_thenReturnFliprByAuthor() {
-        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate());
+        Flipr expected = new Flipr("1", "content", "author", localDateService.getDate(), Collections.emptyList());
         when(fliprRepository.findFliprByAuthor(expected.author())).thenReturn(Optional.of(expected));
         Flipr actual = fliprService.getFliprByAuthor("author");
 
@@ -57,7 +57,7 @@ class FliprServiceTest {
 
     @Test
     void saveFlipr() {
-        Flipr expected = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
+        Flipr expected = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList());
         FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>());
         fliprUser.fliprs().add(expected);
         FliprDTO fliprDTO = new FliprDTO("content", "author");
