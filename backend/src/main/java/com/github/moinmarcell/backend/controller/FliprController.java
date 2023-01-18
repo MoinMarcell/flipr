@@ -24,7 +24,7 @@ public class FliprController {
 
     @GetMapping("/flipr")
     public Flipr getFliprByIdOrAuthor(@RequestParam(required = false) String id, @RequestParam(required = false) String author){
-        if(!(id.equals(""))){
+        if(author == null){
             return fliprService.getFliprById(id);
         }
         return fliprService.getFliprByAuthor(author);
