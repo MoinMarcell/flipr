@@ -64,7 +64,7 @@ export default function FliprCard(props: FliprCardProps) {
                         placeholder="Add a comment…"
                         sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
                     />
-                    <Button type={"submit"}>POST</Button>
+                    <Button type={"submit"} disabled></Button>
                 </Box>
             </CardActions>
         </Card>
