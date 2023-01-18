@@ -64,13 +64,17 @@ export default function FliprCard(props: FliprCardProps) {
                 <IconButton onClick={handleClickComment} aria-label={"comment"}>
                     <CommentIcon/>
                 </IconButton>
-                <Input
-                    onClick={handleClickComment}
-                    variant="plain"
-                    size="sm"
-                    placeholder="Add a comment…"
-                    sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
-                />
+                {
+                    (props.username && props.username !== 'anonymousUser') ?
+                        <Input
+                            onClick={handleClickComment}
+                            variant="plain"
+                            size="sm"
+                            placeholder="Add a comment…"
+                            sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
+                        /> :
+                        ''
+                }
             </CardActions>
         </Card>
     );
