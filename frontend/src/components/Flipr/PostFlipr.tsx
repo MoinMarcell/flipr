@@ -1,9 +1,8 @@
 import {FliprDTO} from "../model/FliprDTO";
 import {ChangeEvent, FormEvent, useCallback, useState} from "react";
-import {Alert, Box, Button, Snackbar, TextField} from "@mui/material";
+import {Box, Button, CircularProgress, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Flipr} from "../model/Flipr";
-import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 
 type PostFliprProps = {
     username: string,
@@ -12,28 +11,36 @@ type PostFliprProps = {
 
 export default function PostFlipr(props: PostFliprProps) {
     const [content, setContent] = useState<string>("");
-    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const handleChangeContent = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
-    }, [])
-
-    const handleCloseSnackbar = useCallback(() => {
-        setOpenSnackbar(false);
     }, []);
 
     const handleSubmitPostFlipr = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (await props.postFlipr({
+        setIsLoading(true)
+        await props.postFlipr({
             "content": content,
             "author": props.username
-        })) {
-            setOpenSnackbar(true);
+        }).then(() => {
             setContent("");
-        }
+            setIsLoading(false);
+        })
     }, [content, props]);
+
+    const handleLoginClick = useCallback(() => {
+        navigate("/login");
+    }, [navigate]);
+
+    let button = <Button type={"submit"} variant={"outlined"} sx={{mt: 2}}>FLIPR IT!</Button>
+
+    if (isLoading) {
+        button = <Button variant={"outlined"} sx={{mt: 2}} disabled><CircularProgress/></Button>
+    }
+
     return (
         <Box component={"form"} onSubmit={handleSubmitPostFlipr}>
             <TextField
@@ -47,19 +54,9 @@ export default function PostFlipr(props: PostFliprProps) {
             />
             {
                 props.username && props.username !== 'anonymousUser' ?
-                    <Button type={"submit"}>FLIPR IT!</Button> :
-                    <Button onClick={() => navigate("/login")}>LOGIN FIRST!</Button>
+                    content.length < 3 || content.trim() === "" ? <Button type={"submit"} variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button> : button :
+                    <Button sx={{mt: 2}} variant={"outlined"} onClick={handleLoginClick}>LOGIN FIRST!</Button>
             }
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={6000}
-                message="Flipr was send!"
-                onClose={handleCloseSnackbar}
-            >
-                <Alert onClose={handleCloseSnackbar} severity="success" sx={{width: '100%'}}>
-                    FLIPR<BubbleChartIcon/> send successfully!
-                </Alert>
-            </Snackbar>
         </Box>
     );
 }
