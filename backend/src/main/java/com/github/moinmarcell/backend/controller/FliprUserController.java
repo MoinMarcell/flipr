@@ -20,32 +20,32 @@ public class FliprUserController {
     }
 
     @GetMapping("/me")
-    public String helloMe(Principal principal){
-        if(principal != null){
+    public String helloMe(Principal principal) {
+        if (principal != null) {
             return principal.getName();
         }
         return "anonymousUser";
     }
 
     @PostMapping("/login")
-    public Object login(){
+    public Object login() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @PostMapping("/logout")
-    public String logout(HttpSession httpSession){
+    public String logout(HttpSession httpSession) {
         httpSession.invalidate();
         SecurityContextHolder.clearContext();
         return "anonymousUser";
     }
 
     @PostMapping("/register")
-    public FliprUserResponse saveFliprUser(@RequestBody FliprUserDTO fliprUserDTO){
+    public FliprUserResponse saveFliprUser(@RequestBody FliprUserDTO fliprUserDTO) {
         return fliprUserService.saveFliprUser(fliprUserDTO);
     }
 
     @GetMapping("/{username}")
-    public FliprUserResponse getFliprUserByUsername(@PathVariable String username){
+    public FliprUserResponse getFliprUserByUsername(@PathVariable String username) {
         return fliprUserService.getFliprUserByUsername(username);
     }
 
