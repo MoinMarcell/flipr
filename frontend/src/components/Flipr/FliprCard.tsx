@@ -14,6 +14,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import {useNavigate} from "react-router-dom";
 import {Input} from "@mui/joy";
 import {useCallback} from "react";
+import Badge from "@mui/material/Badge";
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -28,7 +29,7 @@ export default function FliprCard(props: FliprCardProps) {
     const day: number = date.getDate();
     const year: number = date.getFullYear();
     const navigate = useNavigate();
-    
+
     const handleClickComment = useCallback(() => {
         navigate("/flipr/" + props.flipr.id);
     }, [navigate, props.flipr.id]);
@@ -62,7 +63,10 @@ export default function FliprCard(props: FliprCardProps) {
                     <ShareIcon/>
                 </IconButton>
                 <IconButton onClick={handleClickComment} aria-label={"comment"}>
-                    <CommentIcon/>
+                    {/* eslint-disable-next-line react/jsx-no-undef */}
+                    <Badge badgeContent={props.flipr.comments.length} color="primary">
+                        <CommentIcon/>
+                    </Badge>
                 </IconButton>
                 {
                     (props.username && props.username !== 'anonymousUser') ?

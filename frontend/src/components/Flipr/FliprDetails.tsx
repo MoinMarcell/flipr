@@ -15,13 +15,14 @@ import {Box} from "@mui/material";
 import Card from "@mui/material/Card";
 import PostComment from "./PostComment";
 import FliprComments from "./FliprComments";
+import Badge from "@mui/material/Badge";
 
 type FliprDetailsProps = {
     username: string,
 }
 
 export default function FliprDetails(props: FliprDetailsProps) {
-    
+
     const params = useParams();
     const id: string | undefined = params.id;
     const {flipr, postComment} = useFlipr(props.username, id);
@@ -62,7 +63,9 @@ export default function FliprDetails(props: FliprDetailsProps) {
                         <ShareIcon/>
                     </IconButton>
                     <IconButton aria-label={"comment"}>
-                        <CommentIcon/>
+                        <Badge badgeContent={flipr.comments.length} color="primary">
+                            <CommentIcon/>
+                        </Badge>
                     </IconButton>
                     {
                         props.username && props.username !== "anonymousUser" ?
@@ -71,7 +74,7 @@ export default function FliprDetails(props: FliprDetailsProps) {
                     }
                 </CardActions>
             </Card>
-            <FliprComments comments={flipr.comments} />
+            <FliprComments comments={flipr.comments}/>
         </Box>
     );
 }
