@@ -33,4 +33,13 @@ public class FliprUserService {
         );
     }
 
+    public FliprUserResponse getFliprUserByUsername(String username){
+        FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow();
+        return new FliprUserResponse(
+                fliprUser.id(),
+                fliprUser.username(),
+                fliprUser.fliprs()
+        );
+    }
+
 }

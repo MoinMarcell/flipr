@@ -44,4 +44,9 @@ public class FliprUserController {
         return fliprUserService.saveFliprUser(fliprUserDTO);
     }
 
+    @GetMapping("/{username}")
+    public FliprUserResponse getFliprUserByUsername(@PathVariable String username){
+        return fliprUserService.getFliprUserByUsername(username);
+    }
+
 }
