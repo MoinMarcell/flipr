@@ -5,32 +5,32 @@ import {FliprDTO} from "../model/FliprDTO";
 
 const BASE_DIR: string = "/api/fliprs";
 
-export default function useFliprs(){
+export default function useFliprs() {
     const [fliprs, setFliprs] = useState<Flipr[]>([]);
-    
-    const getAllFliprs = useCallback(() => {
-        axios.get(BASE_DIR)
-            .then((response) => response.data)
-            .then((data) => {
-                setFliprs(data);
-                return data;
-            })
-            .catch((error) => console.error(error));
+
+    const getAllFliprs = useCallback(async () => {
+        const response = await axios.get(BASE_DIR);
+        const data = await response.data;
+        setFliprs(data);
+        return data;
     }, []);
-    
-    const saveFlipr = (fliprToSave: FliprDTO) => {
-        return axios.post(BASE_DIR, fliprToSave)
-            .then((response) => response.data)
-            .then((data) => {
-                getAllFliprs();
-                return data;
-            })
-            .catch((error) => console.error(error));
-    }
-    
+
+    const saveFlipr = useCallback(async (fliprToSave: FliprDTO) => {
+        const response = await axios.post(BASE_DIR, fliprToSave);
+        await getAllFliprs();
+        return await response.data;
+    }, [getAllFliprs]);
+
+    const deleteFlipr = useCallback(async (id: string) => {
+        const response = await axios.delete(BASE_DIR + "/" + id);
+        await getAllFliprs();
+        return await response.data;
+    }, [getAllFliprs]);
+
     useEffect(() => {
-        getAllFliprs();
+        getAllFliprs()
+            .catch(e => console.error(e));
     }, [getAllFliprs])
-    
-    return {fliprs, saveFlipr}
+
+    return {fliprs, saveFlipr, deleteFlipr}
 }
