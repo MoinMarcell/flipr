@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useFlipr from "../hooks/useFlipr";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
@@ -16,6 +16,8 @@ import Card from "@mui/material/Card";
 import PostComment from "./PostComment";
 import FliprComments from "./FliprComments";
 import Badge from "@mui/material/Badge";
+import {Input} from "@mui/joy";
+import {useCallback} from "react";
 
 type FliprDetailsProps = {
     username: string,
@@ -26,12 +28,17 @@ export default function FliprDetails(props: FliprDetailsProps) {
     const params = useParams();
     const id: string | undefined = params.id;
     const {flipr, postComment} = useFlipr(props.username, id);
+    const navigate = useNavigate();
 
     const date: Date = new Date(flipr.dateTime);
     const months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const month: string = months[date.getMonth()];
     const day: number = date.getDate();
     const year: number = date.getFullYear();
+    
+    const handleLoginClick = useCallback(() => {
+        navigate("/login");
+    }, [navigate])
 
     return (
         <Box>
@@ -70,7 +77,13 @@ export default function FliprDetails(props: FliprDetailsProps) {
                     {
                         props.username && props.username !== "anonymousUser" ?
                             <PostComment postComment={postComment}/> :
-                            ""
+                            <Input
+                                onClick={handleLoginClick}
+                                variant="plain"
+                                size="sm"
+                                placeholder="Login to comment..."
+                                sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
+                            />
                     }
                 </CardActions>
             </Card>

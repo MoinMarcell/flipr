@@ -34,6 +34,10 @@ export default function FliprCard(props: FliprCardProps) {
         navigate("/flipr/" + props.flipr.id);
     }, [navigate, props.flipr.id]);
 
+    const handleLoginClick = useCallback(() => {
+        navigate("/login");
+    }, [navigate])
+
     return (
         <Card>
             <CardHeader
@@ -77,7 +81,13 @@ export default function FliprCard(props: FliprCardProps) {
                             placeholder="Add a comment…"
                             sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
                         /> :
-                        ''
+                        <Input
+                            onClick={handleLoginClick}
+                            variant="plain"
+                            size="sm"
+                            placeholder="Login to comment..."
+                            sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
+                        />
                 }
             </CardActions>
         </Card>
