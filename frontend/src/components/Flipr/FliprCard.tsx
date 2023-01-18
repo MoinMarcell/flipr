@@ -10,12 +10,22 @@ import {red} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {Input} from "@mui/joy";
+import CommentIcon from '@mui/icons-material/Comment';
+import {Box, Button} from "@mui/material";
 
 type FliprCardProps = {
     flipr: Flipr,
 }
 
 export default function FliprCard(props: FliprCardProps) {
+
+    const date: Date = new Date(props.flipr.dateTime);
+    const months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month: string = months[date.getMonth()];
+    const day: number = date.getDate();
+    const year: number = date.getFullYear();
+
     return (
         <Card>
             <CardHeader
@@ -30,7 +40,7 @@ export default function FliprCard(props: FliprCardProps) {
                     </IconButton>
                 }
                 title={props.flipr.author}
-                subheader={props.flipr.dateTime.toString()}
+                subheader={month + " " + day + ", " + year}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
@@ -44,6 +54,18 @@ export default function FliprCard(props: FliprCardProps) {
                 <IconButton aria-label="share">
                     <ShareIcon/>
                 </IconButton>
+                <IconButton aria-label={"comment"}>
+                    <CommentIcon/>
+                </IconButton>
+                <Box component={"form"} display={"flex"}>
+                    <Input
+                        variant="plain"
+                        size="sm"
+                        placeholder="Add a comment…"
+                        sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
+                    />
+                    <Button type={"submit"}>POST</Button>
+                </Box>
             </CardActions>
         </Card>
     );
