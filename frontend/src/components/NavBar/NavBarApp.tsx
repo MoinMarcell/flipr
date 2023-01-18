@@ -183,14 +183,14 @@ export default function NavBarApp(props: NavBarProps) {
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpenNavMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
-    };
+    }, [setAnchorElNav]);
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = useCallback(() => {
         setAnchorElNav(null);
         navigate("/");
-    };
+    },[navigate, setAnchorElNav]);
 
     return (
         <Box sx={{flexGrow: 1}}>
