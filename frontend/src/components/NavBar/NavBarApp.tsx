@@ -49,7 +49,7 @@ export default function NavBarApp(props: NavBarProps) {
     const handleMenuClose = useCallback(() => {
         setAnchorEl(null);
         handleMobileMenuClose();
-    }, []);
+    }, [handleMobileMenuClose]);
 
     const handleMobileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);

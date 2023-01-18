@@ -69,7 +69,7 @@ export default function LoginApp(props: LoginAppProps) {
                     setIsLoading(false);
                 })
             });
-    }, [navigate, props, userToLogin]);
+    }, [navigate, props, userToLogin, handleOpenSnackBarError, handleOpenSnackBar]);
 
     const handleRegisterClick = useCallback(() => {
         navigate("/register");
