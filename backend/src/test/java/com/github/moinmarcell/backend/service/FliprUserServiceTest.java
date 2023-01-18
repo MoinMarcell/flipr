@@ -2,10 +2,12 @@ package com.github.moinmarcell.backend.service;
 
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
+import com.github.moinmarcell.backend.model.FliprUserResponse;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -17,4 +19,33 @@ class FliprUserServiceTest {
     FliprUserRepo fliprUserRepo = mock(FliprUserRepo.class);
     FliprUserService fliprUserService = new FliprUserService(fliprUserRepo, idService, argon2Service);
 
+    @Test
+    void saveFliprUser_whenUserNotExist_thenSaveUserAndReturn() {
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList());
+        FliprUserDTO fliprUserDTO = new FliprUserDTO("username", "123");
+        FliprUserResponse expected = new FliprUserResponse("1", "username", Collections.emptyList());
+
+        when(fliprUserRepo.save(fliprUser)).thenReturn(fliprUser);
+        when(idService.generateId()).thenReturn("1");
+        when(argon2Service.encode(fliprUser.password())).thenReturn("123");
+
+        FliprUserResponse actual = fliprUserService.saveFliprUser(fliprUserDTO);
+
+        assertEquals(actual, expected);
+        verify(fliprUserRepo).save(fliprUser);
+    }
+
+    @Test
+    void getFliprUserByUsername() {
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList());
+        fliprUserRepo.save(fliprUser);
+        FliprUserResponse expected = new FliprUserResponse(fliprUser.id(), fliprUser.username(), fliprUser.fliprs());
+
+        when(fliprUserRepo.findByUsername(fliprUser.username())).thenReturn(Optional.of(fliprUser));
+
+        FliprUserResponse actual = fliprUserService.getFliprUserByUsername(fliprUser.username());
+
+        assertEquals(actual, expected);
+        verify(fliprUserRepo).findByUsername(fliprUser.username());
+    }
 }
