@@ -251,12 +251,11 @@ export default function NavBarApp(props: NavBarProps) {
                             ))}
                         </Menu>
                     </Box>
-                    <BubbleChartIcon onClick={() => navigate("/")} sx={{display: {xs: 'flex', md: 'none'}, mr: 1, cursor: 'pointer'}}/>
+                    <BubbleChartIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1, cursor: 'pointer'}}/>
                     <Typography
                         variant="h5"
                         noWrap
                         component="a"
-                        onClick={() => navigate("/")}
                         sx={{
                             mr: 2,
                             display: {xs: 'flex', md: 'none'},
