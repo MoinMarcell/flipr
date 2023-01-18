@@ -1,5 +1,7 @@
 import {Alert, Box, Button, Snackbar, TextField} from "@mui/material";
 import {ChangeEvent, FormEvent, useCallback, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 type LoginFormProps = {
     username: string,
@@ -11,6 +13,8 @@ export default function LoginForm(props: LoginFormProps) {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const handleCloseSnackbar = useCallback(() => {
         setOpenSnackbar(false);
@@ -27,12 +31,14 @@ export default function LoginForm(props: LoginFormProps) {
     const handleSubmitLogin = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         await props.login(username, password)
-            .then((data) => {
+            .then(async (data) => {
                 setOpenSnackbar(true);
+                await wait(1000);
+                navigate("/");
                 return data;
             });
         setOpenSnackbar(true);
-    }, [password, props, username])
+    }, [password, props, username, navigate])
 
     return (
         <Box component={"form"} onSubmit={handleSubmitLogin}>
