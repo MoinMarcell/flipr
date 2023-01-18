@@ -10,13 +10,14 @@ import {red} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Input} from "@mui/joy";
 import CommentIcon from '@mui/icons-material/Comment';
-import {Box, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {Input} from "@mui/joy";
+import {useCallback} from "react";
 
 type FliprCardProps = {
     flipr: Flipr,
+    username: string,
 }
 
 export default function FliprCard(props: FliprCardProps) {
@@ -27,6 +28,10 @@ export default function FliprCard(props: FliprCardProps) {
     const day: number = date.getDate();
     const year: number = date.getFullYear();
     const navigate = useNavigate();
+    
+    const handleClickComment = useCallback(() => {
+        navigate("/flipr/" + props.flipr.id);
+    }, [navigate, props.flipr.id]);
 
     return (
         <Card>
@@ -56,18 +61,16 @@ export default function FliprCard(props: FliprCardProps) {
                 <IconButton aria-label="share">
                     <ShareIcon/>
                 </IconButton>
-                <IconButton onClick={() => navigate("/flipr/" + props.flipr.id)} aria-label={"comment"}>
+                <IconButton onClick={handleClickComment} aria-label={"comment"}>
                     <CommentIcon/>
                 </IconButton>
-                <Box component={"form"} display={"flex"}>
-                    <Input
-                        variant="plain"
-                        size="sm"
-                        placeholder="Add a comment…"
-                        sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
-                    />
-                    <Button type={"submit"} disabled></Button>
-                </Box>
+                <Input
+                    onClick={handleClickComment}
+                    variant="plain"
+                    size="sm"
+                    placeholder="Add a comment…"
+                    sx={{flexGrow: 0, width: 140, '--Input-focusedThickness': '0px'}}
+                />
             </CardActions>
         </Card>
     );

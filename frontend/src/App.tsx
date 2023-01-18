@@ -22,7 +22,7 @@ const App = () => {
                         <Route path={"/flipr/:id"} element={<FliprDetails username={username} />} />
                         <Route path={"/register"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
                         <Route path={"/login"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
-                        <Route path={"/user/:username"} element={<PublicProfile />} />
+                        <Route path={"/user/:username"} element={<PublicProfile username={username} />} />
                     </Routes>
                 </Container>
             </BrowserRouter>

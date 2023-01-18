@@ -3,14 +3,18 @@ import {useParams} from "react-router-dom";
 import FliprCard from "../Flipr/FliprCard";
 import {Divider, Skeleton, Stack} from "@mui/material";
 
-export default function PublicProfile(){
+type PublicProfileProps = {
+    username: string,
+}
+
+export default function PublicProfile(props: PublicProfileProps){
 
     const params = useParams();
     const username: string | undefined = params.username
     const {user, isLoading} = useUser(username);
 
     const fliprCard = user.fliprs.map((flipr) => {
-        return <FliprCard flipr={flipr} key={flipr.id} />;
+        return <FliprCard username={props.username} flipr={flipr} key={flipr.id} />;
     }).reverse();
 
     return (

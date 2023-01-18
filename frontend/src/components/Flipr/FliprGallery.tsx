@@ -4,11 +4,12 @@ import {Divider, Stack} from "@mui/material";
 
 type FliprGalleryProps = {
     fliprs: Flipr[],
+    username: string,
 }
 
 export default function FliprGallery(props: FliprGalleryProps) {
     const fliprCard = props.fliprs.map((flipr) => {
-        return <FliprCard flipr={flipr} key={flipr.id}/>
+        return <FliprCard username={props.username} flipr={flipr} key={flipr.id}/>
     }).reverse();
 
     return (

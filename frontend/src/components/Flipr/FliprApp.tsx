@@ -18,7 +18,7 @@ export default function FliprApp(props: FliprAppProps) {
                     <PostFlipr username={props.username} postFlipr={saveFlipr}/> :
                     ''
             }
-            <FliprGallery fliprs={fliprs}/>
+            <FliprGallery username={props.username} fliprs={fliprs}/>
         </Stack>
     );
 }
