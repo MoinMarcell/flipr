@@ -5,7 +5,7 @@ import {FliprUserDTO} from "../model/FliprUserDTO";
 const BASE_DIR: string = "/api/users";
 
 export default function useUsers() {
-    const [username, setUsername] = useState<string>("anonymousUser");
+    const [username, setUsername] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
