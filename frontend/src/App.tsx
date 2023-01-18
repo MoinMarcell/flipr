@@ -4,13 +4,12 @@ import useUsers from "./components/hooks/useUsers";
 import {Box, Container} from "@mui/material";
 import NavBarApp from "./components/NavBar/NavBarApp";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Register from "./components/Register";
 import PublicProfile from "./components/FliprUser/PublicProfile";
-import LoginApp from "./components/login/LoginApp";
+import LoginRegisterApp from "./components/login/LoginRegisterApp";
 
 const App = () => {
 
-    const {username, login, logout, saveUser, isLoading} = useUsers();
+    const {username, login, logout, saveUser} = useUsers();
 
     return (
         <Box>
@@ -19,15 +18,14 @@ const App = () => {
                 <Container maxWidth={false} sx={{mt: 2}}>
                     <Routes>
                         <Route path={"/"} element={<FliprApp username={username}/>}/>
-                        <Route path={"/login"} element={<LoginApp login={login}/>}/>
-                        <Route path={"/register"} element={<Register register={saveUser} isLoading={isLoading} />} />
+                        <Route path={"/register"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
+                        <Route path={"/login"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
                         <Route path={"/:username"} element={<PublicProfile />} />
                     </Routes>
                 </Container>
             </BrowserRouter>
         </Box>
-    )
-        ;
+    );
 
 }
 
