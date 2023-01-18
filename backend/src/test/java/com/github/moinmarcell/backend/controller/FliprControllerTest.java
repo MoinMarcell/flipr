@@ -66,6 +66,7 @@ class FliprControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void getFliprByAuthor_whenAuthorExist_thenReturnFlipr() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
         FliprUser author = new FliprUser("1", "author", "123", new ArrayList<>());
@@ -86,6 +87,7 @@ class FliprControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void saveFlipr() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
         FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>());
