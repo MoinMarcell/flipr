@@ -38,32 +38,32 @@ export default function NavBarApp(props: NavBarProps) {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    const handleProfileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-    };
+    }, [setAnchorEl]);
 
-    const handleMobileMenuClose = () => {
+    const handleMobileMenuClose = useCallback(() => {
         setMobileMoreAnchorEl(null);
-    };
+    }, [setMobileMoreAnchorEl]);
 
     const handleMenuClose = useCallback(() => {
         setAnchorEl(null);
         handleMobileMenuClose();
     }, []);
 
-    const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMobileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
-    };
+    }, [setMobileMoreAnchorEl]);
 
-    const handleLoginClick = () => {
+    const handleLoginClick = useCallback(() => {
         navigate("/login");
         handleMenuClose();
-    }
+    }, [navigate, handleMenuClose]);
 
-    const handleRegisterClick = () => {
+    const handleRegisterClick = useCallback(() => {
         navigate("/register");
         handleMenuClose();
-    }
+    }, [navigate, handleMenuClose]);
 
     const handleLogout = useCallback(async () => {
         await props.logout().then(() => {

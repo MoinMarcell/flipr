@@ -34,29 +34,29 @@ export default function Register(props: RegisterProps) {
         })
     }, [userToSave])
 
-    const handleOpenSnackBar = () => {
+    const handleOpenSnackBar = useCallback(() => {
         setOpenSnackBar(true);
-    };
+    }, [setOpenSnackBar]);
 
-    const handleCloseSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleCloseSnackBar = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpenSnackBar(false);
-    };
+    }, [setOpenSnackBar]);
 
-    const handleOpenSnackBarError = () => {
+    const handleOpenSnackBarError = useCallback(() => {
         setOpenSnackBarError(true);
-    };
+    }, [setOpenSnackBarError]);
 
-    const handleCloseSnackBarError = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleCloseSnackBarError = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpenSnackBarError(false);
-    };
+    },[setOpenSnackBarError]);
 
     const handleSubmitRegister = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -75,7 +75,7 @@ export default function Register(props: RegisterProps) {
                     setIsLoading(false);
                 })
             })
-    }, [props, userToSave, navigate]);
+    }, [props, userToSave, navigate, handleOpenSnackBar, handleOpenSnackBarError]);
 
     const handleLoginClick = useCallback(() => {
         navigate("/login");

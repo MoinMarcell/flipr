@@ -20,29 +20,29 @@ export default function LoginApp(props: LoginAppProps) {
     const [openSnackBarError, setOpenSnackBarError] = React.useState(false);
     const navigate = useNavigate();
 
-    const handleOpenSnackBar = () => {
+    const handleOpenSnackBar = useCallback(() => {
         setOpenSnackBar(true);
-    };
+    }, [setOpenSnackBar]);
 
-    const handleCloseSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleCloseSnackBar = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpenSnackBar(false);
-    };
+    }, [setOpenSnackBar]);
 
-    const handleOpenSnackBarError = () => {
+    const handleOpenSnackBarError = useCallback(() => {
         setOpenSnackBarError(true);
-    };
+    }, [setOpenSnackBarError]);
 
-    const handleCloseSnackBarError = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleCloseSnackBarError = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpenSnackBarError(false);
-    };
+    }, [setOpenSnackBarError]);
 
     const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
