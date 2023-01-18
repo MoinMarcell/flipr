@@ -13,6 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Input} from "@mui/joy";
 import CommentIcon from '@mui/icons-material/Comment';
 import {Box, Button} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -25,6 +26,7 @@ export default function FliprCard(props: FliprCardProps) {
     const month: string = months[date.getMonth()];
     const day: number = date.getDate();
     const year: number = date.getFullYear();
+    const navigate = useNavigate();
 
     return (
         <Card>
@@ -54,7 +56,7 @@ export default function FliprCard(props: FliprCardProps) {
                 <IconButton aria-label="share">
                     <ShareIcon/>
                 </IconButton>
-                <IconButton aria-label={"comment"}>
+                <IconButton onClick={() => navigate("/flipr/" + props.flipr.id)} aria-label={"comment"}>
                     <CommentIcon/>
                 </IconButton>
                 <Box component={"form"} display={"flex"}>
