@@ -12,9 +12,11 @@ export default function FliprGallery(props: FliprGalleryProps) {
     }).reverse();
 
     return (
-        <Stack direction='column'
-               spacing={{ xs: 1, sm: 2, md: 2 }}
-               divider={<Divider orientation="horizontal" flexItem />}>
+        <Stack
+    direction="column"
+    divider={<Divider orientation="horizontal" flexItem />}
+    spacing={2}
+        >
             {fliprCard}
         </Stack>
     );
