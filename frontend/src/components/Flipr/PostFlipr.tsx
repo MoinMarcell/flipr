@@ -41,6 +41,10 @@ export default function PostFlipr(props: PostFliprProps) {
         button = <Button variant={"outlined"} sx={{mt: 2}} disabled><CircularProgress/></Button>
     }
 
+    if(content.length < 3 || content.trim() === ""){
+        button = <Button type={"submit"} variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button>
+    }
+
     return (
         <Box component={"form"} onSubmit={handleSubmitPostFlipr}>
             <TextField
@@ -54,7 +58,7 @@ export default function PostFlipr(props: PostFliprProps) {
             />
             {
                 props.username && props.username !== 'anonymousUser' ?
-                    content.length < 3 || content.trim() === "" ? <Button type={"submit"} variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button> : button :
+                    button :
                     <Button sx={{mt: 2}} variant={"outlined"} onClick={handleLoginClick}>LOGIN FIRST!</Button>
             }
         </Box>
