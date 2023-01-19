@@ -190,7 +190,7 @@ export default function NavBarApp(props: NavBarProps) {
     const handleCloseNavMenu = useCallback(() => {
         setAnchorElNav(null);
         navigate("/");
-    },[navigate, setAnchorElNav]);
+    }, [navigate, setAnchorElNav]);
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -201,7 +201,6 @@ export default function NavBarApp(props: NavBarProps) {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
@@ -251,25 +250,7 @@ export default function NavBarApp(props: NavBarProps) {
                             ))}
                         </Menu>
                     </Box>
-                    <BubbleChartIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1, cursor: 'pointer'}}/>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        sx={{
-                            mr: 2,
-                            display: {xs: 'flex', md: 'none'},
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        FLIPR
-                    </Typography>
+                    <BubbleChartIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
                     <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
                             <Button
@@ -281,27 +262,33 @@ export default function NavBarApp(props: NavBarProps) {
                             </Button>
                         ))}
                     </Box>
-                    <NavBarSearchInput />
+                    <NavBarSearchInput/>
                     <Box sx={{flexGrow: 1}}/>
                     <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                        <Tooltip title="Coming soon">
-                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                                <Badge badgeContent={4} color="error">
-                                    <MailIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Coming soon">
-                            <IconButton
-                                size="large"
-                                aria-label="show 17 new notifications"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="error">
-                                    <NotificationsIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
+                        {
+                            props.username && props.username !== 'anonymousUser' ?
+                                <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                                    <Tooltip title="Coming soon">
+                                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                            <Badge badgeContent={4} color="error">
+                                                <MailIcon/>
+                                            </Badge>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Coming soon">
+                                        <IconButton
+                                            size="large"
+                                            aria-label="show 17 new notifications"
+                                            color="inherit"
+                                        >
+                                            <Badge badgeContent={17} color="error">
+                                                <NotificationsIcon/>
+                                            </Badge>
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box> :
+                                ''
+                        }
                         <IconButton
                             size="large"
                             edge="end"
