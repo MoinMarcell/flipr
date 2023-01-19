@@ -12,12 +12,14 @@ type PostFliprProps = {
 export default function PostFlipr(props: PostFliprProps) {
     const [content, setContent] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [characters, setCharacters] = useState<number>(0);
 
     const navigate = useNavigate();
 
     const handleChangeContent = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
-    }, []);
+        setCharacters(event.target.value.length);
+    }, [setCharacters]);
 
     const handleSubmitPostFlipr = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -28,6 +30,7 @@ export default function PostFlipr(props: PostFliprProps) {
         }).then(() => {
             setContent("");
             setIsLoading(false);
+            setCharacters(0);
         })
     }, [content, props]);
 
@@ -35,18 +38,18 @@ export default function PostFlipr(props: PostFliprProps) {
         navigate("/login");
     }, [navigate]);
 
-    let button = <Button type={"submit"} variant={"outlined"} sx={{mt: 2}}>FLIPR IT!</Button>
+    let button = <Button type={"submit"} variant={"outlined"} sx={{mt: 2}}>FLIPR IT! {characters + " / " + 250}</Button>
 
     if (isLoading) {
         button = <Button variant={"outlined"} sx={{mt: 2}} disabled><CircularProgress/></Button>
     }
 
     if(content.length < 3 || content.trim() === ""){
-        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button>
+        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS! {characters + " / " + 250}</Button>
     }
 
     if(content.length > 250){
-        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MAXIMUM 250 CHARACTERS</Button>
+        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MAXIMUM 250 CHARACTERS! {characters + " / " + 250}</Button>
     }
 
     return (
