@@ -13,9 +13,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CommentIcon from '@mui/icons-material/Comment';
 import {useNavigate} from "react-router-dom";
 import {Input} from "@mui/joy";
-import {useCallback} from "react";
+import React, {useCallback} from "react";
 import Badge from "@mui/material/Badge";
-import {Divider, Stack, Tooltip} from "@mui/material";
+import {Alert, Divider, Snackbar, Stack, Tooltip} from "@mui/material";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import RedditIcon from '@mui/icons-material/Reddit';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -33,6 +33,19 @@ export default function FliprCard(props: FliprCardProps) {
     const day: number = date.getDate();
     const year: number = date.getFullYear();
     const navigate = useNavigate();
+    const [openSnackBar, setOpenSnackBar] = React.useState(false);
+
+    const handleOpenSnackBar = useCallback(() => {
+        setOpenSnackBar(true);
+    }, [setOpenSnackBar]);
+
+    const handleCloseSnackBar = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackBar(false);
+    }, [setOpenSnackBar]);
 
     const handleClickComment = useCallback(() => {
         navigate("/flipr/" + props.flipr.id);
@@ -53,6 +66,13 @@ export default function FliprCard(props: FliprCardProps) {
             <RedditIcon />
         </Stack>
     );
+
+    const handleShareClick = useCallback(() => {
+        navigator.clipboard.writeText(window.location.href + "flipr/" + props.flipr.id)
+            .then(() => {
+                handleOpenSnackBar();
+            });
+    }, [handleOpenSnackBar, props.flipr.id]);
 
     return (
         <Card>
@@ -81,10 +101,15 @@ export default function FliprCard(props: FliprCardProps) {
                 </IconButton>
                 <Tooltip title={longText} placement="top" arrow>
                     <IconButton aria-label="share"
-                                onClick={() => navigator.clipboard.writeText(window.location.href + "flipr/" + props.flipr.id)}>
+                                onClick={handleShareClick}>
                         <ShareIcon/>
                     </IconButton>
                 </Tooltip>
+                <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnackBar}>
+                    <Alert onClose={handleCloseSnackBar} severity="success" sx={{width: '100%'}}>
+                        Link copied!
+                    </Alert>
+                </Snackbar>
                 <IconButton onClick={handleClickComment} aria-label={"comment"}>
                     {/* eslint-disable-next-line react/jsx-no-undef */}
                     <Badge badgeContent={props.flipr.comments.length} color="primary">
