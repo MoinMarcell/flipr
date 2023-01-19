@@ -58,7 +58,7 @@ export default function FliprDetails(props: FliprDetailsProps) {
                     subheader={month + " " + day + ", " + year}
                 />
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography sx={{ wordBreak: "break-word" }} variant="body2" color="text.secondary">
                         {flipr.content}
                     </Typography>
                 </CardContent>
