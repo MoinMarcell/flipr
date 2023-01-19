@@ -73,7 +73,7 @@ export default function FliprDetails(props: FliprDetailsProps) {
             .then(() => {
                 handleOpenSnackBar();
             });
-    }, [handleOpenSnackBar, flipr.id]);
+    }, [handleOpenSnackBar]);
 
     return (
         <Box>
