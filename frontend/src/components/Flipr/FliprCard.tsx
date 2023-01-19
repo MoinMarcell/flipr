@@ -17,8 +17,8 @@ import {useCallback} from "react";
 import Badge from "@mui/material/Badge";
 import {Divider, Stack, Tooltip} from "@mui/material";
 import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import RedditIcon from '@mui/icons-material/Reddit';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -48,8 +48,8 @@ export default function FliprCard(props: FliprCardProps) {
             divider={<Divider orientation="vertical" sx={{bgcolor: '#fff'}} flexItem />}
             spacing={2}
         >
-            <InstagramIcon />
             <FacebookIcon />
+            <GitHubIcon />
             <RedditIcon />
         </Stack>
     );
