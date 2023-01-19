@@ -15,7 +15,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <NavBarApp username={username} logout={logout}/>
-            <Container maxWidth={false} sx={{mt: 2}}>
+            <Container maxWidth={false} sx={{mt: 10}}>
                 <Routes>
                     <Route path={"/"} element={<FliprApp username={username}/>}/>
                     <Route path={"/flipr/:id"} element={<FliprDetails username={username}/>}/>

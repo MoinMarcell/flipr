@@ -194,7 +194,7 @@ export default function NavBarApp(props: NavBarProps) {
 
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <BubbleChartIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
                     <Typography
