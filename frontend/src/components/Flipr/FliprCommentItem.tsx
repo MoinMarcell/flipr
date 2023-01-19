@@ -57,8 +57,8 @@ export default function FliprCommentItem(props: FliprCommentItemProps) {
                         title={props.comment.author}
                         subheader={month + " " + day + ", " + year}
                     />
-                    <CardContent>
-                        <Typography variant="body2" color="text.secondary">
+                    <CardContent sx={{maxWidth: 345}}>
+                        <Typography sx={{ wordBreak: "break-word" }} variant="body2" color="text.secondary" paragraph>
                             {props.comment.content}
                         </Typography>
                     </CardContent>
