@@ -42,7 +42,11 @@ export default function PostFlipr(props: PostFliprProps) {
     }
 
     if(content.length < 3 || content.trim() === ""){
-        button = <Button type={"submit"} variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button>
+        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MINIMUM 3 CHARACTERS</Button>
+    }
+
+    if(content.length > 250){
+        button = <Button variant={"outlined"} sx={{mt: 2}} disabled>MAXIMUM 250 CHARACTERS</Button>
     }
 
     return (
