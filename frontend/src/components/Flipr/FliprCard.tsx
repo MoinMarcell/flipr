@@ -15,6 +15,10 @@ import {useNavigate} from "react-router-dom";
 import {Input} from "@mui/joy";
 import {useCallback} from "react";
 import Badge from "@mui/material/Badge";
+import {Divider, Stack, Tooltip} from "@mui/material";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import RedditIcon from '@mui/icons-material/Reddit';
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -38,6 +42,18 @@ export default function FliprCard(props: FliprCardProps) {
         navigate("/login");
     }, [navigate])
 
+    const longText = (
+        <Stack
+            direction="row"
+            divider={<Divider orientation="vertical" sx={{bgcolor: '#fff'}} flexItem />}
+            spacing={2}
+        >
+            <InstagramIcon />
+            <FacebookIcon />
+            <RedditIcon />
+        </Stack>
+    );
+
     return (
         <Card>
             <CardHeader
@@ -55,7 +71,7 @@ export default function FliprCard(props: FliprCardProps) {
                 subheader={month + " " + day + ", " + year}
             />
             <CardContent>
-                <Typography sx={{ wordBreak: "break-word" }} variant="body2" color="text.secondary" paragraph>
+                <Typography sx={{wordBreak: "break-word"}} variant="body2" color="text.secondary" paragraph>
                     {props.flipr.content}
                 </Typography>
             </CardContent>
@@ -63,9 +79,12 @@ export default function FliprCard(props: FliprCardProps) {
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon/>
                 </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon/>
-                </IconButton>
+                <Tooltip title={longText} placement="top" arrow>
+                    <IconButton aria-label="share"
+                                onClick={() => navigator.clipboard.writeText(window.location.href + "flipr/" + props.flipr.id)}>
+                        <ShareIcon/>
+                    </IconButton>
+                </Tooltip>
                 <IconButton onClick={handleClickComment} aria-label={"comment"}>
                     {/* eslint-disable-next-line react/jsx-no-undef */}
                     <Badge badgeContent={props.flipr.comments.length} color="primary">
