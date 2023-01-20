@@ -1,10 +1,13 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.exception.FliprUserAlreadyExistException;
+import com.github.moinmarcell.backend.exception.FliprUserNotFroundException;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.model.FliprUserResponse;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,7 +27,11 @@ public class FliprUserService {
                 argon2Service.encode(userToSave.password()),
                 new ArrayList<>()
         );
-        fliprUserRepo.save(fliprUser);
+        try {
+            fliprUserRepo.save(fliprUser);
+        } catch (DuplicateKeyException e){
+            throw new FliprUserAlreadyExistException();
+        }
 
         return new FliprUserResponse(
                 fliprUser.id(),
@@ -34,7 +41,7 @@ public class FliprUserService {
     }
 
     public FliprUserResponse getFliprUserByUsername(String username){
-        FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow();
+        FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow(FliprUserNotFroundException::new);
         return new FliprUserResponse(
                 fliprUser.id(),
                 fliprUser.username(),

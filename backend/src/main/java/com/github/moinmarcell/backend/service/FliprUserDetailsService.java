@@ -1,5 +1,6 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.exception.FliprUserNotFroundException;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,6 @@ public class FliprUserDetailsService implements org.springframework.security.cor
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return fliprUserRepo.findByUsername(username)
                 .map(foundUser -> new User(foundUser.username(), foundUser.password(), List.of()))
-                .orElseThrow(() -> new UsernameNotFoundException(username + " not found!"));
+                .orElseThrow(FliprUserNotFroundException::new);
     }
 }

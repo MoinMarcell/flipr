@@ -1,5 +1,7 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.exception.FliprNotFoundException;
+import com.github.moinmarcell.backend.exception.FliprUserNotFroundException;
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.model.FliprUser;
@@ -28,13 +30,13 @@ public class FliprService {
     public Flipr getFliprById(String id){
         return fliprRepository
                 .findById(id)
-                .orElseThrow();
+                .orElseThrow(FliprNotFoundException::new);
     }
 
     public Flipr getFliprByAuthor(String author){
         return fliprRepository
                 .findFliprByAuthor(author)
-                .orElseThrow();
+                .orElseThrow(FliprNotFoundException::new);
     }
 
     public Flipr saveFlipr(FliprDTO flipr){
@@ -49,7 +51,7 @@ public class FliprService {
 
         FliprUser fliprUser = fliprUserRepo
                 .findByUsername(fliprToSave.author())
-                .orElseThrow();
+                .orElseThrow(FliprUserNotFroundException::new);
         fliprUser.fliprs().add(fliprToSave);
         fliprUserRepo.save(fliprUser);
 
