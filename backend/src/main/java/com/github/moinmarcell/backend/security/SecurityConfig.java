@@ -1,6 +1,8 @@
 package com.github.moinmarcell.backend.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -22,8 +24,14 @@ public class SecurityConfig {
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
-                .httpBasic().and()
+                .httpBasic()
+                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()))
+                .and()
                 .authorizeRequests()
+                .antMatchers("/api/users/login").permitAll()
+                .antMatchers("/api/users/me").permitAll()
+                .antMatchers("/api/users/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/fliprs").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().build();
     }
