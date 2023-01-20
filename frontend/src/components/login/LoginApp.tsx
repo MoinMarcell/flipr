@@ -68,8 +68,8 @@ export default function LoginApp(props: LoginAppProps) {
                     });
                 });
             })
-            .catch((e) => {
-                if (e.response.status === 401) {
+            .catch((error) => {
+                if (error.response.status === 401) {
                     setIsDisabledComponent(true);
                     setSnackBarText("Username and/or Password wrong!");
                     handleOpenSnackBar({
