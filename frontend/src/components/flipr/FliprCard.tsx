@@ -11,7 +11,7 @@ import {red} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Box, createTheme, ThemeProvider} from "@mui/material";
+import {Box, createTheme, Grid, ThemeProvider} from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {useCallback} from "react";
@@ -19,6 +19,7 @@ import {useCallback} from "react";
 type FliprCardProps = {
     flipr: Flipr,
     username: string,
+    deleteFlipr(fliprId: string): Promise<string>,
 }
 
 const darkTheme = createTheme({
@@ -38,12 +39,17 @@ export default function FliprCard(props: FliprCardProps) {
         setAnchorEl(null);
     }, []);
 
+    const handleDeleteClick = useCallback(() => {
+        props.deleteFlipr(props.flipr.id)
+            .then();
+    }, [props]);
+
     const isAuthenticated: boolean = props.username !== 'anonymousUser' && props.username !== undefined && props.username !== null && props.username === props.flipr.author;
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <Box component={"article"}>
-                <Card sx={{maxWidth: 345}}>
+            <Grid component={"article"} item>
+                <Card sx={{maxWidth: 345, m: 2, height: '100%'}}>
                     <CardHeader
                         avatar={
                             <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
@@ -51,36 +57,36 @@ export default function FliprCard(props: FliprCardProps) {
                             </Avatar>
                         }
                         action={
-                        isAuthenticated ?
-                            <Box>
-                                <IconButton aria-label="settings" onClick={handleOpenMoreMenu}>
-                                    <MoreVertIcon/>
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleCloseMoreMenu}
-                                >
-                                    <MenuItem onClick={handleCloseMoreMenu}>Delete this Flipr</MenuItem>
-                                </Menu>
-                            </Box>:
-                            ''
+                            isAuthenticated ?
+                                <Box>
+                                    <IconButton aria-label="settings" onClick={handleOpenMoreMenu}>
+                                        <MoreVertIcon/>
+                                    </IconButton>
+                                    <Menu
+                                        id="menu-appbar"
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleCloseMoreMenu}
+                                    >
+                                        <MenuItem onClick={handleDeleteClick}>Delete this Flipr</MenuItem>
+                                    </Menu>
+                                </Box> :
+                                ''
                         }
                         title={props.flipr.author}
                         subheader={props.flipr.dateTime.toString()}
                     />
                     <CardContent>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2">
                             {props.flipr.content}
                         </Typography>
                     </CardContent>
@@ -93,7 +99,7 @@ export default function FliprCard(props: FliprCardProps) {
                         </IconButton>
                     </CardActions>
                 </Card>
-            </Box>
+            </Grid>
         </ThemeProvider>
     );
 

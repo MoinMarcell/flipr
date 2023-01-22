@@ -8,14 +8,14 @@ import LoginApp from "./components/login/LoginApp";
 
 export default function App(){
 
-    const {fliprs} = useFliprs();
+    const {fliprs, saveFlipr, deleteFlipr} = useFliprs();
     const {username, login} = useUsers();
 
     return (
         <BrowserRouter>
             <Container maxWidth={false} sx={{mt: 10}}>
                 <Routes>
-                    <Route path={"/"} element={<FliprApp username={username} fliprs={fliprs} />} />
+                    <Route path={"/"} element={<FliprApp deleteFlipr={deleteFlipr} saveFlipr={saveFlipr} username={username} fliprs={fliprs} />} />
                     <Route path={"/login"} element={<LoginApp login={login} />} />
                 </Routes>
             </Container>

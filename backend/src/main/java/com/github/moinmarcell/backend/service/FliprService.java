@@ -58,4 +58,12 @@ public class FliprService {
         return fliprToSave;
     }
 
+    public void deleteFliprById(String id){
+        try{
+            fliprRepository.deleteById(id);
+        }catch (Exception e){
+            throw new FliprNotFoundException();
+        }
+    }
+
 }
