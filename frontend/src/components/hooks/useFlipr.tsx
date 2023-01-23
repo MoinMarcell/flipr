@@ -3,13 +3,14 @@ import {Flipr} from "../model/Flipr";
 import axios from "axios";
 
 export default function useFlipr(username: string, id: string | undefined){
-    
+    console.log(username);
     const emptyFlipr = {
         "id": "",
         "content": "",
         "author": "",
         "dateTime": new Date(),
-        "comments": []
+        "comments": [],
+        "likes": 0,
     };
     const [flipr, setFlipr] = useState<Flipr>(emptyFlipr);
     
@@ -20,16 +21,18 @@ export default function useFlipr(username: string, id: string | undefined){
         return data;
     }, [id]);
 
-    const postComment = useCallback(async (content: string) => {
+    const postComment = useCallback(async (commentToSave: string, fliprId: string) => {
         const response = await axios.post("/api/comments", {
-            "content": content,
+            "content": commentToSave,
             "author": username,
-            "fliprId": flipr.id,
+            "fliprId": fliprId,
         });
         const data = await response.data;
-        getFlipr().catch(e => console.error(e));
+        console.log(data);
+        console.log(username);
+        await getFlipr();
         return data;
-    }, [flipr.id, getFlipr, username]);
+    }, [getFlipr, username]);
     
     useEffect(() => {
         getFlipr()
