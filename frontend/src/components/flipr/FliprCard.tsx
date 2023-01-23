@@ -11,15 +11,19 @@ import {red} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Box, createTheme, Grid, ThemeProvider} from "@mui/material";
+import {Alert, AlertColor, Badge, Box, createTheme, Divider, Grid, ThemeProvider} from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
+import Snackbar, {SnackbarOrigin} from "@mui/material/Snackbar";
+import CommentIcon from '@mui/icons-material/Comment';
+import {useNavigate} from "react-router-dom";
 
 type FliprCardProps = {
     flipr: Flipr,
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
+    likeFlipr(fliprId: string): Promise<string>,
 }
 
 const darkTheme = createTheme({
@@ -27,9 +31,33 @@ const darkTheme = createTheme({
         mode: 'dark',
     },
 });
+
+export interface State extends SnackbarOrigin {
+    open: boolean;
+}
+
 export default function FliprCard(props: FliprCardProps) {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [snackBarText, setSnackBarText] = useState<string>("");
+    const [snackBarSeverity, setSnackBarSeverity] = useState<AlertColor | undefined>("error");
+    const [openSnackBar, setOpenSnackBar] = useState<State>({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+
+    const {vertical, horizontal, open} = openSnackBar;
+
+    const navigate = useNavigate();
+
+    const handleOpenSnackBar = (newState: SnackbarOrigin) => {
+        setOpenSnackBar({open: true, ...newState});
+    };
+
+    const handleCloseSnackBar = useCallback(() => {
+        setOpenSnackBar({...openSnackBar, open: false});
+    }, [openSnackBar]);
 
     const handleOpenMoreMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -41,15 +69,41 @@ export default function FliprCard(props: FliprCardProps) {
 
     const handleDeleteClick = useCallback(() => {
         props.deleteFlipr(props.flipr.id)
-            .then();
+            .then(() => {
+                console.log(openSnackBar);
+                setSnackBarText("Flipr deleted successfully!");
+                setSnackBarSeverity("success");
+                handleOpenSnackBar({
+                    vertical: 'top',
+                    horizontal: 'right',
+                })
+                navigate("/");
+                console.log(openSnackBar);
+            });
+    }, [props, openSnackBar, navigate]);
+
+    const handleCommentClick = useCallback(() => {
+        navigate("/flipr/" + props.flipr.id);
+    }, [navigate, props.flipr.id]);
+
+    const handleLikeClick = useCallback(() => {
+        props.likeFlipr(props.flipr.id)
+            .then()
+            .catch();
     }, [props]);
+
+    const date = new Date(props.flipr.dateTime);
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
 
     const isAuthenticated: boolean = props.username !== 'anonymousUser' && props.username !== undefined && props.username !== null && props.username === props.flipr.author;
 
     return (
         <ThemeProvider theme={darkTheme}>
             <Grid component={"article"} item>
-                <Card sx={{maxWidth: 345, m: 2, height: '100%'}}>
+                <Card sx={{width: 345, height: '100%'}}>
                     <CardHeader
                         avatar={
                             <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
@@ -83,24 +137,41 @@ export default function FliprCard(props: FliprCardProps) {
                                 ''
                         }
                         title={props.flipr.author}
-                        subheader={props.flipr.dateTime.toString()}
+                        subheader={month + " " + day + ", " + year}
                     />
-                    <CardContent>
+                    <CardContent onClick={handleCommentClick}>
                         <Typography variant="body2">
                             {props.flipr.content}
                         </Typography>
                     </CardContent>
+                    <Divider variant="middle"/>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon/>
+                        <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
+                            <Badge badgeContent={props.flipr.likes} color="primary">
+                                <FavoriteIcon/>
+                            </Badge>
                         </IconButton>
                         <IconButton aria-label="share">
                             <ShareIcon/>
                         </IconButton>
+                        <IconButton aria-label="comments" onClick={handleCommentClick}>
+                            <Badge badgeContent={props.flipr.comments.length} color="primary">
+                                <CommentIcon/>
+                            </Badge>
+                        </IconButton>
                     </CardActions>
                 </Card>
             </Grid>
+            <Snackbar
+                anchorOrigin={{vertical, horizontal}}
+                open={open}
+                onClose={handleCloseSnackBar}
+                key={vertical + horizontal}
+            >
+                <Alert onClose={handleCloseSnackBar} severity={snackBarSeverity} sx={{width: '100%'}}>
+                    {snackBarText}
+                </Alert>
+            </Snackbar>
         </ThemeProvider>
     );
-
 }
