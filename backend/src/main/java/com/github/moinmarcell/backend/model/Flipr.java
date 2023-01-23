@@ -13,6 +13,7 @@ public record Flipr(
         String content,
         String author,
         LocalDateTime dateTime,
-        List<Comment> comments
+        List<Comment> comments,
+        Long likes
 ) {
 }
