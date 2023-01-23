@@ -45,7 +45,8 @@ public class FliprService {
                 flipr.content(),
                 flipr.author(),
                 localDateService.getDate(),
-                new ArrayList<>()
+                new ArrayList<>(),
+                0L
         );
         fliprRepository.save(fliprToSave);
 
@@ -64,6 +65,19 @@ public class FliprService {
         }catch (Exception e){
             throw new FliprNotFoundException();
         }
+    }
+
+    public void likeFlipr(String id){
+        Flipr flipr = fliprRepository.findById(id).orElseThrow(FliprNotFoundException::new);
+        Flipr fliprToSave = new Flipr(
+                flipr.id(),
+                flipr.content(),
+                flipr.author(),
+                flipr.dateTime(),
+                flipr.comments(),
+                flipr.likes()+1
+        );
+        fliprRepository.save(fliprToSave);
     }
 
 }

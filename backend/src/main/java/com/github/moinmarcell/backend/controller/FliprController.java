@@ -40,4 +40,9 @@ public class FliprController {
         fliprService.deleteFliprById(id);
     }
 
+    @PutMapping("/like-flipr/{id}")
+    public void likeFlipr(@PathVariable String id){
+        fliprService.likeFlipr(id);
+    }
+
 }
