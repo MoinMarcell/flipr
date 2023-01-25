@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,6 +30,7 @@ class CommentControllerTest {
     FliprRepository fliprRepository;
 
     @Test
+    @WithMockUser
     void saveComment() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList(), 0L);
         fliprRepository.save(flipr);

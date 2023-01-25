@@ -86,6 +86,7 @@ class FliprUserControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getFliprUserByUsername() throws Exception {
         FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         fliprUserRepo.save(fliprUser);
