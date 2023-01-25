@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
         responseBody.put("message", exception.getMessage());
         responseBody.put("timestamp", LocalDateTime.now());
 
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FliprUserNotFroundException.class)
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         responseBody.put("message", exception.getMessage());
         responseBody.put("timestamp", LocalDateTime.now());
 
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FliprUserAlreadyExistException.class)

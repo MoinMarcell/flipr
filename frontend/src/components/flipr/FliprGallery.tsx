@@ -6,7 +6,7 @@ type FliprGalleryProps = {
     fliprs: Flipr[],
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string): Promise<string>,
+    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 export default function FliprGallery(props: FliprGalleryProps) {

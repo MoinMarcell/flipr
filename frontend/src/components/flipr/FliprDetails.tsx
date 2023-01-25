@@ -8,7 +8,7 @@ import CommentPost from "../comment/CommentPost";
 type FliprDetailsProps = {
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string): Promise<string>,
+    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 export default function FliprDetails(props: FliprDetailsProps) {

@@ -21,25 +21,25 @@ public class FliprService {
     private final IdService idService;
     private final LocalDateService localDateService;
     private final FliprUserRepo fliprUserRepo;
-    
-    public List<Flipr> getAllFliprs(){
+
+    public List<Flipr> getAllFliprs() {
         return fliprRepository
                 .findAll();
     }
 
-    public Flipr getFliprById(String id){
+    public Flipr getFliprById(String id) {
         return fliprRepository
                 .findById(id)
                 .orElseThrow(FliprNotFoundException::new);
     }
 
-    public Flipr getFliprByAuthor(String author){
+    public Flipr getFliprByAuthor(String author) {
         return fliprRepository
                 .findFliprByAuthor(author)
                 .orElseThrow(FliprNotFoundException::new);
     }
 
-    public Flipr saveFlipr(FliprDTO flipr){
+    public Flipr saveFlipr(FliprDTO flipr) {
         Flipr fliprToSave = new Flipr(
                 idService.generateId(),
                 flipr.content(),
@@ -59,25 +59,35 @@ public class FliprService {
         return fliprToSave;
     }
 
-    public void deleteFliprById(String id){
-        try{
+    public void deleteFliprById(String id) {
+        try {
             fliprRepository.deleteById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new FliprNotFoundException();
         }
     }
 
-    public void likeFlipr(String id){
-        Flipr flipr = fliprRepository.findById(id).orElseThrow(FliprNotFoundException::new);
-        Flipr fliprToSave = new Flipr(
-                flipr.id(),
-                flipr.content(),
-                flipr.author(),
-                flipr.dateTime(),
-                flipr.comments(),
-                flipr.likes()+1
-        );
-        fliprRepository.save(fliprToSave);
+    public void likeFlipr(String fliprId, String username) {
+        Flipr flipr = fliprRepository.findById(fliprId).orElseThrow(FliprNotFoundException::new);
+        FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow(FliprUserNotFroundException::new);
+
+        for(Flipr likedFlipr : fliprUser.likedFliprs()){
+            if(!fliprId.equals(likedFlipr.id())){
+                Flipr fliprToSave = new Flipr(
+                        flipr.id(),
+                        flipr.content(),
+                        flipr.author(),
+                        flipr.dateTime(),
+                        flipr.comments(),
+                        flipr.likes() + 1
+                );
+
+                fliprUser.likedFliprs().add(fliprToSave);
+
+                fliprRepository.save(fliprToSave);
+                fliprUserRepo.save(fliprUser);
+            }
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 public record FliprUserResponse(
         String id,
         String username,
-        List<Flipr> fliprs
+        List<Flipr> fliprs,
+        List<Flipr> likedFliprs
 ) {
 }

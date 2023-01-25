@@ -25,6 +25,7 @@ public class FliprUserService {
                 idService.generateId(),
                 userToSave.username(),
                 argon2Service.encode(userToSave.password()),
+                new ArrayList<>(),
                 new ArrayList<>()
         );
         try {
@@ -36,7 +37,8 @@ public class FliprUserService {
         return new FliprUserResponse(
                 fliprUser.id(),
                 fliprUser.username(),
-                fliprUser.fliprs()
+                fliprUser.fliprs(),
+                fliprUser.likedFliprs()
         );
     }
 
@@ -45,7 +47,8 @@ public class FliprUserService {
         return new FliprUserResponse(
                 fliprUser.id(),
                 fliprUser.username(),
-                fliprUser.fliprs()
+                fliprUser.fliprs(),
+                fliprUser.likedFliprs()
         );
     }
 

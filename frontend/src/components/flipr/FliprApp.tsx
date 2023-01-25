@@ -9,7 +9,7 @@ type FliprAppProps = {
     username: string,
     saveFlipr(fliprToSave: CommentDTO): Promise<Flipr>,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string): Promise<string>,
+    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 export default function FliprApp(props: FliprAppProps){
