@@ -21,9 +21,9 @@ class FliprUserServiceTest {
 
     @Test
     void saveFliprUser_whenUserNotExist_thenSaveUserAndReturn() {
-        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList());
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         FliprUserDTO fliprUserDTO = new FliprUserDTO("username", "123");
-        FliprUserResponse expected = new FliprUserResponse("1", "username", Collections.emptyList());
+        FliprUserResponse expected = new FliprUserResponse("1", "username", Collections.emptyList(), Collections.emptyList());
 
         when(fliprUserRepo.save(fliprUser)).thenReturn(fliprUser);
         when(idService.generateId()).thenReturn("1");
@@ -37,9 +37,9 @@ class FliprUserServiceTest {
 
     @Test
     void getFliprUserByUsername() {
-        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList());
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         fliprUserRepo.save(fliprUser);
-        FliprUserResponse expected = new FliprUserResponse(fliprUser.id(), fliprUser.username(), fliprUser.fliprs());
+        FliprUserResponse expected = new FliprUserResponse(fliprUser.id(), fliprUser.username(), fliprUser.fliprs(), fliprUser.likedFliprs());
 
         when(fliprUserRepo.findByUsername(fliprUser.username())).thenReturn(Optional.of(fliprUser));
 

@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class CommentControllerTest {
 
     @Autowired
@@ -28,9 +29,8 @@ class CommentControllerTest {
     FliprRepository fliprRepository;
 
     @Test
-    @DirtiesContext
     void saveComment() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList());
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList(), 0L);
         fliprRepository.save(flipr);
         mockMvc.perform(post("/api/comments")
                         .with(csrf())

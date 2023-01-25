@@ -27,7 +27,7 @@ class CommentServiceTest {
     void saveComment_whenCommentSaved_thenReturnComment() {
         Comment expected = new Comment("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1));
         CommentDTO commentToSave = new CommentDTO("content", "author", "1");
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), new ArrayList<>());
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), new ArrayList<>(), 0L);
         flipr.comments().add(expected);
 
         when(commentRepo.save(expected)).thenReturn(expected);

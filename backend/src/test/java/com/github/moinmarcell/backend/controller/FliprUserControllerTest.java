@@ -87,7 +87,7 @@ class FliprUserControllerTest {
     @Test
     @DirtiesContext
     void getFliprUserByUsername() throws Exception {
-        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList());
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         fliprUserRepo.save(fliprUser);
         mockMvc.perform(get(BASE_URL + "/username").with(csrf()))
                 .andExpect(status().isOk())
