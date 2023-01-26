@@ -1,5 +1,7 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.exception.FliprUserAlreadyExistException;
+import com.github.moinmarcell.backend.exception.FliprUserNotFroundException;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.model.FliprUserResponse;
@@ -36,7 +38,18 @@ class FliprUserServiceTest {
     }
 
     @Test
-    void getFliprUserByUsername() {
+    void saveFliprUser_whenUserExist_thenThrowFliprUserAlreadyExistException() {
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
+        fliprUserRepo.save(fliprUser);
+
+        when(fliprUserRepo.save(fliprUser)).thenThrow(new FliprUserAlreadyExistException());
+
+        assertThrows(FliprUserAlreadyExistException.class, () -> fliprUserRepo.save(fliprUser));
+
+    }
+
+    @Test
+    void getFliprUserByUsername_whenUserExist_thenReturnUser() {
         FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         fliprUserRepo.save(fliprUser);
         FliprUserResponse expected = new FliprUserResponse(fliprUser.id(), fliprUser.username(), fliprUser.fliprs(), fliprUser.likedFliprs());
@@ -47,5 +60,11 @@ class FliprUserServiceTest {
 
         assertEquals(actual, expected);
         verify(fliprUserRepo).findByUsername(fliprUser.username());
+    }
+
+    @Test
+    void getFliprUserByUsername_whenUserNotExist_thenThrowFliprUserNotFoundException(){
+        when(fliprUserRepo.findByUsername("marcell")).thenThrow(new FliprUserNotFroundException());
+        assertThrows(FliprUserNotFroundException.class, () -> fliprUserRepo.findByUsername("marcell"));
     }
 }
