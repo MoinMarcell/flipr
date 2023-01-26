@@ -1,5 +1,7 @@
 package com.github.moinmarcell.backend.service;
 
+import com.github.moinmarcell.backend.exception.FliprNotFoundException;
+import com.github.moinmarcell.backend.exception.FliprUserNotFroundException;
 import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprDTO;
 import com.github.moinmarcell.backend.model.FliprUser;
@@ -46,6 +48,12 @@ class FliprServiceTest {
     }
 
     @Test
+    void getFliprById_whenFliprNotExist_thenThrowException(){
+        when(fliprRepository.findById("1")).thenThrow(new FliprNotFoundException());
+        assertThrows(FliprNotFoundException.class, () -> fliprRepository.findById("1"));
+    }
+
+    @Test
     void getFliprByAuthor_whenFliprExist_thenReturnFliprByAuthor() {
         Flipr expected = new Flipr("1", "content", "author", localDateService.getDate(), Collections.emptyList(), 0L);
         when(fliprRepository.findFliprByAuthor(expected.author())).thenReturn(Optional.of(expected));
@@ -56,7 +64,13 @@ class FliprServiceTest {
     }
 
     @Test
-    void saveFlipr() {
+    void getFliprByAuthor_whenFliprNotExist_thenThrowException(){
+        when(fliprRepository.findFliprByAuthor("marcell")).thenThrow(new FliprNotFoundException());
+        assertThrows(FliprNotFoundException.class, () -> fliprRepository.findFliprByAuthor("marcell"));
+    }
+
+    @Test
+    void saveFlipr_whenUserIsLoggedIn_thenSaveFliprToDatabase() {
         Flipr expected = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
         FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>(), new ArrayList<>());
         fliprUser.fliprs().add(expected);
@@ -71,5 +85,11 @@ class FliprServiceTest {
 
         assertEquals(actual, expected);
         verify(fliprRepository).save(expected);
+    }
+
+    @Test
+    void saveFlipr_whenUserIsNotLoggedIn_thenThrowUserNotFoundException() {
+        when(fliprUserRepo.findByUsername("marcell")).thenThrow(new FliprUserNotFroundException());
+        assertThrows(FliprUserNotFroundException.class, () -> fliprUserRepo.findByUsername("marcell"));
     }
 }
