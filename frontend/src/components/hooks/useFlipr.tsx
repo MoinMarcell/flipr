@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {Flipr} from "../model/Flipr";
+import {Flipr} from "../models/Flipr";
 import axios from "axios";
 
 export default function useFlipr(username: string, id: string | undefined){

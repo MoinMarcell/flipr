@@ -1,11 +1,13 @@
 import {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import {FliprUserDTO} from "../model/FliprUserDTO";
+import {FliprUserDTO} from "../models/FliprUserDTO";
 
 const BASE_DIR: string = "/api/users";
 
 export default function useUsers() {
     const [username, setUsername] = useState<string>("");
+
+    const isAuthenticated: boolean = username !== 'anonymousUser' && username !== null && username !== undefined;
 
     useEffect(() => {
         axios.get(BASE_DIR + "/me")
@@ -40,5 +42,5 @@ export default function useUsers() {
         return await response.data;
     }, [])
 
-    return {username, login, logout, saveUser};
+    return {username, login, logout, saveUser, isAuthenticated};
 }

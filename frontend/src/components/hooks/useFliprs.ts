@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
-import {Flipr} from "../model/Flipr";
+import {Flipr} from "../models/Flipr";
 import axios from "axios";
-import {CommentDTO} from "../model/FliprDTO";
+import {CommentDTO} from "../models/FliprDTO";
 
 const BASE_DIR: string = "/api/fliprs";
 
