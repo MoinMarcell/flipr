@@ -62,7 +62,7 @@ public class FliprService {
     public void deleteFliprById(String id) {
         try {
             fliprRepository.deleteById(id);
-        } catch (Exception e) {
+        } catch (FliprNotFoundException e) {
             throw new FliprNotFoundException();
         }
     }
