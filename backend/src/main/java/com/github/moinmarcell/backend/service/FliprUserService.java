@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +51,11 @@ public class FliprUserService {
                 fliprUser.fliprs(),
                 fliprUser.likedFliprs()
         );
+    }
+
+    public List<FliprUserResponse> getAllFliprUsers(){
+        List<FliprUser> allFliprUsers = fliprUserRepo.findAll();
+        return allFliprUsers.stream().map(user -> new FliprUserResponse(user.id(), user.username(), user.fliprs(), user.likedFliprs())).toList();
     }
 
 }

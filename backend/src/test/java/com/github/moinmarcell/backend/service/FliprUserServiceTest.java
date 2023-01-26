@@ -9,6 +9,7 @@ import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,5 +66,17 @@ class FliprUserServiceTest {
     void getFliprUserByUsername_whenUserNotExist_thenThrowFliprUserNotFoundException(){
         when(fliprUserRepo.findByUsername("marcell")).thenThrow(new FliprUserNotFroundException());
         assertThrows(FliprUserNotFroundException.class, () -> fliprUserRepo.findByUsername("marcell"));
+    }
+
+    @Test
+    void getAllFliprUsers() {
+        List<FliprUserResponse> expected = Collections.emptyList();
+
+        when(fliprUserRepo.findAll()).thenReturn(Collections.emptyList());
+
+        List<FliprUserResponse> actual = fliprUserService.getAllFliprUsers();
+
+        assertEquals(actual, expected);
+        verify(fliprUserRepo).findAll();
     }
 }

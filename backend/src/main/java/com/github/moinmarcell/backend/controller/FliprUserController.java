@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -47,6 +48,11 @@ public class FliprUserController {
     @GetMapping("/{username}")
     public FliprUserResponse getFliprUserByUsername(@PathVariable String username) {
         return fliprUserService.getFliprUserByUsername(username);
+    }
+
+    @GetMapping
+    public List<FliprUserResponse> allFliprUsers(){
+        return fliprUserService.getAllFliprUsers();
     }
 
 }
