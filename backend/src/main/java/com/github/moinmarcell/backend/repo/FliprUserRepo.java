@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface FliprUserRepo extends MongoRepository<FliprUser, String> {
     Optional<FliprUser> findByUsername(String username);
+    boolean existsByUsername(String username);
 }

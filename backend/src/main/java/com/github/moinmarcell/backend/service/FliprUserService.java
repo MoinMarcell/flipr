@@ -19,7 +19,11 @@ public class FliprUserService {
     private final IdService idService;
     private final Argon2Service argon2Service;
 
-    public FliprUserResponse saveFliprUser(FliprUserDTO userToSave){
+    public FliprUserResponse saveFliprUser(FliprUserDTO userToSave) {
+        if (fliprUserRepo.existsByUsername(userToSave.username())) {
+            throw new FliprUserAlreadyExistException();
+        }
+
         FliprUser fliprUser = new FliprUser(
                 idService.generateId(),
                 userToSave.username(),
@@ -27,11 +31,8 @@ public class FliprUserService {
                 new ArrayList<>(),
                 new ArrayList<>()
         );
-        try {
-            fliprUserRepo.save(fliprUser);
-        } catch (FliprUserAlreadyExistException e){
-            throw new FliprUserAlreadyExistException();
-        }
+
+        fliprUserRepo.save(fliprUser);
 
         return new FliprUserResponse(
                 fliprUser.id(),
@@ -41,7 +42,7 @@ public class FliprUserService {
         );
     }
 
-    public FliprUserResponse getFliprUserByUsername(String username){
+    public FliprUserResponse getFliprUserByUsername(String username) {
         FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow(FliprUserNotFroundException::new);
         return new FliprUserResponse(
                 fliprUser.id(),
