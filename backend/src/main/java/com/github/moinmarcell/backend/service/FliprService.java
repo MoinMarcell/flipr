@@ -67,27 +67,4 @@ public class FliprService {
         }
     }
 
-    public void likeFlipr(String fliprId, String username) {
-        Flipr flipr = fliprRepository.findById(fliprId).orElseThrow(FliprNotFoundException::new);
-        FliprUser fliprUser = fliprUserRepo.findByUsername(username).orElseThrow(FliprUserNotFroundException::new);
-
-        for(Flipr likedFlipr : fliprUser.likedFliprs()){
-            if(!fliprId.equals(likedFlipr.id())){
-                Flipr fliprToSave = new Flipr(
-                        flipr.id(),
-                        flipr.content(),
-                        flipr.author(),
-                        flipr.dateTime(),
-                        flipr.comments(),
-                        flipr.likes() + 1
-                );
-
-                fliprUser.likedFliprs().add(fliprToSave);
-
-                fliprRepository.save(fliprToSave);
-                fliprUserRepo.save(fliprUser);
-            }
-        }
-    }
-
 }

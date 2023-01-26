@@ -48,7 +48,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void getFliprById_whenFliprNotExist_thenThrowException(){
+    void getFliprById_whenFliprNotExist_thenThrowException() {
         when(fliprRepository.findById("1")).thenThrow(new FliprNotFoundException());
         assertThrows(FliprNotFoundException.class, () -> fliprRepository.findById("1"));
     }
@@ -64,7 +64,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void getFliprByAuthor_whenFliprNotExist_thenThrowException(){
+    void getFliprByAuthor_whenFliprNotExist_thenThrowException() {
         when(fliprRepository.findFliprByAuthor("marcell")).thenThrow(new FliprNotFoundException());
         assertThrows(FliprNotFoundException.class, () -> fliprRepository.findFliprByAuthor("marcell"));
     }
@@ -81,7 +81,7 @@ class FliprServiceTest {
         when(localDateService.getDate()).thenReturn(LocalDateTime.of(1, 1, 1, 1, 1));
         when(fliprUserRepo.findByUsername(fliprDTO.author())).thenReturn(Optional.of(fliprUser));
 
-        Flipr actual =fliprService.saveFlipr(fliprDTO);
+        Flipr actual = fliprService.saveFlipr(fliprDTO);
 
         assertEquals(actual, expected);
         verify(fliprRepository).save(expected);
@@ -91,5 +91,24 @@ class FliprServiceTest {
     void saveFlipr_whenUserIsNotLoggedIn_thenThrowUserNotFoundException() {
         when(fliprUserRepo.findByUsername("marcell")).thenThrow(new FliprUserNotFroundException());
         assertThrows(FliprUserNotFroundException.class, () -> fliprUserRepo.findByUsername("marcell"));
+    }
+
+    @Test
+    void deleteFliprById_whenFliprExist_theDeleteFlipr() {
+        Flipr fliprToDelete = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList(), 0L);
+        fliprRepository.save(fliprToDelete);
+
+        when(fliprRepository.save(fliprToDelete)).thenReturn(fliprToDelete);
+
+        fliprRepository.deleteById("1");
+
+        verify(fliprRepository).deleteById("1");
+    }
+
+    @Test
+    void deleteFliprById_whenFliprNotExist_thenThrowFliprNotFoundException() {
+        doThrow(FliprNotFoundException.class).when(fliprRepository).deleteById("1");
+        assertThrows(FliprNotFoundException.class, () -> fliprRepository.deleteById("1"));
+
     }
 }

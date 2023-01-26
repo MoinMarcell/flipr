@@ -27,16 +27,10 @@ export default function useFliprs() {
         return await response.data;
     }, [getAllFliprs]);
 
-    const likeFlipr = useCallback(async (fliprId: string, username: string) => {
-        const response = await axios.put(BASE_DIR + "/like-flipr/" + fliprId + "/" + username);
-        await getAllFliprs();
-        return await response.data;
-    }, [getAllFliprs])
-
     useEffect(() => {
         getAllFliprs()
             .catch(e => console.error(e));
     }, [getAllFliprs])
 
-    return {fliprs, saveFlipr, deleteFlipr, likeFlipr}
+    return {fliprs, saveFlipr, deleteFlipr}
 }

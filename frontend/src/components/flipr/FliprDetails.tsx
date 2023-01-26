@@ -8,7 +8,6 @@ import CommentPost from "../comment/CommentPost";
 type FliprDetailsProps = {
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 export default function FliprDetails(props: FliprDetailsProps) {
@@ -21,7 +20,7 @@ export default function FliprDetails(props: FliprDetailsProps) {
     return (
         <Grid container spacing={2}>
             <Grid item>
-                <FliprCard likeFlipr={props.likeFlipr} flipr={flipr} username={props.username} deleteFlipr={props.deleteFlipr}/>
+                <FliprCard flipr={flipr} username={props.username} deleteFlipr={props.deleteFlipr}/>
             </Grid>
             <Grid item>
                 <CommentPost saveComment={postComment} fliprId={flipr.id} author={props.username} />

@@ -23,7 +23,6 @@ type FliprCardProps = {
     flipr: Flipr,
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 const darkTheme = createTheme({
@@ -46,7 +45,6 @@ export default function FliprCard(props: FliprCardProps) {
         vertical: 'top',
         horizontal: 'right',
     });
-    const [favColor, setFavColor] = useState<"success" | "info" | "warning" | "error" | "disabled" | "action" | "inherit" | "primary" | "secondary" | undefined>(undefined);
 
     const {vertical, horizontal, open} = openSnackBar;
 
@@ -86,13 +84,6 @@ export default function FliprCard(props: FliprCardProps) {
     const handleCommentClick = useCallback(() => {
         navigate("/flipr/" + props.flipr.id);
     }, [navigate, props.flipr.id]);
-
-    const handleLikeClick = useCallback(() => {
-        props.likeFlipr(props.flipr.id, props.username)
-            .then()
-            .catch();
-        setFavColor("error");
-    }, [props]);
 
     const date = new Date(props.flipr.dateTime);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -148,9 +139,9 @@ export default function FliprCard(props: FliprCardProps) {
                     </CardContent>
                     <Divider variant="middle"/>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
+                        <IconButton aria-label="add to favorites">
                             <Badge badgeContent={props.flipr.likes} color="primary">
-                                <FavoriteIcon color={favColor}/>
+                                <FavoriteIcon />
                             </Badge>
                         </IconButton>
                         <IconButton aria-label="share">

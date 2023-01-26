@@ -10,7 +10,7 @@ import FliprDetails from "./components/flipr/FliprDetails";
 
 export default function App(){
 
-    const {fliprs, saveFlipr, deleteFlipr, likeFlipr} = useFliprs();
+    const {fliprs, saveFlipr, deleteFlipr} = useFliprs();
     const {username, login, logout} = useUsers();
 
     return (
@@ -18,8 +18,8 @@ export default function App(){
             <Navigation logout={logout} username={username} />
             <Container maxWidth={false} sx={{mt: 3}}>
                 <Routes>
-                    <Route path={"/"} element={<FliprApp likeFlipr={likeFlipr} deleteFlipr={deleteFlipr} saveFlipr={saveFlipr} username={username} fliprs={fliprs} />} />
-                    <Route path={"/flipr/:id"} element={<FliprDetails likeFlipr={likeFlipr} deleteFlipr={deleteFlipr} username={username} />} />
+                    <Route path={"/"} element={<FliprApp deleteFlipr={deleteFlipr} saveFlipr={saveFlipr} username={username} fliprs={fliprs} />} />
+                    <Route path={"/flipr/:id"} element={<FliprDetails deleteFlipr={deleteFlipr} username={username} />} />
                     <Route path={"/login"} element={<LoginApp login={login} />} />
                 </Routes>
             </Container>
