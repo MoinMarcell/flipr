@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/me").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users").permitAll()
                 .antMatchers("/api/users/**").authenticated()
                 .antMatchers("/api/comments").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/fliprs").authenticated()
