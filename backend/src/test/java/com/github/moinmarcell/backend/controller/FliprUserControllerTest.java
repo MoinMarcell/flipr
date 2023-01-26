@@ -71,7 +71,7 @@ class FliprUserControllerTest {
 
     @Test
     @DirtiesContext
-    void saveFliprUser() throws Exception {
+    void saveFliprUser_whenUserNotExist_thenExpectStatus200() throws Exception {
         mockMvc.perform(post(BASE_URL + "/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,8 +86,25 @@ class FliprUserControllerTest {
 
     @Test
     @DirtiesContext
+    void saveFliprUser_whenUserExist_thenExpectStatus200() throws Exception {
+        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
+        fliprUserRepo.save(fliprUser);
+        mockMvc.perform(post(BASE_URL + "/register")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username": "username",
+                                    "password": "123"
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DirtiesContext
     @WithMockUser
-    void getFliprUserByUsername() throws Exception {
+    void getFliprUserByUsername_whenUserExist_thenExpectStatus200_andExpectUserResponseJSON() throws Exception {
         FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         fliprUserRepo.save(fliprUser);
         mockMvc.perform(get(BASE_URL + "/username").with(csrf()))
@@ -99,5 +116,13 @@ class FliprUserControllerTest {
                             "fliprs": []
                         }
                         """));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void getFliprUserByUsername_whenUserNotExist_thenExpectStatus404() throws Exception {
+        mockMvc.perform(get(BASE_URL + "/username").with(csrf()))
+                .andExpect(status().isNotFound());
     }
 }

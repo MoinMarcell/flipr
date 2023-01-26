@@ -69,6 +69,12 @@ class FliprControllerTest {
 
     @Test
     @DirtiesContext
+    void getFliprById_whenIdNotExist_thenExpectStatus404() throws Exception {
+        mockMvc.perform(get(BASE_DIR + "/flipr?id=1").with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    @DirtiesContext
     void getFliprByAuthor_whenAuthorExist_thenReturnFlipr() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
         FliprUser author = new FliprUser("1", "author", "123", new ArrayList<>(), new ArrayList<>());
@@ -90,8 +96,15 @@ class FliprControllerTest {
 
     @Test
     @DirtiesContext
+    void getFliprByAuthor_whenAuthorNotExist_thenExpectStatus404() throws Exception {
+        mockMvc.perform(get(BASE_DIR + "/flipr?author=author").with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DirtiesContext
     @WithMockUser
-    void saveFlipr() throws Exception {
+    void saveFlipr_whenUserLoggedIn_thenExpectStatusOk() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
         FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>(), new ArrayList<>());
         fliprUser.fliprs().add(flipr);
@@ -107,5 +120,42 @@ class FliprControllerTest {
                                 }
                                 """))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DirtiesContext
+    void saveFlipr_whenUserNotLoggedIn_thenExpectStatus401() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>(), new ArrayList<>());
+        fliprUser.fliprs().add(flipr);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(post(BASE_DIR)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "content": "content",
+                                    "author": "author"
+                                }
+                                """))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void deleteFliprById_whenFliprExist_thenExpectStatusOk() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
+        fliprRepository.save(flipr);
+        mockMvc.perform(delete(BASE_DIR + "/" + flipr.id()).with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteFliprById_whenFliprNotExist_thenExpectStatusNotFound() throws Exception {
+        mockMvc.perform(delete(BASE_DIR + "/1").with(csrf()))
+                .andExpect(status().isNotFound());
     }
 }

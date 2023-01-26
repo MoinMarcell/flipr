@@ -39,15 +39,12 @@ class FliprUserServiceTest {
 
     @Test
     void saveFliprUser_whenUserExist_thenThrowFliprUserAlreadyExistException() {
-        FliprUser fliprUser = new FliprUser("1", "username", "123", Collections.emptyList(), Collections.emptyList());
         FliprUserDTO fliprUserDTO = new FliprUserDTO("username", "123");
-        fliprUserRepo.save(fliprUser);
 
-        when(fliprUserRepo.save(fliprUser)).thenThrow(new FliprUserAlreadyExistException());
+        when(fliprUserRepo.existsByUsername(any())).thenReturn(true);
 
-        fliprUserService.saveFliprUser(fliprUserDTO);
-
-        assertThrows(FliprUserAlreadyExistException.class, () -> fliprUserRepo.save(fliprUser));
+        assertThrows(FliprUserAlreadyExistException.class, () -> fliprUserService.saveFliprUser(fliprUserDTO));
+        verify(fliprUserRepo, times(0)).save(any());
     }
 
     @Test
