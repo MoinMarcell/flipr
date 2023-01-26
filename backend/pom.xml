@@ -68,7 +68,12 @@
     </dependencies>
 
     <build>
-        <finalName>app</finalName>
+        <finalName>flipr</finalName>
+        <resources>
+            <resource>
+                <directory>../frontend/build</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
