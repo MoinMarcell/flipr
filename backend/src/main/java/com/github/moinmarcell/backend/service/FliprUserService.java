@@ -7,7 +7,6 @@ import com.github.moinmarcell.backend.model.FliprUserDTO;
 import com.github.moinmarcell.backend.model.FliprUserResponse;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class FliprUserService {
         );
         try {
             fliprUserRepo.save(fliprUser);
-        } catch (DuplicateKeyException e){
+        } catch (FliprUserAlreadyExistException e){
             throw new FliprUserAlreadyExistException();
         }
 
