@@ -5,19 +5,18 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import {Button, Tooltip} from "@mui/material";
+import {Button, InputBase, Tooltip} from "@mui/material";
 import FliprLoginRegisterDialog from "../dialogs/FliprLoginRegisterDialog";
 import {useCallback, useState} from "react";
 import LoginIcon from '@mui/icons-material/Login';
 import {FliprUserDTO} from "../models/FliprUserDTO";
 import LogoutIcon from '@mui/icons-material/Logout';
+import SearchIcon from '@mui/icons-material/Search';
 
 type FliprTopBarProps = {
     username: string,
@@ -26,7 +25,7 @@ type FliprTopBarProps = {
     logout: () => Promise<unknown>,
 }
 
-const Search = styled('div')(({theme}) => ({
+const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -42,7 +41,7 @@ const Search = styled('div')(({theme}) => ({
     },
 }));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -52,7 +51,7 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -66,27 +65,18 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
+
 export default function FliprTopBar(props: FliprTopBarProps) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
     const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
 
     const handleMobileMenuClose = useCallback(() => {
         setMobileMoreAnchorEl(null);
     }, []);
-
-    const handleMenuClose = useCallback(() => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    }, [handleMobileMenuClose]);
 
     const handleMobileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
@@ -106,28 +96,6 @@ export default function FliprTopBar(props: FliprTopBarProps) {
     const handleCloseLoginDialog = useCallback(() => {
         setOpenLoginDialog(false);
     }, []);
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -217,39 +185,39 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
-                            <SearchIcon/>
+                            <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
-                            inputProps={{'aria-label': 'search'}}
+                            inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
                     <Box sx={{flexGrow: 1}}/>
                     {
                         props.isAuthenticated ?
                             <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                                <Tooltip title="My Profile">
+                                <Tooltip title="My Profile" followCursor>
                                     <IconButton
                                         size="large"
                                         edge="end"
                                         aria-label={"account of " + props.username}
-                                        aria-controls={menuId}
                                         aria-haspopup="true"
-                                        onClick={handleProfileMenuOpen}
                                         color="inherit"
                                     >
                                         <AccountCircle/>
                                     </IconButton>
                                 </Tooltip>
-                                <Tooltip title="Logout">
-                                    <IconButton size="large" aria-label="logout" color="inherit">
+                                <Tooltip title="Logout" followCursor>
+                                    <IconButton size="large" aria-label="logout" color="inherit"
+                                                onClick={handleLogoutClick}>
                                         <LogoutIcon/>
                                     </IconButton>
                                 </Tooltip>
                             </Box> :
                             <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                                 <Button color="inherit" onClick={handleLoginClick}>Login</Button>
-                                <FliprLoginRegisterDialog login={props.login} open={openLoginDialog}
+                                <FliprLoginRegisterDialog username={props.username} login={props.login}
+                                                          open={openLoginDialog}
                                                           handleClose={handleCloseLoginDialog}/>
                             </Box>
                     }
@@ -280,7 +248,6 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
         </Box>
     );
 }
