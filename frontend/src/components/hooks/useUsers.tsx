@@ -13,7 +13,7 @@ export default function useUsers() {
         axios.get(BASE_DIR + "/me")
             .then((response) => response.data)
             .then((data) => {
-                setUsername(data)
+                setUsername(data);
                 return data;
             });
     });

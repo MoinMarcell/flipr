@@ -20,9 +20,11 @@ export default function useUser(username: string | undefined){
     }, [username]);
 
     useEffect(() => {
-        getFliprUser()
-            .catch(e => console.error(e));
-    }, [getFliprUser]);
+        if(username !== 'anonymousUser' && username !== null && username !== undefined) {
+            getFliprUser()
+                .catch(e => console.error(e));
+        }
+    }, [getFliprUser, username]);
 
     return {user};
 }
