@@ -17,6 +17,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import {FliprUserDTO} from "../models/FliprUserDTO";
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
+import {useNavigate} from "react-router";
 
 type FliprTopBarProps = {
     username: string,
@@ -73,6 +74,7 @@ export default function FliprTopBar(props: FliprTopBarProps) {
     const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const navigate = useNavigate();
 
     const handleMobileMenuClose = useCallback(() => {
         setMobileMoreAnchorEl(null);
@@ -96,6 +98,11 @@ export default function FliprTopBar(props: FliprTopBarProps) {
     const handleCloseLoginDialog = useCallback(() => {
         setOpenLoginDialog(false);
     }, []);
+    
+    const handleMyProfileClick = useCallback(() => {
+        navigate("/my-profile");
+        handleMobileMenuClose();
+    }, [handleMobileMenuClose, navigate]);
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -125,7 +132,7 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                     </IconButton>
                     <p>Logout</p>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={handleMyProfileClick}>
                     <IconButton
                         size="large"
                         aria-label={"account of " + props.username}
@@ -203,6 +210,7 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                                         aria-label={"account of " + props.username}
                                         aria-haspopup="true"
                                         color="inherit"
+                                        onClick={handleMyProfileClick}
                                     >
                                         <AccountCircle/>
                                     </IconButton>
