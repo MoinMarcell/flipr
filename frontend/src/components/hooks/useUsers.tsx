@@ -40,7 +40,7 @@ export default function useUsers() {
     const saveUser = useCallback(async (userToRegister: FliprUserDTO) => {
         const response = await axios.post(BASE_DIR + "/register", userToRegister);
         return await response.data;
-    }, [])
+    }, []);
 
     return {username, login, logout, saveUser, isAuthenticated};
 }

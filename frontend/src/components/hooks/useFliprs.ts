@@ -27,10 +27,23 @@ export default function useFliprs() {
         return await response.data;
     }, [getAllFliprs]);
 
+    const addFliprToFavorites = useCallback(async (username: string, fliprId: string) => {
+        const response = await axios.put(BASE_DIR + "/add-flipr-to-favorites/" + username + "/" + fliprId);
+        await getAllFliprs();
+        return await response.data;
+    }, [getAllFliprs]);
+
+    const isLikedFlipr = useCallback(async (username: string, fliprId: string) => {
+        const response = await axios.get(BASE_DIR + "/check-is-liked-flipr/" + username + "/" + fliprId);
+        const data = await response.data;
+        await getAllFliprs();
+        return data;
+    }, [getAllFliprs]);
+
     useEffect(() => {
         getAllFliprs()
             .catch(e => console.error(e));
     }, [getAllFliprs])
 
-    return {fliprs, saveFlipr, deleteFlipr}
+    return {fliprs, saveFlipr, deleteFlipr, addFliprToFavorites, isLikedFlipr}
 }
