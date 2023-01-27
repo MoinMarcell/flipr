@@ -1,4 +1,5 @@
 import useUser from "../hooks/useUser";
+import React from "react";
 
 type UserProfileProps = {
     username: string,
