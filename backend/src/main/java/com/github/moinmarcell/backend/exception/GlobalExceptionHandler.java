@@ -43,6 +43,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(FliprAlreadyAddedToFavoritesException.class)
+    public ResponseEntity<Map<String, Object>> handleFliprAlreadyAddedToFavoritesException(FliprAlreadyAddedToFavoritesException exception){
+        Map<String, Object> responseBody = new LinkedHashMap<>();
+        responseBody.put(message, exception.getMessage());
+        responseBody.put(timestamp, localDateTime);
+
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllOtherExceptions(){
