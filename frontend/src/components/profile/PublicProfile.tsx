@@ -1,9 +1,17 @@
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import useUser from "../hooks/useUser";
 import React, {useCallback} from "react";
 import {Box, Button, Grid, Tabs, Typography} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Tab from "@mui/material/Tab";
+import FliprCard from "../flipr/FliprCard";
+
+type PublicProfileProps = {
+    username: string,
+    isAuthenticated: boolean,
+    addFliprToFavorites(username: string, fliprId: string): Promise<unknown>,
+    isLikedFlipr(username: string, fliprId: string): Promise<unknown>,
+}
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -12,7 +20,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -23,7 +31,7 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -38,12 +46,18 @@ function a11yProps(index: number) {
     };
 }
 
-export default function PublicProfile() {
+export default function PublicProfile(props: PublicProfileProps) {
 
     const params = useParams();
     const username: string | undefined = params.username;
 
-    const {user} = useUser(username);
+    const {user, status} = useUser(username);
+
+    const navigate = useNavigate();
+
+    if(status === 404){
+        navigate("/");
+    }
 
     const [value, setValue] = React.useState(0);
 
@@ -51,10 +65,10 @@ export default function PublicProfile() {
         setValue(newValue);
     }, []);
 
-    return(
+    return (
         <Grid container spacing={1} flexDirection={"column"} sx={{mt: 4}}>
             <Grid item alignSelf={"center"}>
-                <AccountCircle sx={{fontSize: 70}} />
+                <AccountCircle sx={{fontSize: 70}}/>
             </Grid>
             <Grid item alignSelf={"center"}>
                 <Typography variant={"h4"}>@{user.username}</Typography>
@@ -62,8 +76,8 @@ export default function PublicProfile() {
             <Grid item alignSelf={"center"}>
                 <Button variant={"outlined"}>Follow me</Button>
             </Grid>
-            <Grid item alignSelf={"center"}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Grid item sx={{width: '100%'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Fliprs" {...a11yProps(0)} />
                         <Tab label="Liked Fliprs" {...a11yProps(1)} />
@@ -71,13 +85,29 @@ export default function PublicProfile() {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    Item One
+                    <Grid container spacing={2} justifyContent={"center"}>
+                        {
+                            user.fliprs.length > 0 ?
+                                user.fliprs.map((flipr) => {
+                                    return <FliprCard isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
+                                }).reverse() :
+                                'No Fliprs yet :('
+                        }
+                    </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <Grid container spacing={2} justifyContent={"center"}>
+                    {
+                        user.likedFliprs.length > 0 ?
+                            user.likedFliprs.map((flipr) => {
+                                return <FliprCard isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
+                            }).reverse() :
+                            'No liked Fliprs yet :('
+                    }
+                    </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Item Three
+                    Coming soon
                 </TabPanel>
             </Grid>
         </Grid>
