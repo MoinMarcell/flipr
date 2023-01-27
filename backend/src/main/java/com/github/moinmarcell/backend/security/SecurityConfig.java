@@ -32,10 +32,13 @@ public class SecurityConfig {
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/me").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/{username}").permitAll()
                 .antMatchers("/api/users/**").authenticated()
                 .antMatchers("/api/comments").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/fliprs").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/fliprs").authenticated()
+                .antMatchers("/api/fliprs/add-flipr-to-favorites/{username}/{fliprId}").authenticated()
+                .antMatchers("/api/fliprs/check-is-liked-flipr/{username}/{fliprId}").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().build();
     }
