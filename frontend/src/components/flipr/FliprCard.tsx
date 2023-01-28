@@ -117,9 +117,6 @@ export default function FliprCard(props: FliprCardProps) {
                     if (error.response.status === 400) {
                         setIsFavorite(false);
                     }
-                    if(error.response.status === 401){
-                        console.log("NOT LOGGED IN!!!")
-                    }
                 })
         }
     }, [isFavorite, props])
