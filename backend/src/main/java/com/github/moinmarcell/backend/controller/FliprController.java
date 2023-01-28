@@ -35,9 +35,4 @@ public class FliprController {
         return fliprService.saveFlipr(flipr);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteFliprById(@PathVariable String id){
-        fliprService.deleteFliprById(id);
-    }
-
 }
