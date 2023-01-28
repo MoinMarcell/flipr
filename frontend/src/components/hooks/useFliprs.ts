@@ -27,8 +27,8 @@ export default function useFliprs() {
         return await response.data;
     }, [getAllFliprs]);
 
-    const likeFlipr = useCallback(async (fliprId: string, username: string) => {
-        const response = await axios.put(BASE_DIR + "/like-flipr/" + fliprId + "/" + username);
+    const likeFlipr = useCallback(async (fliprId: string) => {
+        const response = await axios.put(BASE_DIR + "/like-flipr/" + fliprId);
         await getAllFliprs();
         return await response.data;
     }, [getAllFliprs])
