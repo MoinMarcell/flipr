@@ -24,7 +24,6 @@ type FliprTopBarProps = {
     isAuthenticated: boolean,
     login: (userToLogin: FliprUserDTO) => Promise<unknown>,
     logout: () => Promise<unknown>,
-    register: (userToRegister: FliprUserDTO) => Promise<unknown>,
 }
 
 const Search = styled('div')(({theme}) => ({
@@ -225,7 +224,7 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                             </Box> :
                             <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                                 <Button color="inherit" onClick={handleLoginClick}>Login</Button>
-                                <FliprLoginRegisterDialog register={props.register} username={props.username} login={props.login}
+                                <FliprLoginRegisterDialog username={props.username} login={props.login}
                                                           open={openLoginDialog}
                                                           handleClose={handleCloseLoginDialog}/>
                             </Box>
