@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {Flipr} from "../models/Flipr";
 import axios from "axios";
-import {CommentDTO} from "../models/FliprDTO";
+import {FliprDTO} from "../models/FliprDTO";
 
 const BASE_DIR: string = "/api/fliprs";
 
@@ -15,7 +15,7 @@ export default function useFliprs() {
         return data;
     }, []);
 
-    const saveFlipr = useCallback(async (fliprToSave: CommentDTO) => {
+    const saveFlipr = useCallback(async (fliprToSave: FliprDTO) => {
         const response = await axios.post(BASE_DIR, fliprToSave);
         await getAllFliprs();
         return await response.data;
