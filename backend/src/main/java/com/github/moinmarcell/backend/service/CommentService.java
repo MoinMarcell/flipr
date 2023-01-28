@@ -1,6 +1,5 @@
 package com.github.moinmarcell.backend.service;
 
-import com.github.moinmarcell.backend.exception.FliprNotFoundException;
 import com.github.moinmarcell.backend.model.Comment;
 import com.github.moinmarcell.backend.model.CommentDTO;
 import com.github.moinmarcell.backend.model.Flipr;
@@ -27,7 +26,7 @@ public class CommentService {
         );
         commentRepo.save(commentToSave);
 
-        Flipr flipr = fliprRepository.findById(commentDTO.fliprId()).orElseThrow(FliprNotFoundException::new);
+        Flipr flipr = fliprRepository.findById(commentDTO.fliprId()).orElseThrow();
         flipr.comments().add(commentToSave);
         fliprRepository.save(flipr);
 
