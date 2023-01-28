@@ -6,13 +6,14 @@ type FliprGalleryProps = {
     fliprs: Flipr[],
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
+    likeFlipr(fliprId: string, username: string): Promise<string>,
 }
 
 export default function FliprGallery(props: FliprGalleryProps) {
 
     const fliprCard = props.fliprs.map((flipr) => {
         return (
-            <FliprCard deleteFlipr={props.deleteFlipr} username={props.username} flipr={flipr} key={flipr.id}/>
+            <FliprCard likeFlipr={props.likeFlipr} deleteFlipr={props.deleteFlipr} username={props.username} flipr={flipr} key={flipr.id}/>
         );
     }).reverse();
 
