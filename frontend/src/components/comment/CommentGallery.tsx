@@ -6,14 +6,13 @@ import {timelineOppositeContentClasses} from "@mui/lab";
 
 type CommentGalleryProps = {
     comments: Comment[],
-    isAuthenticated: boolean,
 }
 
 export default function CommentGallery(props: CommentGalleryProps) {
 
     const commentCard = props.comments.map((comment) => {
         return (
-            <CommentCard isAuthenticated={props.isAuthenticated} comment={comment} key={comment.id} />
+            <CommentCard comment={comment} key={comment.id} />
         );
     }).reverse();
 

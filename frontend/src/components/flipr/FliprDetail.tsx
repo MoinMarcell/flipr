@@ -33,7 +33,7 @@ export default function FliprDetail(props: FliprDetailProps) {
                 <PostComment postComment={postComment} fliprId={flipr.id}/>
             </Grid>
             <Grid item sx={{width: '95%'}}>
-                <CommentGallery isAuthenticated={props.isAuthenticated} comments={flipr.comments}/>
+                <CommentGallery comments={flipr.comments}/>
             </Grid>
         </Grid>
     );
