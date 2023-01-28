@@ -56,7 +56,7 @@ export default function PublicProfile(props: PublicProfileProps) {
 
     const navigate = useNavigate();
 
-    if(status === 404){
+    if (status === 404) {
         navigate("/");
     }
 
@@ -90,7 +90,10 @@ export default function PublicProfile(props: PublicProfileProps) {
                         {
                             user.fliprs.length > 0 ?
                                 user.fliprs.map((flipr) => {
-                                    return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
+                                    return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr}
+                                                      addFliprToFavorites={props.addFliprToFavorites}
+                                                      username={props.username} isAuthenticated={props.isAuthenticated}
+                                                      flipr={flipr} key={flipr.id}/>
                                 }).reverse() :
                                 'No Fliprs yet :('
                         }
@@ -98,13 +101,16 @@ export default function PublicProfile(props: PublicProfileProps) {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Grid container spacing={2} justifyContent={"center"}>
-                    {
-                        user.likedFliprs.length > 0 ?
-                            user.likedFliprs.map((flipr) => {
-                                return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
-                            }).reverse() :
-                            'No liked Fliprs yet :('
-                    }
+                        {
+                            user.likedFliprs.length > 0 ?
+                                user.likedFliprs.map((flipr) => {
+                                    return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr}
+                                                      addFliprToFavorites={props.addFliprToFavorites}
+                                                      username={props.username} isAuthenticated={props.isAuthenticated}
+                                                      flipr={flipr} key={flipr.id}/>
+                                }).reverse() :
+                                'No liked Fliprs yet :('
+                        }
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={2}>

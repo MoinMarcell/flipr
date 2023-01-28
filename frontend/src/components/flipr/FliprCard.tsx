@@ -95,7 +95,7 @@ export default function FliprCard(props: FliprCardProps) {
                 setOpenSnackBar(true);
             })
             .catch((e) => {
-                if(e.response.status === 401){
+                if (e.response.status === 401) {
                     setSnackBarMessage("Not logged in!");
                     setSnackBarSeverity("error");
                     setOpenSnackBar(true);
@@ -133,11 +133,11 @@ export default function FliprCard(props: FliprCardProps) {
                         </Avatar>
                     }
                     action={
-                    props.isAuthenticated && props.username === props.flipr.author ?
-                        <IconButton aria-label="settings" onClick={handleDeleteClick}>
-                            <DeleteIcon/>
-                        </IconButton> :
-                        ''
+                        props.isAuthenticated && props.username === props.flipr.author ?
+                            <IconButton aria-label="settings" onClick={handleDeleteClick}>
+                                <DeleteIcon/>
+                            </IconButton> :
+                            ''
                     }
                     title={<Link to={"/profiles/" + props.flipr.author}>{props.flipr.author}</Link>}
                     subheader={dateToShow}
@@ -154,7 +154,7 @@ export default function FliprCard(props: FliprCardProps) {
                 <CardActions disableSpacing>
                     <IconButton aria-label="add to favorites" onClick={handleAddToFavoritesClick}>
                         <Badge badgeContent={props.flipr.likes} color="primary">
-                            <FavoriteIcon color={isFavorite ? "error" : undefined} />
+                            <FavoriteIcon color={isFavorite ? "error" : undefined}/>
                         </Badge>
                     </IconButton>
                     <IconButton aria-label="share" onClick={handleShareClick}>
@@ -163,7 +163,8 @@ export default function FliprCard(props: FliprCardProps) {
                 </CardActions>
 
             </Card>
-            <FliprSnackBar open={openSnackBar} severity={snackBarSeverity} handleClose={handleCloseSnackBar} message={snackBarMessage} />
+            <FliprSnackBar open={openSnackBar} severity={snackBarSeverity} handleClose={handleCloseSnackBar}
+                           message={snackBarMessage}/>
         </Grid>
     );
 }

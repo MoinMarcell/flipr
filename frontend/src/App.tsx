@@ -7,22 +7,34 @@ import PublicProfile from "./components/profile/PublicProfile";
 import ProtectedRoutes from "./ProtectedRoutes";
 import useFliprs from "./components/hooks/useFliprs";
 import FliprGallery from "./components/flipr/FliprGallery";
+import FliprBottomBar from "./components/appBar/FliprBottomBar";
 
-export default function App(){
+export default function App() {
 
     const {username, isAuthenticated, login, logout} = useUsers();
     const {fliprs, addFliprToFavorites, isLikedFlipr, deleteFlipr} = useFliprs();
 
     return (
         <BrowserRouter>
-            <FliprTopBar logout={logout} login={login} username={username} isAuthenticated={isAuthenticated} />
+            <FliprTopBar logout={logout} login={login} username={username} isAuthenticated={isAuthenticated}/>
             <Routes>
-                <Route path={"/"} element={<FliprGallery deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr} username={username} isAuthenticated={isAuthenticated} addFliprToFavorites={addFliprToFavorites} fliprs={fliprs} />} />
-                <Route path={"/profiles/:username"} element={<PublicProfile deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr} username={username} isAuthenticated={isAuthenticated} addFliprToFavorites={addFliprToFavorites} />} />
-                <Route element={<ProtectedRoutes login={login} username={username} />}>
-                    <Route path={"/my-profile"} element={<UserProfile username={username} />} />
+                <Route path={"/"}
+                       element={<FliprGallery deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr} username={username}
+                                              isAuthenticated={isAuthenticated}
+                                              addFliprToFavorites={addFliprToFavorites} fliprs={fliprs}/>}/>
+                <Route path={"/profiles/:username"}
+                       element={<PublicProfile deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr} username={username}
+                                               isAuthenticated={isAuthenticated}
+                                               addFliprToFavorites={addFliprToFavorites}/>}/>
+                <Route element={<ProtectedRoutes login={login} username={username}/>}>
+                    <Route path={"/my-profile"} element={<UserProfile username={username}/>}/>
                 </Route>
             </Routes>
+            {
+                isAuthenticated ?
+                    <FliprBottomBar/> :
+                    ''
+            }
         </BrowserRouter>
     );
 
