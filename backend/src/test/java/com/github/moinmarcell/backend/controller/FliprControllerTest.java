@@ -163,4 +163,76 @@ class FliprControllerTest {
         mockMvc.perform(delete(BASE_DIR + "/1").with(csrf()))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void addFliprToFavorites_whenFliprIsNoFavorite_thenExpectStatusOkAndFliprUserResponse() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1,1,1,1,1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", Collections.emptyList(), new ArrayList<>());
+        fliprRepository.save(flipr);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(put(BASE_DIR + "/add-flipr-to-favorites/author/1").with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": "1",
+                            "username": "author",
+                            "fliprs": [],
+                            "likedFliprs": [
+                                {
+                                    "id": "1",
+                                    "content": "content",
+                                    "author": "author",
+                                    "dateTime": "0001-01-01T01:01:00",
+                                    "comments": [],
+                                    "likes": 0
+                                }
+                            ]
+                        }
+                        """));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void addFliprToFavorites_whenFliprIsFavorite_thenExpectStatusBadRequest() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1,1,1,1,1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", Collections.emptyList(), new ArrayList<>());
+        fliprUser.likedFliprs().add(flipr);
+        fliprRepository.save(flipr);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(put(BASE_DIR + "/add-flipr-to-favorites/author/1").with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void isLikedFlipr_whenFliprIsAlreadyLiked_thenExpectStatusOkAndContentTrue() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1,1,1,1,1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", Collections.emptyList(), new ArrayList<>());
+        fliprUser.likedFliprs().add(flipr);
+        fliprRepository.save(flipr);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(get(BASE_DIR + "/check-is-liked-flipr/author/1").with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void isLikedFlipr_whenFliprIsAlreadyLiked_thenExpectStatusBadRequest() throws Exception {
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1,1,1,1,1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", Collections.emptyList(), Collections.emptyList());
+        fliprRepository.save(flipr);
+        fliprUserRepo.save(fliprUser);
+
+        mockMvc.perform(get(BASE_DIR + "/check-is-liked-flipr/author/1").with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 }
