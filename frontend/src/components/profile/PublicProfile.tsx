@@ -11,6 +11,7 @@ type PublicProfileProps = {
     isAuthenticated: boolean,
     addFliprToFavorites(username: string, fliprId: string): Promise<unknown>,
     isLikedFlipr(username: string, fliprId: string): Promise<unknown>,
+    deleteFlipr(fliprId: string): Promise<unknown>,
 }
 
 interface TabPanelProps {
@@ -89,7 +90,7 @@ export default function PublicProfile(props: PublicProfileProps) {
                         {
                             user.fliprs.length > 0 ?
                                 user.fliprs.map((flipr) => {
-                                    return <FliprCard isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
+                                    return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
                                 }).reverse() :
                                 'No Fliprs yet :('
                         }
@@ -100,7 +101,7 @@ export default function PublicProfile(props: PublicProfileProps) {
                     {
                         user.likedFliprs.length > 0 ?
                             user.likedFliprs.map((flipr) => {
-                                return <FliprCard isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
+                                return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id} />
                             }).reverse() :
                             'No liked Fliprs yet :('
                     }

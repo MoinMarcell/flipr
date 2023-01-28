@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import {red} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Flipr} from "../models/Flipr";
 import {Badge, Divider, Grid} from "@mui/material";
 import {Link} from "react-router-dom";
@@ -17,6 +16,7 @@ import {useNavigate} from "react-router";
 import {useCallback, useEffect, useState} from "react";
 import FliprSnackBar from "../snackbar/FliprSnackBar";
 import {AlertColor} from "@mui/material/Alert";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -24,6 +24,7 @@ type FliprCardProps = {
     isAuthenticated: boolean,
     addFliprToFavorites(username: string, fliprId: string): Promise<unknown>,
     isLikedFlipr(username: string, fliprId: string): Promise<unknown>,
+    deleteFlipr(fliprId: string): Promise<unknown>,
 }
 export default function FliprCard(props: FliprCardProps) {
 
@@ -73,7 +74,7 @@ export default function FliprCard(props: FliprCardProps) {
     }, [props]);
 
     const handleShareClick = useCallback(() => {
-        navigator.clipboard.writeText(window.location + "/fliprs/" + props.flipr.id)
+        navigator.clipboard.writeText(window.location + "fliprs/" + props.flipr.id)
             .then(() => {
                 setSnackBarMessage("Link copied successfully to your Clipboard!");
                 setSnackBarSeverity("success");
@@ -85,6 +86,26 @@ export default function FliprCard(props: FliprCardProps) {
                 setOpenSnackBar(true);
             })
     }, [props.flipr.id]);
+
+    const handleDeleteClick = useCallback(() => {
+        props.deleteFlipr(props.flipr.id)
+            .then(() => {
+                setSnackBarMessage("Flipr deleted successfully!");
+                setSnackBarSeverity("success");
+                setOpenSnackBar(true);
+            })
+            .catch((e) => {
+                if(e.response.status === 401){
+                    setSnackBarMessage("Not logged in!");
+                    setSnackBarSeverity("error");
+                    setOpenSnackBar(true);
+                } else {
+                    setSnackBarMessage("Something went wrong! Try again later.");
+                    setSnackBarSeverity("error");
+                    setOpenSnackBar(true);
+                }
+            })
+    }, [props]);
 
     useEffect(() => {
         if (!isFavorite && props.isAuthenticated) {
@@ -115,9 +136,11 @@ export default function FliprCard(props: FliprCardProps) {
                         </Avatar>
                     }
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon/>
-                        </IconButton>
+                    props.isAuthenticated && props.username === props.flipr.author ?
+                        <IconButton aria-label="settings" onClick={handleDeleteClick}>
+                            <DeleteIcon/>
+                        </IconButton> :
+                        ''
                     }
                     title={<Link to={"/profiles/" + props.flipr.author}>{props.flipr.author}</Link>}
                     subheader={dateToShow}

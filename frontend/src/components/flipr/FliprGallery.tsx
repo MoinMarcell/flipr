@@ -8,10 +8,11 @@ type FliprGalleryProps = {
     isAuthenticated: boolean,
     addFliprToFavorites(username: string, fliprId: string): Promise<unknown>,
     isLikedFlipr(username: string, fliprId: string): Promise<unknown>,
+    deleteFlipr(fliprId: string): Promise<unknown>,
 }
 export default function FliprGallery(props: FliprGalleryProps) {
     const fliprCard = props.fliprs.map((flipr) => {
-        return <FliprCard isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id}/>
+        return <FliprCard deleteFlipr={props.deleteFlipr} isLikedFlipr={props.isLikedFlipr} addFliprToFavorites={props.addFliprToFavorites} username={props.username} isAuthenticated={props.isAuthenticated} flipr={flipr} key={flipr.id}/>
     }).reverse();
 
     return (
