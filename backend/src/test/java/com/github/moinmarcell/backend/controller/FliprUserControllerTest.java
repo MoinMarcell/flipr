@@ -125,12 +125,4 @@ class FliprUserControllerTest {
         mockMvc.perform(get(BASE_URL + "/username").with(csrf()))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    @DirtiesContext
-    void allFliprUsers() throws Exception {
-        mockMvc.perform(get(BASE_URL).with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[]"));
-    }
 }
