@@ -1,6 +1,6 @@
-import {Alert, AlertColor, Box, Button, Grid, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Alert, AlertColor, Box, Button, IconButton, InputAdornment, TextField} from "@mui/material";
 import React, {ChangeEvent, FormEvent, useCallback, useState} from "react";
-import {CommentDTO} from "../model/FliprDTO";
+import {FliprDTO} from "../model/FliprDTO";
 import {Flipr} from "../model/Flipr";
 import Snackbar, {SnackbarOrigin} from "@mui/material/Snackbar";
 import {wait} from "@testing-library/user-event/dist/utils";
@@ -14,13 +14,13 @@ export interface State extends SnackbarOrigin {
 }
 
 type FliprPostProps = {
-    saveFlipr(fliprToSave: CommentDTO): Promise<Flipr>,
+    saveFlipr(fliprToSave: FliprDTO): Promise<Flipr>,
     author: string,
 }
 
 export default function FliprPost(props: FliprPostProps) {
 
-    const [fliprToSave, setFliprToSave] = useState<CommentDTO>({
+    const [fliprToSave, setFliprToSave] = useState<FliprDTO>({
         content: "",
         author: props.author,
     });
@@ -82,10 +82,6 @@ export default function FliprPost(props: FliprPostProps) {
                 wait(1500)
                     .then(() => {
                         setIsDisabled(false);
-                        setFliprToSave({
-                            ...fliprToSave,
-                            content: "",
-                        })
                     });
             })
             .catch((e) => {
@@ -116,37 +112,24 @@ export default function FliprPost(props: FliprPostProps) {
 
     return (
         <Box component={"form"} onSubmit={handleSubmitSaveFlipr}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <TextField
-                        error={isError}
-                        fullWidth
-                        value={fliprToSave.content}
-                        onChange={handleChangeContent}
-                        label="Your Message"
-                        id="outlined-start-adornment"
-                        InputProps={{
-                            startAdornment:
-                                <InputAdornment onMouseOver={handleMouseOverShowEmojiPicker} position="start">
-                                    <IconButton>
-                                        <EmojiEmotionsIcon/>
-                                    </IconButton>
-                                </InputAdornment>,
-                        }}
-                    />
-                    {
-                        showEmojiPicker ?
-                            <Box>
-                                <Picker onClickOutside={handleCloseEmojiPicker} perLine={8} data={data}
-                                        onEmojiSelect={handleOnEmojiClick}/>
-                            </Box> :
-                            ''
-                    }
-                </Grid>
-                <Grid item xs={12} textAlign={"center"}>
-                    <Button fullWidth type={"submit"} variant={"outlined"} disabled={isDisabled}>FLIPR IT!</Button>
-                </Grid>
-            </Grid>
+            <TextField
+                error={isError}
+                fullWidth
+                value={fliprToSave.content}
+                onChange={handleChangeContent}
+                label="Your Message"
+                id="outlined-start-adornment"
+                sx={{m: 1, width: '25ch'}}
+                InputProps={{
+                    startAdornment:
+                        <InputAdornment onMouseOver={handleMouseOverShowEmojiPicker} position="start">
+                            <IconButton>
+                                <EmojiEmotionsIcon/>
+                            </IconButton>
+                        </InputAdornment>,
+                }}
+            />
+            <Button type={"submit"} variant={"outlined"} disabled={isDisabled}>FLIPR IT!</Button>
             <Snackbar
                 anchorOrigin={{vertical, horizontal}}
                 open={open}
@@ -157,6 +140,11 @@ export default function FliprPost(props: FliprPostProps) {
                     {snackBarText}
                 </Alert>
             </Snackbar>
+            {
+                showEmojiPicker ?
+                    <Picker onClickOutside={handleCloseEmojiPicker} perLine={8} data={data} onEmojiSelect={handleOnEmojiClick} /> :
+                    ''
+            }
         </Box>
     );
 
