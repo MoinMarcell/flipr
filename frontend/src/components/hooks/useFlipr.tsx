@@ -21,9 +21,9 @@ export default function useFlipr(username: string, id: string | undefined){
         return data;
     }, [id]);
 
-    const postComment = useCallback(async (commentToSave: string, fliprId: string) => {
+    const postComment = useCallback(async (content: string, fliprId: string) => {
         const response = await axios.post("/api/comments", {
-            "content": commentToSave,
+            "content": content,
             "author": username,
             "fliprId": fliprId,
         });

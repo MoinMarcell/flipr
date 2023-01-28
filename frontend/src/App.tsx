@@ -8,16 +8,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import useFliprs from "./components/hooks/useFliprs";
 import FliprGallery from "./components/flipr/FliprGallery";
 import FliprBottomBar from "./components/appBar/FliprBottomBar";
-import {createTheme, ThemeProvider} from "@mui/material";
-
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: {
-            main: '#1976d2',
-        },
-    },
-});
+import FliprDetail from "./components/flipr/FliprDetail";
 
 export default function App() {
 
@@ -26,29 +17,41 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <ThemeProvider theme={darkTheme}>
-                <FliprTopBar logout={logout} login={login} username={username} isAuthenticated={isAuthenticated}/>
-                <Routes>
-                    <Route path={"/"}
-                           element={<FliprGallery deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr}
-                                                  username={username}
-                                                  isAuthenticated={isAuthenticated}
-                                                  addFliprToFavorites={addFliprToFavorites} fliprs={fliprs}/>}/>
-                    <Route path={"/profiles/:username"}
-                           element={<PublicProfile deleteFlipr={deleteFlipr} isLikedFlipr={isLikedFlipr}
-                                                   username={username}
-                                                   isAuthenticated={isAuthenticated}
-                                                   addFliprToFavorites={addFliprToFavorites}/>}/>
-                    <Route element={<ProtectedRoutes login={login} username={username}/>}>
-                        <Route path={"/my-profile"} element={<UserProfile username={username}/>}/>
-                    </Route>
-                </Routes>
-                {
-                    isAuthenticated ?
-                        <FliprBottomBar/> :
-                        ''
-                }
-            </ThemeProvider>
+            <FliprTopBar logout={logout} login={login} username={username} isAuthenticated={isAuthenticated}/>
+            <Routes>
+                <Route path={"/"}
+                       element={<FliprGallery deleteFlipr={deleteFlipr}
+                                              isLikedFlipr={isLikedFlipr}
+                                              username={username}
+                                              isAuthenticated={isAuthenticated}
+                                              addFliprToFavorites={addFliprToFavorites}
+                                              fliprs={fliprs}/>}
+                />
+                <Route path={"/profiles/:username"}
+                       element={<PublicProfile deleteFlipr={deleteFlipr}
+                                               isLikedFlipr={isLikedFlipr}
+                                               username={username}
+                                               isAuthenticated={isAuthenticated}
+                                               addFliprToFavorites={addFliprToFavorites}
+                       />}
+                />
+                <Route path={"/flipr/:id"}
+                       element={<FliprDetail username={username}
+                                             isAuthenticated={isAuthenticated}
+                                             addFliprToFavorites={addFliprToFavorites}
+                                             isLikedFlipr={isLikedFlipr}
+                                             deleteFlipr={deleteFlipr}
+                       />}
+                />
+                <Route element={<ProtectedRoutes login={login} username={username}/>}>
+                    <Route path={"/my-profile"} element={<UserProfile username={username}/>}/>
+                </Route>
+            </Routes>
+            {
+                isAuthenticated ?
+                    <FliprBottomBar/> :
+                    ''
+            }
         </BrowserRouter>
     );
 
