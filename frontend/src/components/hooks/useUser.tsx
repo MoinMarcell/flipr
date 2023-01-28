@@ -11,12 +11,14 @@ export default function useUser(username: string | undefined){
     }
 
     const [user, setUser] = useState<FliprUser>(emptyUser);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const getFliprUser = useCallback(async () => {
+        setIsLoading(true);
         const response = await axios.get("/api/users/" + username);
         const data = await response.data;
         setUser(data);
-        return data;
+        setIsLoading(false);
     }, [username]);
 
     useEffect(() => {
@@ -24,5 +26,5 @@ export default function useUser(username: string | undefined){
             .catch(e => console.error(e));
     }, [getFliprUser]);
 
-    return {user};
+    return {user, isLoading};
 }
