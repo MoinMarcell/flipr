@@ -6,5 +6,4 @@ export type Flipr = {
     author: string,
     dateTime: Date,
     comments: Comment[],
-    likes: number,
 }
