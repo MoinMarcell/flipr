@@ -23,9 +23,8 @@ export default function useFliprs() {
 
     const deleteFlipr = useCallback(async (id: string) => {
         const response = await axios.delete(BASE_DIR + "/" + id);
-        const data = await response.data;
         await getAllFliprs();
-        return data;
+        return await response.data;
     }, [getAllFliprs]);
 
     const addFliprToFavorites = useCallback(async (username: string, fliprId: string) => {
