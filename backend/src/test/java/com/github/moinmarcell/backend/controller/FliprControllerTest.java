@@ -5,7 +5,6 @@ import com.github.moinmarcell.backend.model.Flipr;
 import com.github.moinmarcell.backend.model.FliprUser;
 import com.github.moinmarcell.backend.repo.FliprRepository;
 import com.github.moinmarcell.backend.repo.FliprUserRepo;
-import com.github.moinmarcell.backend.service.IdService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,9 +38,6 @@ class FliprControllerTest {
 
     @Autowired
     FliprUserRepo fliprUserRepo;
-
-    @Autowired
-    IdService idService;
 
     private final String BASE_DIR = "/api/fliprs";
 
@@ -150,10 +146,9 @@ class FliprControllerTest {
     @DirtiesContext
     @WithMockUser
     void deleteFliprById_whenFliprExist_thenExpectStatusOk() throws Exception {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList(), 0L);
+        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
         fliprRepository.save(flipr);
-        System.out.println(flipr);
-        mockMvc.perform(delete(BASE_DIR + "/1").with(csrf()))
+        mockMvc.perform(delete(BASE_DIR + "/" + flipr.id()).with(csrf()))
                 .andExpect(status().isOk());
     }
 

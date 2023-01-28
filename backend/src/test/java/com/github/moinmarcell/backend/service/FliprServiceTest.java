@@ -94,7 +94,7 @@ class FliprServiceTest {
     }
 
     @Test
-    void deleteFliprById_whenFliprExist_thenDeleteFlipr() {
+    void deleteFliprById_whenFliprExist_theDeleteFlipr() {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
         fliprRepository.save(flipr);
 

@@ -60,11 +60,10 @@ public class FliprService {
     }
 
     public void deleteFliprById(String id) {
-        if (fliprRepository.existsById(id)) {
+        if(fliprRepository.existsById(id)){
             fliprRepository.deleteById(id);
-        } else {
-            throw new FliprNotFoundException();
         }
+        throw new FliprNotFoundException();
     }
 
 }
