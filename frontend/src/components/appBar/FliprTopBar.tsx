@@ -67,12 +67,19 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-
 export default function FliprTopBar(props: FliprTopBarProps) {
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
     const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false);
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+
+    const handleOpenNavMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    }, []);
+    const handleCloseNavMenu = useCallback(() => {
+        setAnchorElNav(null);
+    }, []);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const navigate = useNavigate();
@@ -104,6 +111,11 @@ export default function FliprTopBar(props: FliprTopBarProps) {
         navigate("/my-profile");
         handleMobileMenuClose();
     }, [handleMobileMenuClose, navigate]);
+
+    const handleHomeClick = useCallback(() => {
+        navigate("/");
+        handleCloseNavMenu();
+    }, [handleCloseNavMenu, navigate]);
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -174,15 +186,40 @@ export default function FliprTopBar(props: FliprTopBarProps) {
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
                         size="large"
-                        edge="start"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleOpenNavMenu}
                         color="inherit"
-                        aria-label="open drawer"
-                        sx={{mr: 2}}
                     >
                         <MenuIcon/>
                     </IconButton>
+                    </Box>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={handleCloseNavMenu}
+                        sx={{
+                            display: {xs: 'block', md: 'none'},
+                        }}
+                    >
+                        <MenuItem key={"Home"} onClick={handleHomeClick}>
+                            <Typography textAlign="center">{"Home"}</Typography>
+                        </MenuItem>
+                    </Menu>
                     <Typography
                         variant="h6"
                         noWrap
@@ -191,6 +228,15 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                     >
                         FLIPR
                     </Typography>
+                    <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                        <Button
+                            key={"Home"}
+                            onClick={handleHomeClick}
+                            sx={{my: 2, color: 'white', display: 'block'}}
+                        >
+                            {"Home"}
+                        </Button>
+                    </Box>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon/>
@@ -225,7 +271,8 @@ export default function FliprTopBar(props: FliprTopBarProps) {
                             </Box> :
                             <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                                 <Button color="inherit" onClick={handleLoginClick}>Login</Button>
-                                <FliprLoginRegisterDialog register={props.register} username={props.username} login={props.login}
+                                <FliprLoginRegisterDialog register={props.register} username={props.username}
+                                                          login={props.login}
                                                           open={openLoginDialog}
                                                           handleClose={handleCloseLoginDialog}/>
                             </Box>

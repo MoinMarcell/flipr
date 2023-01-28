@@ -79,7 +79,7 @@ export default function CommentCard(props: CommentCardProps) {
                     variant="body2"
                     color="text.secondary"
                 >
-                    {hours + ":" + minutes + (isPm ? " pm" : " am")}
+                    {(hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + (isPm ? " pm" : " am")}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                     <TimelineConnector/>
