@@ -21,7 +21,6 @@ class FliprUserDetailsServiceTest {
                 "1",
                 "user",
                 "123",
-                Collections.emptyList(),
                 Collections.emptyList()
         );
 

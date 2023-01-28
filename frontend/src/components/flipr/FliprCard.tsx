@@ -23,7 +23,7 @@ type FliprCardProps = {
     flipr: Flipr,
     username: string,
     deleteFlipr(fliprId: string): Promise<string>,
-    likeFlipr(fliprId: string, username: string): Promise<string>,
+    likeFlipr(fliprId: string): Promise<string>,
 }
 
 const darkTheme = createTheme({
@@ -88,7 +88,7 @@ export default function FliprCard(props: FliprCardProps) {
     }, [navigate, props.flipr.id]);
 
     const handleLikeClick = useCallback(() => {
-        props.likeFlipr(props.flipr.id, props.username)
+        props.likeFlipr(props.flipr.id)
             .then()
             .catch();
         setFavColor("error");
