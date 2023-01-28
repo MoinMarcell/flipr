@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {styled} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Fab from '@mui/material/Fab';
@@ -19,18 +18,15 @@ const StyledFab = styled(Fab)({
 
 export default function FliprBottomBar() {
     return (
-        <React.Fragment>
-            <CssBaseline/>
-            <AppBar position="fixed" color="primary" sx={{top: 'auto', bottom: 0}}>
-                <Toolbar>
-                    <IconButton color="inherit" aria-label="open drawer">
-                        <MenuIcon/>
-                    </IconButton>
-                    <StyledFab color="secondary" aria-label="add">
-                        <AddIcon/>
-                    </StyledFab>
-                </Toolbar>
-            </AppBar>
-        </React.Fragment>
+        <AppBar position="fixed" color="primary" sx={{top: 'auto', bottom: 0}}>
+            <Toolbar>
+                <IconButton color="inherit" aria-label="open drawer">
+                    <MenuIcon/>
+                </IconButton>
+                <StyledFab color="secondary" aria-label="add">
+                    <AddIcon/>
+                </StyledFab>
+            </Toolbar>
+        </AppBar>
     );
 }
