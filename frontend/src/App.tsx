@@ -1,25 +1,32 @@
 import * as React from "react";
-import {Container} from "@mui/material";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import FliprApp from "./components/flipr/FliprApp";
-import useFliprs from "./components/hooks/useFliprs";
+import FliprApp from "./components/Flipr/FliprApp";
 import useUsers from "./components/hooks/useUsers";
-import LoginApp from "./components/login/LoginApp";
+import {Container} from "@mui/material";
+import NavBarApp from "./components/NavBar/NavBarApp";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import PublicProfile from "./components/FliprUser/PublicProfile";
+import LoginRegisterApp from "./components/login/LoginRegisterApp";
+import FliprDetails from "./components/Flipr/FliprDetails";
 
-export default function App(){
+const App = () => {
 
-    const {fliprs} = useFliprs();
-    const {username, login} = useUsers();
+    const {username, login, logout, saveUser} = useUsers();
 
     return (
         <BrowserRouter>
+            <NavBarApp username={username} logout={logout}/>
             <Container maxWidth={false} sx={{mt: 10}}>
                 <Routes>
-                    <Route path={"/"} element={<FliprApp username={username} fliprs={fliprs} />} />
-                    <Route path={"/login"} element={<LoginApp login={login} />} />
+                    <Route path={"/"} element={<FliprApp username={username}/>}/>
+                    <Route path={"/flipr/:id"} element={<FliprDetails username={username}/>}/>
+                    <Route path={"/register"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
+                    <Route path={"/login"} element={<LoginRegisterApp register={saveUser} login={login}/>}/>
+                    <Route path={"/user/:username"} element={<PublicProfile username={username}/>}/>
                 </Routes>
             </Container>
         </BrowserRouter>
     );
 
 }
+
+export default App;
