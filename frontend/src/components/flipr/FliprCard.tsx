@@ -17,7 +17,6 @@ import {useCallback, useEffect, useState} from "react";
 import FliprSnackBar from "../snackbar/FliprSnackBar";
 import {AlertColor} from "@mui/material/Alert";
 import DeleteIcon from '@mui/icons-material/Delete';
-import CommentIcon from '@mui/icons-material/Comment';
 
 type FliprCardProps = {
     flipr: Flipr,
@@ -108,10 +107,6 @@ export default function FliprCard(props: FliprCardProps) {
             })
     }, [props]);
 
-    const handleCommentClick = useCallback(() => {
-        navigate("/flipr/" + props.flipr.id);
-    }, [navigate, props.flipr.id]);
-
     useEffect(() => {
         if (!isFavorite && props.isAuthenticated) {
             props.isLikedFlipr(props.username, props.flipr.id)
@@ -164,11 +159,6 @@ export default function FliprCard(props: FliprCardProps) {
                     </IconButton>
                     <IconButton aria-label="share" onClick={handleShareClick}>
                         <ShareIcon/>
-                    </IconButton>
-                    <IconButton aria-label="share" onClick={handleCommentClick}>
-                        <Badge badgeContent={props.flipr.comments.length} color="primary">
-                        <CommentIcon/>
-                        </Badge>
                     </IconButton>
                 </CardActions>
 
