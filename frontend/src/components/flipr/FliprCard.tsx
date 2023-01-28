@@ -46,7 +46,6 @@ export default function FliprCard(props: FliprCardProps) {
         vertical: 'top',
         horizontal: 'right',
     });
-    const [favColor, setFavColor] = useState<"success" | "info" | "warning" | "error" | "disabled" | "action" | "inherit" | "primary" | "secondary" | undefined>(undefined);
 
     const {vertical, horizontal, open} = openSnackBar;
 
@@ -91,7 +90,6 @@ export default function FliprCard(props: FliprCardProps) {
         props.likeFlipr(props.flipr.id)
             .then()
             .catch();
-        setFavColor("error");
     }, [props]);
 
     const date = new Date(props.flipr.dateTime);
@@ -150,7 +148,7 @@ export default function FliprCard(props: FliprCardProps) {
                     <CardActions disableSpacing>
                         <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
                             <Badge badgeContent={props.flipr.likes} color="primary">
-                                <FavoriteIcon color={favColor}/>
+                                <FavoriteIcon/>
                             </Badge>
                         </IconButton>
                         <IconButton aria-label="share">
