@@ -1,4 +1,4 @@
-export type CommentDTO = {
+export type FliprDTO = {
     content: string,
     author: string,
 }
