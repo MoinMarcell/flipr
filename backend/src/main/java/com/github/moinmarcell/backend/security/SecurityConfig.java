@@ -32,9 +32,7 @@ public class SecurityConfig {
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/me").permitAll()
                 .antMatchers("/api/users/**").authenticated()
-                .antMatchers("/api/comments").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/fliprs").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/fliprs").authenticated()
                 .antMatchers("/**").permitAll()
                 .and().build();
     }
