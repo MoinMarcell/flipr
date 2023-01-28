@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import {Button, InputBase, Tooltip} from "@mui/material";
+import {Button, createTheme, InputBase, ThemeProvider, Tooltip} from "@mui/material";
 import FliprLoginRegisterDialog from "../dialogs/FliprLoginRegisterDialog";
 import {useCallback, useState} from "react";
 import LoginIcon from '@mui/icons-material/Login';
@@ -26,7 +26,16 @@ type FliprTopBarProps = {
     logout: () => Promise<unknown>,
 }
 
-const Search = styled('div')(({ theme }) => ({
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#1976d2',
+        },
+    },
+});
+
+const Search = styled('div')(({theme}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -42,7 +51,7 @@ const Search = styled('div')(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -52,7 +61,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -98,7 +107,7 @@ export default function FliprTopBar(props: FliprTopBarProps) {
     const handleCloseLoginDialog = useCallback(() => {
         setOpenLoginDialog(false);
     }, []);
-    
+
     const handleMyProfileClick = useCallback(() => {
         navigate("/my-profile");
         handleMobileMenuClose();
@@ -171,91 +180,93 @@ export default function FliprTopBar(props: FliprTopBarProps) {
 
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{mr: 2}}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{display: {xs: 'none', sm: 'block'}}}
-                    >
-                        FLIPR
-                    </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                    <Box sx={{flexGrow: 1}}/>
-                    {
-                        props.isAuthenticated ?
-                            <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                                <Tooltip title="My Profile" followCursor>
-                                    <IconButton
-                                        size="large"
-                                        edge="end"
-                                        aria-label={"account of " + props.username}
-                                        aria-haspopup="true"
-                                        color="inherit"
-                                        onClick={handleMyProfileClick}
-                                    >
-                                        <AccountCircle/>
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Logout" followCursor>
-                                    <IconButton size="large" aria-label="logout" color="inherit"
-                                                onClick={handleLogoutClick}>
-                                        <LogoutIcon/>
-                                    </IconButton>
-                                </Tooltip>
-                            </Box> :
-                            <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                                <Button color="inherit" onClick={handleLoginClick}>Login</Button>
-                                <FliprLoginRegisterDialog username={props.username} login={props.login}
-                                                          open={openLoginDialog}
-                                                          handleClose={handleCloseLoginDialog}/>
-                            </Box>
-                    }
-                    <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+            <ThemeProvider theme={darkTheme}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                            sx={{mr: 2}}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{display: {xs: 'none', sm: 'block'}}}
+                        >
+                            FLIPR
+                        </Typography>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon/>
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{'aria-label': 'search'}}
+                            />
+                        </Search>
+                        <Box sx={{flexGrow: 1}}/>
                         {
                             props.isAuthenticated ?
-                                <IconButton
-                                    size="large"
-                                    aria-label="show more"
-                                    aria-controls={mobileMenuId}
-                                    aria-haspopup="true"
-                                    onClick={handleMobileMenuOpen}
-                                    color="inherit"
-                                >
-                                    <MoreIcon/>
-                                </IconButton> :
-                                <IconButton
-                                    size="large"
-                                    aria-label="login"
-                                    aria-haspopup="true"
-                                    onClick={handleLoginClick}
-                                    color="inherit"
-                                >
-                                    <LoginIcon/>
-                                </IconButton>
+                                <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                                    <Tooltip title="My Profile" followCursor>
+                                        <IconButton
+                                            size="large"
+                                            edge="end"
+                                            aria-label={"account of " + props.username}
+                                            aria-haspopup="true"
+                                            color="inherit"
+                                            onClick={handleMyProfileClick}
+                                        >
+                                            <AccountCircle/>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Logout" followCursor>
+                                        <IconButton size="large" aria-label="logout" color="inherit"
+                                                    onClick={handleLogoutClick}>
+                                            <LogoutIcon/>
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box> :
+                                <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                                    <Button color="inherit" onClick={handleLoginClick}>Login</Button>
+                                    <FliprLoginRegisterDialog username={props.username} login={props.login}
+                                                              open={openLoginDialog}
+                                                              handleClose={handleCloseLoginDialog}/>
+                                </Box>
                         }
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
+                        <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+                            {
+                                props.isAuthenticated ?
+                                    <IconButton
+                                        size="large"
+                                        aria-label="show more"
+                                        aria-controls={mobileMenuId}
+                                        aria-haspopup="true"
+                                        onClick={handleMobileMenuOpen}
+                                        color="inherit"
+                                    >
+                                        <MoreIcon/>
+                                    </IconButton> :
+                                    <IconButton
+                                        size="large"
+                                        aria-label="login"
+                                        aria-haspopup="true"
+                                        onClick={handleLoginClick}
+                                        color="inherit"
+                                    >
+                                        <LoginIcon/>
+                                    </IconButton>
+                            }
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                {renderMobileMenu}
+            </ThemeProvider>
         </Box>
     );
 }
