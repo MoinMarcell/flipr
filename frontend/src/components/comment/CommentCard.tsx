@@ -15,15 +15,21 @@ import {useNavigate} from "react-router";
 import {Badge, Card, CardActions, CardContent, Divider} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@mui/material/IconButton";
+import FliprSnackBar from "../snackbar/FliprSnackBar";
+import {AlertColor} from "@mui/material/Alert";
 
 type CommentCardProps = {
     comment: Comment,
+    isAuthenticated: boolean,
 }
 
 export default function CommentCard(props: CommentCardProps) {
-    
+
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [likes, setLikes] = useState<number>(0);
+    const [openSnackBar, setOpenSnackBar] = useState<boolean | undefined>(false);
+    const [snackBarMessage, setSnackBarMessage] = useState<string>("");
+    const [snackBarSeverity, setSnackBarSeverity] = useState<AlertColor | undefined>(undefined);
 
     const date = new Date(props.comment.dateTime);
     const hours = date.getHours();
@@ -36,19 +42,33 @@ export default function CommentCard(props: CommentCardProps) {
 
     const navigate = useNavigate();
 
+    const handleCloseSnackBar = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            setOpenSnackBar(false);
+        }
+
+        setOpenSnackBar(false);
+    }, []);
+
     const handleAvatarClick = useCallback(() => {
         navigate("/profiles/" + props.comment.author);
     }, [navigate, props.comment.author]);
-    
+
     const handleFavoriteClick = useCallback(() => {
-        if(isFavorite){
-            setIsFavorite(false);
-            setLikes((prevState) => prevState-1);
-        }else {
-            setIsFavorite(true);
-            setLikes((prevState) => prevState+1);
+        if (props.isAuthenticated) {
+            if (isFavorite) {
+                setIsFavorite(false);
+                setLikes((prevState) => prevState - 1);
+            } else {
+                setIsFavorite(true);
+                setLikes((prevState) => prevState + 1);
+            }
+        } else {
+            setSnackBarMessage("You are not logged in!")
+            setSnackBarSeverity("error");
+            setOpenSnackBar(true);
         }
-    }, [isFavorite]);
+    }, [isFavorite, props.isAuthenticated]);
 
     return (
         <Timeline position="alternate">
@@ -84,7 +104,7 @@ export default function CommentCard(props: CommentCardProps) {
                                 {props.comment.content}
                             </Typography>
                         </CardContent>
-                        <Divider variant={"middle"} />
+                        <Divider variant={"middle"}/>
                         <CardActions>
                             <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
                                 <Badge badgeContent={likes} color="primary">
@@ -95,6 +115,7 @@ export default function CommentCard(props: CommentCardProps) {
                     </Card>
                 </TimelineContent>
             </TimelineItem>
+            <FliprSnackBar open={openSnackBar} severity={snackBarSeverity} handleClose={handleCloseSnackBar} message={snackBarMessage} />
         </Timeline>
     );
 }
