@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {Flipr} from "../model/Flipr";
 import axios from "axios";
-import {CommentDTO} from "../model/FliprDTO";
+import {FliprDTO} from "../model/FliprDTO";
 
 const BASE_DIR: string = "/api/fliprs";
 
@@ -15,7 +15,7 @@ export default function useFliprs() {
         return data;
     }, []);
 
-    const saveFlipr = useCallback(async (fliprToSave: CommentDTO) => {
+    const saveFlipr = useCallback(async (fliprToSave: FliprDTO) => {
         const response = await axios.post(BASE_DIR, fliprToSave);
         await getAllFliprs();
         return await response.data;
@@ -27,16 +27,10 @@ export default function useFliprs() {
         return await response.data;
     }, [getAllFliprs]);
 
-    const likeFlipr = useCallback(async (fliprId: string) => {
-        const response = await axios.put(BASE_DIR + "/like-flipr/" + fliprId);
-        await getAllFliprs();
-        return await response.data;
-    }, [getAllFliprs])
-
     useEffect(() => {
         getAllFliprs()
             .catch(e => console.error(e));
     }, [getAllFliprs])
 
-    return {fliprs, saveFlipr, deleteFlipr, likeFlipr}
+    return {fliprs, saveFlipr, deleteFlipr}
 }
