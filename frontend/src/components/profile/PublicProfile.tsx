@@ -67,7 +67,7 @@ export default function PublicProfile(props: PublicProfileProps) {
     }, []);
 
     return (
-        <Grid container spacing={1} flexDirection={"column"} sx={{mt: 4}}>
+        <Grid container spacing={1} flexDirection={"column"} sx={{mt: 4, mb: '16%'}}>
             <Grid item alignSelf={"center"}>
                 <AccountCircle sx={{fontSize: 70}}/>
             </Grid>

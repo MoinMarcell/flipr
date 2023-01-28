@@ -15,12 +15,12 @@ import {wait} from "@testing-library/user-event/dist/utils";
 import PasswordIcon from '@mui/icons-material/Password';
 import FliprSnackBar from "../snackbar/FliprSnackBar";
 import {AlertColor} from "@mui/material/Alert";
-import {useNavigate} from "react-router";
 
 type FliprLoginDialogProps = {
     open: boolean,
     handleClose: () => void,
     login: (userToLogin: FliprUserDTO) => Promise<unknown>,
+    register: (userToRegister: FliprUserDTO) => Promise<unknown>,
     username: string,
 }
 
@@ -36,8 +36,7 @@ export default function FliprLoginRegisterDialog(props: FliprLoginDialogProps) {
     const [openSnackBar, setOpenSnackBar] = React.useState(false);
     const [snackBarSeverity, setSnackBarSeverity] = useState<AlertColor | undefined>(undefined)
     const [snackBarMessage, setSnackBarMessage] = useState<string>("");
-
-    const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState<boolean>(true);
 
     const handleOpenSnackBar = useCallback(() => {
         setOpenSnackBar(true);
@@ -69,46 +68,117 @@ export default function FliprLoginRegisterDialog(props: FliprLoginDialogProps) {
 
     const handleLoginSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        props.login(userCredentials)
-            .then(() => {
-                setIsDisabled(true);
-                setIsError(false);
-                setSnackBarSeverity("success");
-                setSnackBarMessage("Welcome back, " + props.username + " :)");
-                handleOpenSnackBar();
-                wait(3000)
-                    .then(() => {
-                        props.handleClose();
+        if (isLogin) {
+            props.login(userCredentials)
+                .then(() => {
+                    setIsDisabled(true);
+                    setIsError(false);
+                    setSnackBarSeverity("success");
+                    setSnackBarMessage("Welcome back, " + props.username + " :)");
+                    handleOpenSnackBar();
+                    wait(3000)
+                        .then(() => {
+                            props.handleClose();
+                            setUserCredentials({
+                                username: "",
+                                password: "",
+                            });
+                        });
+                })
+                .catch((error) => {
+                    if (error.response.status === 401) {
+                        setIsDisabled(true);
+                        setIsError(true);
+                        setSnackBarSeverity("error");
+                        setSnackBarMessage("Username and/or Password are wrong.");
+                        handleOpenSnackBar();
+                        wait(3000)
+                            .then(() => {
+                                setIsError(false);
+                                setIsDisabled(false);
+                                setUserCredentials({
+                                    username: "",
+                                    password: "",
+                                });
+                            });
+                    }
+                });
+        } else {
+            props.register(userCredentials)
+                .then(() => {
+                    setSnackBarMessage("Registration successfully! You can now login!");
+                    setSnackBarSeverity("success");
+                    setOpenSnackBar(true);
+                    setIsDisabled(true);
+                    wait(1500).then(() => {
+                        setIsDisabled(false);
+                        setIsLogin(true);
                         setUserCredentials({
+                            ...userCredentials,
                             username: "",
                             password: "",
                         });
-                        navigate("/my-profile");
-                    });
-            })
-            .catch((error) => {
-               if(error.response.status === 401){
-                   setIsDisabled(true);
-                   setIsError(true);
-                   setSnackBarSeverity("error");
-                   setSnackBarMessage("Username and/or Password are wrong.");
-                   handleOpenSnackBar();
-                   wait(3000)
-                       .then(() => {
-                           setIsError(false);
-                           setIsDisabled(false);
-                           setUserCredentials({
-                               username: "",
-                               password: "",
-                           });
-                       });
-               } 
+                    })
+                })
+                .catch((e) => {
+                    if(e.response.status === 400){
+                        setIsDisabled(true);
+                        setIsError(true);
+                        setSnackBarMessage("User already exist! Choose another Username!");
+                        setSnackBarSeverity("error");
+                        setOpenSnackBar(true);
+                        wait(1500).then(() => {
+                            setIsDisabled(false);
+                            setIsError(false);
+                            setUserCredentials({
+                                ...userCredentials,
+                                username: "",
+                                password: "",
+                            });
+                        });
+                    } else {
+                        setIsDisabled(true);
+                        setIsError(true);
+                        setSnackBarMessage("Something went wrong! Try again later.");
+                        setSnackBarSeverity("error");
+                        setOpenSnackBar(true);
+                        wait(1500).then(() => {
+                            setIsDisabled(false);
+                            setIsError(false);
+                            setUserCredentials({
+                                ...userCredentials,
+                                username: "",
+                                password: "",
+                            });
+                        });
+                    }
+                });
+        }
+    }, [handleOpenSnackBar, isLogin, props, userCredentials]);
+
+    const handleLoginRegisterSwitch = useCallback(() => {
+        if (isLogin) {
+            setIsLogin(false);
+            setUserCredentials({
+                ...userCredentials,
+                username: "",
+                password: "",
             });
-    }, [handleOpenSnackBar, navigate, props, userCredentials]);
+        } else {
+            setIsLogin(true);
+            setUserCredentials({
+                ...userCredentials,
+                username: "",
+                password: "",
+            });
+        }
+    }, [isLogin, userCredentials]);
 
     return (
         <Dialog open={props.open} onClose={props.handleClose} keepMounted={props.open}>
-            <DialogTitle>Login</DialogTitle>
+            <DialogTitle>{isLogin ? "Login" : "Register"}</DialogTitle>
+            <Button
+                onClick={handleLoginRegisterSwitch}>{isLogin ? "Click here to register" : "Click here to login"}</Button>
             <Box component={"form"} onSubmit={handleLoginSubmit}>
                 <DialogContent>
                     <TextField
@@ -152,7 +222,7 @@ export default function FliprLoginRegisterDialog(props: FliprLoginDialogProps) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button type={"submit"}>Login</Button>
+                    <Button type={"submit"}>{isLogin ? "Login" : "Register"}</Button>
                 </DialogActions>
                 <FliprSnackBar open={openSnackBar} severity={snackBarSeverity} handleClose={handleCloseSnackbar}
                                message={snackBarMessage}/>

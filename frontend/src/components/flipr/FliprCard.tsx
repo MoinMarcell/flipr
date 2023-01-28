@@ -56,21 +56,27 @@ export default function FliprCard(props: FliprCardProps) {
 
     const handleAddToFavoritesClick = useCallback(() => {
         if (props.isAuthenticated) {
-            props.addFliprToFavorites(props.username, props.flipr.id)
-                .then(() => {
-                    console.log("Flipr added to your Favorites!");
-                })
-                .catch((e) => {
-                    if (e.response.status === 401) {
-                        setSnackBarMessage("You are not logged in!");
-                        setSnackBarSeverity("error");
-                        setOpenSnackBar(true);
-                    } else if (e.response.status === 400) {
-                        setSnackBarMessage("Flipr is already favorite!");
-                        setSnackBarSeverity("error");
-                        setOpenSnackBar(true);
-                    }
-                });
+            if (props.username !== props.flipr.author) {
+                props.addFliprToFavorites(props.username, props.flipr.id)
+                    .then(() => {
+                        console.log("Flipr added to your Favorites!");
+                    })
+                    .catch((e) => {
+                        if (e.response.status === 401) {
+                            setSnackBarMessage("You are not logged in!");
+                            setSnackBarSeverity("error");
+                            setOpenSnackBar(true);
+                        } else if (e.response.status === 400) {
+                            setSnackBarMessage("Flipr is already favorite!");
+                            setSnackBarSeverity("error");
+                            setOpenSnackBar(true);
+                        }
+                    });
+            } else {
+                setSnackBarMessage("You can not like your own Flipr!");
+                setSnackBarSeverity("error");
+                setOpenSnackBar(true);
+            }
         }
     }, [props]);
 
@@ -167,7 +173,7 @@ export default function FliprCard(props: FliprCardProps) {
                     </IconButton>
                     <IconButton aria-label="share" onClick={handleCommentClick}>
                         <Badge badgeContent={props.flipr.comments.length} color="primary">
-                        <CommentIcon/>
+                            <CommentIcon/>
                         </Badge>
                     </IconButton>
                 </CardActions>

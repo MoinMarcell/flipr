@@ -12,12 +12,12 @@ import FliprDetail from "./components/flipr/FliprDetail";
 
 export default function App() {
 
-    const {username, isAuthenticated, login, logout} = useUsers();
+    const {username, isAuthenticated, login, logout, saveUser} = useUsers();
     const {fliprs, addFliprToFavorites, isLikedFlipr, deleteFlipr, saveFlipr} = useFliprs();
 
     return (
         <BrowserRouter>
-            <FliprTopBar logout={logout} login={login} username={username} isAuthenticated={isAuthenticated}/>
+            <FliprTopBar register={saveUser} logout={logout} login={login} username={username} isAuthenticated={isAuthenticated}/>
             <Routes>
                 <Route path={"/"}
                        element={<FliprGallery
