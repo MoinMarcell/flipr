@@ -81,7 +81,7 @@ export default function FliprCard(props: FliprCardProps) {
     }, [props]);
 
     const handleShareClick = useCallback(() => {
-        navigator.clipboard.writeText(window.location + "flipr/" + props.flipr.id)
+        navigator.clipboard.writeText(window.location.origin + "/flipr/" + props.flipr.id)
             .then(() => {
                 setSnackBarMessage("Link copied successfully to your Clipboard!");
                 setSnackBarSeverity("success");
