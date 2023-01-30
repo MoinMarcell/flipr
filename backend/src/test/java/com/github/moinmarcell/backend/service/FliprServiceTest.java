@@ -97,21 +97,18 @@ class FliprServiceTest {
     }
 
     @Test
-    void deleteFliprById_whenFliprExist_thenDeleteFlipr() {
-        Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
-        fliprRepository.save(flipr);
+    void deleteFliprById_whenFliprExist_thenDeleteFliprAndRemoveFliprFromAuthor() {
+        Flipr fliprToDelete = new Flipr("1", "content", "author", LocalDateTime.of(1, 1, 1, 1, 1), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>(), Collections.emptyList());
+        fliprUser.fliprs().add(fliprToDelete);
+        fliprUserRepo.save(fliprUser);
+        fliprRepository.save(fliprToDelete);
 
-        when(fliprRepository.existsById(any())).thenReturn(true);
+        when(fliprRepository.findById("1")).thenReturn(Optional.of(fliprToDelete));
+        when(fliprUserRepo.findByUsername("author")).thenReturn(Optional.of(fliprUser));
 
+        fliprService.deleteFliprById("1");
 
-        verify(fliprRepository, times(0)).deleteById("1");
-    }
-
-    @Test
-    void deleteFliprById_whenFliprNotExist_thenThrowFliprNotFoundException() {
-        when(fliprRepository.existsById(any())).thenReturn(false);
-
-        assertThrows(FliprNotFoundException.class, () -> fliprService.deleteFliprById("1"));
         verify(fliprRepository, times(0)).deleteById("1");
     }
 

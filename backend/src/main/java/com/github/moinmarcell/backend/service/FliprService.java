@@ -62,11 +62,17 @@ public class FliprService {
     }
 
     public void deleteFliprById(String id) {
-        if (fliprRepository.existsById(id)) {
-            fliprRepository.deleteById(id);
-        } else {
-            throw new FliprNotFoundException();
+        Flipr fliprToDelete = fliprRepository.findById(id).orElseThrow(FliprNotFoundException::new);
+        FliprUser fliprUser = fliprUserRepo.findByUsername(fliprToDelete.author()).orElseThrow(FliprUserNotFroundException::new);
+
+        for(Flipr flipr : fliprUser.fliprs()){
+            if(flipr.id().equals(id)){
+                fliprUser.fliprs().remove(flipr);
+                break;
+            }
         }
+        fliprUserRepo.save(fliprUser);
+        fliprRepository.delete(fliprToDelete);
     }
 
     public FliprUserResponse addFliprToFavorites(String fliprId, String username) {
