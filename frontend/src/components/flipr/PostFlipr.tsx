@@ -73,7 +73,7 @@ export default function PostFlipr(props: PostFliprProps){
 
     return(
         <Box component={"form"} onSubmit={handleSubmitPostFlipr}>
-            <TextField label="Your Comment" color={"info"} onChange={handleChangeFliprContent} value={fliprToSave.content} name={"fliprContent"} fullWidth/>
+            <TextField label="Your Flipr" color={"info"} onChange={handleChangeFliprContent} value={fliprToSave.content} name={"fliprContent"} fullWidth/>
             <Button variant={"outlined"} type={"submit"} fullWidth sx={{mt: 1}} color={"secondary"}>Post
                 Flipr</Button>
             <FliprSnackBar open={openPostFliprSnackBar} severity={snackBarSeverity} handleClose={handleCloseSnackBar} message={snackBarMessage} />
