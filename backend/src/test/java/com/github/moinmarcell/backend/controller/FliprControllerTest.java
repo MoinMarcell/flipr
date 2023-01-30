@@ -148,11 +148,13 @@ class FliprControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser
+    @WithMockUser(username = "author")
     void deleteFliprById_whenFliprExist_thenExpectStatusOk() throws Exception {
         Flipr flipr = new Flipr("1", "content", "author", LocalDateTime.now(), Collections.emptyList(), 0L);
+        FliprUser fliprUser = new FliprUser("1", "author", "123", new ArrayList<>(), Collections.emptyList());
         fliprRepository.save(flipr);
-        System.out.println(flipr);
+        fliprUser.fliprs().add(flipr);
+        fliprUserRepo.save(fliprUser);
         mockMvc.perform(delete(BASE_DIR + "/1").with(csrf()))
                 .andExpect(status().isOk());
     }
