@@ -57,6 +57,10 @@ jobs:
     needs: build-backend
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: app.war
+          path: backend/target/
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         env:
@@ -64,10 +68,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         with:
-          registries: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}
       - name: Build, tag, and push image to Amazon ECR
         run: |
           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/flipr:${{ github.sha }} .
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/flipr:${{ github.sha }}
-  
